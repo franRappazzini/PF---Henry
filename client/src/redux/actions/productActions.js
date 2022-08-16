@@ -16,7 +16,7 @@ export function getAllProducts() {
 export function getProduct(id) {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://localhost:3001/products", { id });
+      const res = await axios.get(`http://localhost:3001/products/${id}`);
       dispatch({ type: GET_PRODUCT, payload: res.data });
     } catch (err) {
       console.log(err);
