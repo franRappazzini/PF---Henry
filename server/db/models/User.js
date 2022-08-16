@@ -3,7 +3,7 @@ import { DataTypes } from '@sequelize/core';
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {
     //Definimos el modelo
-    sequelize.define("user", {
+    sequelize.define("User", {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -33,6 +33,10 @@ module.exports = (sequelize) => {
         isAdmin: {
             type: DataTypes.BOOLEAN,
             allowNull: false
+        },
+
+        productsBougth: {
+            type: DataTypes.ARRAY
         }
     })
 }
