@@ -27,6 +27,42 @@ router.get('/',async (req,res)=>{
     
 })
 
+router.get('/:id', async (req,res)=>{
+    try {
+        const {id} = req.params
+      const data = await Product.findByPk(id,{
+        // Category,Rating,Size
+        include: {
+            model: Category,
+            attributes:{
+                include:['name']
+            },
+            model: Rating,
+            attributes:{
+                include: ['text','star']
+            },
+            model: Size,
+            attributes:{
+                include: ['name', 'stock','color']
+            }
+        }                       
+      })
+        
+      if (data) {
+        res.json(data)
+      }
+      else{
+        res.status(404).send('id of product not found')
+      }
+   
+     } catch (error) {
+    res.status(404).json(error)
+}
+
+
+})
+
+
 router.post('/',async(req,res)=>{
 
 })
