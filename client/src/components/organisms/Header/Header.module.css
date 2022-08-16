@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.btn_drawer {
+  display: none;
+}
+
+.ul_nav {
+  display: flex;
+  list-style: none;
+}
+
+@media only screen and (max-width: 860px) {
+  .btn_drawer {
+    display: block;
+  }
+}
