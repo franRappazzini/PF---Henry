@@ -52,7 +52,7 @@ router.get('/:id', async (req,res)=>{
         res.json(data)
       }
       else{
-        res.json('id of product not found, please write id valid')
+        res.status(404).send('id of product not found, please write id valid')
       }
    
      } catch (error) {
