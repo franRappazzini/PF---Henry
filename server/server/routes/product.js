@@ -33,18 +33,18 @@ router.get('/:id', async (req,res)=>{
       const data = await Product.findByPk(id,{
         // Category,Rating,Size
         include: {
-            model: Category,
-            attributes:{
-                include:['name']
-            },
-            model: Rating,
-            attributes:{
-                include: ['text','star']
-            },
-            model: Size,
-            attributes:{
-                include: ['name', 'stock','color']
-            }
+            // model: Category,
+            // attributes:{
+            //     include:['name']
+            // },
+            // model: Rating,
+            // attributes:{
+            //     include: ['text','star']
+            // },
+            // model: Size,
+            // attributes:{
+            //     include: ['name', 'stock','color']
+            // }
         }                       
       })
         
