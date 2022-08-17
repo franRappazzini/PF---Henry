@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
 import React from "react";
 import style from "./NavHeader.module.css";
 
@@ -35,6 +36,27 @@ function NavHeader() {
           >
             Categoria 3
           </NavLink>
+        </li>
+
+        <li className={style.li_nav_hover}>
+          Mas categorias
+          <ul className={style.sub_ul}>
+            <li className={style.sub_li}>
+              <Link to={"/"} className={style.a_nav}>
+                Categoria 4
+              </Link>
+            </li>
+            <li className={style.sub_li}>
+              <Link to={"/"} className={style.a_nav}>
+                Categoria 5
+              </Link>
+            </li>
+            <li className={style.sub_li}>
+              <Link to={"/"} className={style.a_nav}>
+                Categoria 6
+              </Link>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>

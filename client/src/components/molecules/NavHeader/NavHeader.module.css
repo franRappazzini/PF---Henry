@@ -9,6 +9,18 @@
   padding: 0 0.5rem;
 }
 
+.li_nav_hover {
+  padding: 0 0.5rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.li_nav_hover:hover .sub_ul {
+  display: block;
+  position: absolute;
+  top: 0;
+}
+
 .a_nav {
   text-decoration: none;
   color: black;
@@ -25,6 +37,17 @@
 
 .a_nav_active {
   font-weight: 500;
+}
+
+.sub_ul {
+  display: none;
+  list-style: none;
+  padding: 1.5rem 0 0 0.5rem;
+  width: max-content;
+}
+
+.sub_li {
+  margin: 0.5rem 0;
 }
 
 @media only screen and (max-width: 860px) {
