@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
     //Definimos el modelo
     sequelize.define("Product_Size", {
         stock: {
-            type: DataTypes.NUMBER
+            type: DataTypes.INTEGER
         }
     })
 }
