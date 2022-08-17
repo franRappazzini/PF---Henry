@@ -45,14 +45,28 @@ fs.readdirSync(path.join(__dirname, '/models'))
 modelDefiners.forEach(model => model(sequelize));
 
 //Los importamos
-const {Product, Rating, Size, User, Product_bougth, Product_Size, Brand} = sequelize.models
+const {Product, Rating, Size, User, Bougth, Product_Size, Brand, Category} = sequelize.models
 
 //Hacemos las relaciones
 
-User.belongsTo(Rating);
-Product.belongsTo(Rating);
+Rating.belongsTo(User);
+User.hasMany(Rating);
+Product.hasMany(Rating);
+Rating.belongsTo(Product)
+
 Product.belongsToMany(Size, {through: Product_Size})
-Product.belongsTo(User, {through: Product_bougth})
+Size.belongsToMany(Product, {through: Product_Size})
+
+Bougth.belongsTo(User)
+User.hasMany(Bougth)
+
+Product.belongsToMany(Bougth, {through: "Product_bougth"})
+Bougth.belongsToMany(Product, {through: "Product_bougth"})
+
 Product.belongsTo(Brand)
+Brand.hasMany(Product)
+
+Product.belongsToMany(Category, {through: "Product_Category"})
+Category.belongsToMany(Product, {through: "Product_Category"})
 
 module.exports = { sequelize };
