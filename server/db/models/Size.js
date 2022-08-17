@@ -10,13 +10,9 @@ module.exports = (sequelize) => {
             primaryKey: true
         },
 
-        name: {
-            type: DataTypes.STRING,
+        size: {
+            type: DataTypes.INTEGER,
             allowNull: false
-        },
-
-        stock: {
-            type: DataTypes.INTEGER
         }
     })
 }
