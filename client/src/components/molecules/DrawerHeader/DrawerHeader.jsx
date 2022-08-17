@@ -26,7 +26,7 @@ function DrawerHeader() {
 
   return (
     <section className={style.drawer_container}>
-      <IconButton onClick={() => toggleDrawer(true)} color="primary">
+      <IconButton onClick={() => toggleDrawer(true)} color="secondary">
         <Menu />
       </IconButton>
       <Drawer anchor={"left"} open={burger} onClose={() => toggleDrawer(false)}>

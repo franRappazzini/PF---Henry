@@ -5,6 +5,28 @@
   justify-content: center;
 }
 
+.li_nav {
+  padding: 0 0.5rem;
+}
+
+.a_nav {
+  text-decoration: none;
+  color: black;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1.5px;
+  transition: background-size 0.5s;
+}
+
+.a_nav:hover {
+  background-size: 100% 1.5px;
+}
+
+.a_nav_active {
+  font-weight: 500;
+}
+
 @media only screen and (max-width: 860px) {
   .nav {
     display: none;

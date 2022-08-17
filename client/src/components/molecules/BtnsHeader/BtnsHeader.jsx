@@ -6,7 +6,7 @@ import style from "./BtnsHeader.module.css";
 import { useState } from "react";
 
 function BtnsHeader() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -20,7 +20,7 @@ function BtnsHeader() {
     <section className={style.icons_container}>
       <IconButton
         aria-label="Mi cuenta"
-        color="primary"
+        color="secondary"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
@@ -43,7 +43,7 @@ function BtnsHeader() {
       </Menu>
       <IconButton
         aria-label="Favoritos"
-        color="primary"
+        color="secondary"
         className={style.btn_icon}
       >
         <Badge badgeContent={4} color="error">
@@ -52,7 +52,7 @@ function BtnsHeader() {
       </IconButton>
       <IconButton
         aria-label="Carrito"
-        color="primary"
+        color="secondary"
         className={style.btn_icon}
       >
         <Badge color="error" variant="dot" invisible={true}>
