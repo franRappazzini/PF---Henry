@@ -14,6 +14,7 @@ export default function Detail(/* {productDetail, getProductDetail} */){
     let sizes = [{id:4, name:34, stock:10, color:"default"},{id:4, name:35, stock:10, color:"default"},{id:4, name:36, stock:10, color:"default"},{id:4, name:37, stock:10, color:"default"},{id:4, name:38, stock:10, color:"default"},{id:4, name:39, stock:10, color:"default"},{id:4, name:40, stock:10, color:"default"},{id:4, name:41, stock:10, color:"default"},{id:4, name:42, stock:10, color:"default"},{id:3, name:43, stock:8, color:"default"}]
     let rating = [{id:1, text:"good", star:3.5, UserId:6, ProductId:1},{id:1, text:"good", star:3, UserId:6, ProductId:1},{id:1, text:"good", star:1, UserId:6, ProductId:1}]
     /* let params = useParams() */
+    let hola = "hola"
     let avaiableSizes = sizes.filter(e=> e.stock > 0)
     let arrAverage = rating.map(e=>e.star)
     let ratingAverage = arrAverage.reduce((a,b)=> a + b)/rating.length
