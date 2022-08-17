@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const router=Router();
+const router = Router();
 const{Product}=require("../../db/models/Product")
 
 
@@ -73,3 +73,4 @@ router.post('/',async(req,res)=>{
 
 })
 
+module.exports = router
