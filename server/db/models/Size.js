@@ -16,12 +16,7 @@ module.exports = (sequelize) => {
         },
 
         stock: {
-            type: DataTypes.NUMBER
-        },
-
-        color: {
-            type:DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.INTEGER
         }
     })
 }
