@@ -23,3 +23,11 @@ export function getProduct(id) {
     }
   };
 }
+
+export async function createProduct(product) {
+  try {
+    await axios.post("http://localhost:3001/products", product);
+  } catch (err) {
+    return err;
+  }
+}

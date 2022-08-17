@@ -5,16 +5,9 @@ import {
   IconButton,
   List,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import {
-  ExpandLess,
-  ExpandMore,
-  Inbox,
-  Menu,
-  StarBorder,
-} from "@mui/icons-material";
+import { ExpandLess, ExpandMore, Menu } from "@mui/icons-material";
 import React, { useState } from "react";
 
 import style from "./DrawerHeader.module.css";
@@ -33,12 +26,18 @@ function DrawerHeader() {
 
   return (
     <section className={style.drawer_container}>
-      <IconButton onClick={() => toggleDrawer(true)} color="primary">
+      <IconButton onClick={() => toggleDrawer(true)} color="secondary">
         <Menu />
       </IconButton>
       <Drawer anchor={"left"} open={burger} onClose={() => toggleDrawer(false)}>
         <Box className={style.drawer}>
           <List>
+            <ListItemButton>
+              <ListItemText primary="Favoritos" />
+            </ListItemButton>
+            <ListItemButton>
+              <ListItemText primary="Carrito" />
+            </ListItemButton>
             <ListItemButton onClick={handleClick}>
               <ListItemText primary="Categorias" />
               {open ? <ExpandLess /> : <ExpandMore />}
