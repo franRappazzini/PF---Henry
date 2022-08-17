@@ -1,4 +1,4 @@
-const {Router} = requier('express')
+const {Router} = require('express')
 const router=Router();
 const{Product}=require("../../db/models/Product")
 
@@ -31,21 +31,28 @@ router.get('/:id', async (req,res)=>{
     try {
         const {id} = req.params
       const data = await Product.findByPk(id,{
-        // Category,Rating,Size
-        include: {
-            // model: Category,
-            // attributes:{
-            //     include:['name']
-            // },
-            // model: Rating,
-            // attributes:{
-            //     include: ['text','star']
-            // },
-            // model: Size,
-            // attributes:{
-            //     include: ['name', 'stock','color']
-            // }
-        }                       
+       
+        include: [{
+        //     model: Category,
+        //     attributes:
+        //        ['name']
+        // },
+        // {
+        //     model: Rating,
+        //     attributes:
+        //        ['text','star']
+        // },
+        // {
+        //     model: Size,
+        //     attributes:['name', 'stock','color']},
+            
+        // {
+        //     model: Brand,
+        //     attributes:
+        //         ['name']
+            
+        }
+    ]                       
       })
         
       if (data) {
@@ -61,7 +68,6 @@ router.get('/:id', async (req,res)=>{
 
 
 })
-
 
 router.post('/',async(req,res)=>{
 
