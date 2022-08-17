@@ -1,9 +1,9 @@
-import { DataTypes } from '@sequelize/core';
+const {DataTypes} = require("sequelize")
 
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {
     //Definimos el modelo
-    sequelize.define("user", {
+    sequelize.define("User", {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
