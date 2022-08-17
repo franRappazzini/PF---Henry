@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <Header />
-      <Detail path="/products/:productId" component={Detail}/>
+      <Detail exact path="/products/:productId" component={Detail}/>
       <Routes>{/* aca irian las <Route /> */}</Routes>
     </>
   );
