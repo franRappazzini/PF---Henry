@@ -1,4 +1,4 @@
-import { DataTypes } from '@sequelize/core';
+const {DataTypes} = require("sequelize")
 
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {
@@ -11,16 +11,11 @@ module.exports = (sequelize) => {
         },
 
         image: {
-            type: DataTypes.ARRAY,
+            type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: false
         },
 
         name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-
-        brand: {
             type: DataTypes.STRING,
             allowNull: false
         },

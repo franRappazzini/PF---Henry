@@ -1,4 +1,4 @@
-import { DataTypes } from '@sequelize/core';
+const {DataTypes} = require("sequelize")
 
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {

@@ -3,7 +3,7 @@ const {DataTypes} = require("sequelize")
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {
     //Definimos el modelo
-    sequelize.define("Size", {
+    sequelize.define("Brand", {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -12,15 +12,6 @@ module.exports = (sequelize) => {
 
         name: {
             type: DataTypes.STRING,
-            allowNull: false
-        },
-
-        stock: {
-            type: DataTypes.NUMBER
-        },
-
-        color: {
-            type:DataTypes.STRING,
             allowNull: false
         }
     })

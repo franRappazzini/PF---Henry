@@ -1,4 +1,4 @@
-import { DataTypes } from '@sequelize/core';
+const {DataTypes} = require("sequelize")
 
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {
@@ -33,10 +33,6 @@ module.exports = (sequelize) => {
         isAdmin: {
             type: DataTypes.BOOLEAN,
             allowNull: false
-        },
-
-        productsBougth: {
-            type: DataTypes.ARRAY
         }
     })
 }
