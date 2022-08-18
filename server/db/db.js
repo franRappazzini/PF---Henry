@@ -69,4 +69,4 @@ Brand.hasMany(Product)
 Product.belongsToMany(Category, {through: "Product_Category"})
 Category.belongsToMany(Product, {through: "Product_Category"})
 
-module.exports = { sequelize };
+module.exports = { sequelize, ...sequelize.models};
