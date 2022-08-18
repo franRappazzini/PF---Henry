@@ -2,8 +2,20 @@
   padding: 0 2rem;
 }
 
+.container {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 @media only screen and (max-width: 860px) {
   .form {
     padding: 0 0.5rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    grid-template-columns: 1fr;
   }
 }

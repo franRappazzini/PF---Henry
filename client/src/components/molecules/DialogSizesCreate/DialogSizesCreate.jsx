@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -13,6 +14,8 @@ import {
 import React, { useState } from "react";
 
 import { Box } from "@mui/system";
+import { Clear } from "@mui/icons-material";
+import style from "./DialogSizesCreate.module.css";
 
 function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
   const [dialog, setDialog] = useState(false);
@@ -20,7 +23,7 @@ function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
 
   const sizes = [
     31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
-  ];
+  ]; // TODO sacar de db
 
   function handleOk() {
     console.log(options);
@@ -31,7 +34,10 @@ function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
       return;
     }
 
-    setSelectedSizes([...selectedSizes, { ...options }]);
+    const findSize = selectedSizes.find((s) => s.size === size);
+    if (findSize) findSize.stock = parseInt(findSize.stock) + parseInt(stock);
+    else setSelectedSizes([...selectedSizes, { ...options }]);
+
     setOptions({ size: "", stock: 0 });
     handleClose();
   }
@@ -48,9 +54,15 @@ function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
     setDialog(true);
   }
 
+  function handleDelete(size) {
+    setSelectedSizes(selectedSizes.filter((s) => s.size !== size));
+  }
+
   return (
     <div>
-      <Button onClick={handleOpen}>Select Size</Button>
+      <Button onClick={handleOpen} sx={{ marginTop: "1rem" }}>
+        Select Size
+      </Button>
       <Dialog disableEscapeKeyDown open={dialog} onClose={handleClose}>
         <DialogTitle>Select Size</DialogTitle>
         <DialogContent>
@@ -99,6 +111,27 @@ function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
           <Button onClick={handleOk}>Ok</Button>
         </DialogActions>
       </Dialog>
+
+      <section>
+        {selectedSizes.length > 0 && (
+          <>
+            <ul className={style.ul_size}>
+              {selectedSizes.map((size, i) => (
+                <li key={i} className={style.li_size}>
+                  Size: {size.size} x {size.stock}
+                  <IconButton
+                    aria-label="delete"
+                    id={`${size.size}-${size.stock}`}
+                    onClick={() => handleDelete(size.size, size.stock)}
+                  >
+                    <Clear color="error" />
+                  </IconButton>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </section>
     </div>
   );
 }

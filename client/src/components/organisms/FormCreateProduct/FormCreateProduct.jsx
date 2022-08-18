@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Button } from "@mui/material";
 import DialogSizesCreate from "../../molecules/DialogSizesCreate/DialogSizesCreate";
@@ -19,10 +19,6 @@ function FormCreateProduct() {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
-  useEffect(() => {
-    console.log(product);
-  }, [product]);
-
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -39,7 +35,7 @@ function FormCreateProduct() {
 
     console.log(newProduct);
 
-    const res = await axios.post("http://localhost:3001/products", newProduct);
+    const res = await axios.post("http://localhost:3001/product", newProduct);
 
     // TODO corergir esto que no esta bien el .status
     if (res.status === 400) {
@@ -67,32 +63,16 @@ function FormCreateProduct() {
     <form onSubmit={handleSubmit} className={style.form}>
       <InputsFormCreate product={product} setProduct={setProduct} />
 
-      <SelectCategoryCreate
-        selectedCategories={selectedCategories}
-        setSelectedCategories={setSelectedCategories}
-      />
+      <section className={style.container}>
+        <SelectCategoryCreate
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+        />
 
-      {selectedCategories.length > 0 && (
-        <>
-          <p>Categorias</p>
-          {selectedCategories.map((cat) => (
-            <span key={cat}>{cat}</span>
-          ))}
-        </>
-      )}
-
-      <DialogSizesCreate
-        setSelectedSizes={setSelectedSizes}
-        selectedSizes={selectedSizes}
-      />
-
-      <section>
-        {selectedSizes.length > 0 &&
-          selectedSizes.map((size) => (
-            <p key={size}>
-              Size: {size.size} x {size.stock}
-            </p>
-          ))}
+        <DialogSizesCreate
+          setSelectedSizes={setSelectedSizes}
+          selectedSizes={selectedSizes}
+        />
       </section>
 
       <Button type="submit" variant="outlined">

@@ -1,6 +1,7 @@
 import { Box, Checkbox, InputLabel } from "@mui/material";
 
 import React from "react";
+import style from "./SelectCategoryCreate.module.css";
 
 function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
   const categories = ["Urban", "Training and Fitness", "Running", "Unisex"];
@@ -15,20 +16,25 @@ function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
   }
 
   return (
-    <section>
-      {categories.map((cat) => (
-        <Box sx={{ display: "flex", alignItems: "center" }} key={cat}>
-          <Checkbox
-            id={cat}
-            value={cat}
-            color="secondary"
-            onChange={handleChange}
-          />
-          <InputLabel htmlFor={cat} variant="standard">
-            {cat}
-          </InputLabel>
-        </Box>
-      ))}
+    <section className={style.checkbox_container}>
+      <ul className={style.ul_category}>
+        <span>Categories:</span>
+        {categories.map((cat) => (
+          <li key={cat}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Checkbox
+                id={cat}
+                value={cat}
+                color="secondary"
+                onChange={handleChange}
+              />
+              <InputLabel htmlFor={cat} variant="standard">
+                {cat}
+              </InputLabel>
+            </Box>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
