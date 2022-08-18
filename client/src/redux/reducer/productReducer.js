@@ -1,4 +1,4 @@
-import {GET_ALL_PRODUCTS, GET_PRODUCT,GET_PRODUCT_NAME,FILTER_BY_BRAND,FILTER_BY_PRICE} from "../../utils/reduxVars.js"
+import {GET_ALL_PRODUCTS, GET_PRODUCT,GET_PRODUCT_NAME,FILTER_BY_BRAND,FILTER_BY_PRICE,FILTER_BY_CATEGORY,FILTER_BY_SIZE} from "../../utils/reduxVars.js"
 
 const initialState = {
   products:[],
