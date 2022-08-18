@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Sequelize } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const { DB_NAME, DB_HOST, DB_USER, DB_PASSWORD } = process.env;
 const fs = require('fs');
 const path = require('path');
@@ -69,4 +69,4 @@ Brand.hasMany(Product)
 Product.belongsToMany(Category, {through: "Product_Category"})
 Category.belongsToMany(Product, {through: "Product_Category"})
 
-module.exports = { sequelize, ...sequelize.models};
+module.exports = { sequelize, ...sequelize.models, Op};
