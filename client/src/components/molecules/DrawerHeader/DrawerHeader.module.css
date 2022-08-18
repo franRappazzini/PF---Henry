@@ -1,0 +1,14 @@
+.drawer_container {
+  display: none;
+}
+
+@media only screen and (max-width: 860px) {
+  .drawer_container {
+    display: flex;
+    justify-self: self-start;
+  }
+
+  .drawer {
+    width: 65vw;
+  }
+}
