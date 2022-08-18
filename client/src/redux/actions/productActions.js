@@ -1,4 +1,4 @@
-import { GET_ALL_PRODUCTS, GET_PRODUCT } from "../../utils/reduxVars";
+import { GET_ALL_PRODUCTS, GET_PRODUCT,GET_PRODUCT_NAME} from "../../utils/reduxVars";
 
 import axios from "axios";
 
@@ -31,3 +31,20 @@ export async function createProduct(product) {
     return err;
   }
 }
+
+
+export  function searchProduct(name){
+  return async function(dispatch){
+  try { 
+      var json = await axios.get(`http://localhost:3001/products?name=${name}`)
+      return dispatch({
+        type:GET_PRODUCT_NAME,
+        payload:json.data
+      })
+  } catch (err) {
+    alert("Product not found")
+    return err
+  }
+}
+}
+
