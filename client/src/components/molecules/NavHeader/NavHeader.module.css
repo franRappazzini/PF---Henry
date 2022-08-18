@@ -1,0 +1,57 @@
+.ul_nav {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+}
+
+.li_nav {
+  padding: 0 0.5rem;
+}
+
+.li_nav_hover {
+  padding: 0 0.5rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.li_nav_hover:hover .sub_ul {
+  display: block;
+  position: absolute;
+  top: 0;
+}
+
+.a_nav {
+  text-decoration: none;
+  color: black;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1.5px;
+  transition: background-size 0.5s;
+}
+
+.a_nav:hover {
+  background-size: 100% 1.5px;
+}
+
+.a_nav_active {
+  font-weight: 500;
+}
+
+.sub_ul {
+  display: none;
+  list-style: none;
+  padding: 1.5rem 0 0 0.5rem;
+  width: max-content;
+}
+
+.sub_li {
+  margin: 0.5rem 0;
+}
+
+@media only screen and (max-width: 860px) {
+  .nav {
+    display: none;
+  }
+}
