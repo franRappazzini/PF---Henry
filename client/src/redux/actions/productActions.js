@@ -42,7 +42,6 @@ export  function searchProduct(name){
         payload:json.data
       })
   } catch (err) {
-    alert("Product not found")
     return err
   }
 }
