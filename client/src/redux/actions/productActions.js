@@ -1,4 +1,4 @@
-import { GET_ALL_PRODUCTS, GET_PRODUCT,GET_PRODUCT_NAME} from "../../utils/reduxVars";
+import { GET_ALL_PRODUCTS, GET_PRODUCT,GET_PRODUCT_NAME,FILTER_BY_BRAND,FILTER_BY_CATEGORY,FILTER_BY_SIZE,FILTER_BY_PRICE} from "../../utils/reduxVars";
 
 import axios from "axios";
 
@@ -47,3 +47,28 @@ export  function searchProduct(name){
 }
 }
 
+// filtrados (por marca, categoría y talles)
+export function filterProductByBrand(payload){
+  return{
+    type:FILTER_BY_BRAND,
+    payload
+  }
+}
+export function filterProductByCategory(payload){
+  return{
+    type: FILTER_BY_CATEGORY,
+    payload
+  }
+}
+export function filterProductBySize(payload){
+  return{
+    type: FILTER_BY_SIZE,
+    payload
+  }
+}
+export function filterProductByPrice(payload){
+  return{
+    type: FILTER_BY_PRICE,
+    payload
+  }
+}
