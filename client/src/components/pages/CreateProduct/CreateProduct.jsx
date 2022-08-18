@@ -1,7 +1,12 @@
+import FormCreateProduct from "../../organisms/FormCreateProduct/FormCreateProduct";
 import React from "react";
 
 function CreateProduct() {
-  return <div>CreateProduct</div>;
+  return (
+    <main>
+      <FormCreateProduct />
+    </main>
+  );
 }
 
 export default CreateProduct;

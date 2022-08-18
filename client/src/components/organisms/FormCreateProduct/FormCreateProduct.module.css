@@ -1,0 +1,9 @@
+.form {
+  padding: 0 2rem;
+}
+
+@media only screen and (max-width: 860px) {
+  .form {
+    padding: 0 0.5rem;
+  }
+}
