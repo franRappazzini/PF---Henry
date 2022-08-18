@@ -1,6 +1,6 @@
 const {Router} = require('express')
 const router = Router();
-const{Product,Brand,Category,product_Size,Size}=require("../../db/db")
+const{Product, Brand, Category, Op, Size, Product_Size}=require("../../db/db");
 
 
 
@@ -79,36 +79,41 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name, images, brand, price, size, category } = req.body;
+  const { name, image, brand, price, size, category } = req.body;
+
   //Size = [{31,4}{35,5}{43,2}]
-  // category.map(
-  //   async (e) => await Category.findOrCreate({ where: { name: e } })
-  // );
-  // size.map(async (e) => await Size.findOrCreate({ where: { size: e.size } }));
+  category.map(async (e) => 
+    await Category.findOrCreate({ where: { name: e } })
+  ) 
+ 
+  ;
+
+  size.forEach(async (e) => await Size.findOrCreate({ where: { size: e.size } }));
 
   await Brand.findOrCreate({ where: { name: brand } });
 
+  // let Sizes = size.map(e => ({size: e.size}))
+  // await Size.bulkCreate(
+  //   Sizes,
+  //   {ignoreDuplicates:true}
+  // )
 
-  let Sizes=size.map(e=>e.size)
-  await Size.bulkCreate(
-    Sizes,
-    {ignoreDuplicates:true}
-  )
-
-
-  await Category.bulkCreate(
-    category,
-    {ignoreDuplicates:true}
-  )
+  // await Category.bulkCreate(
+  //   category,
+  //   {ignoreDuplicates:true}
+  // )
 
   try {
-    const newProduct = await Product.create({ name, images, price });
+    const newProduct = await Product.create({ name, image, price });
     //Busco la marca y le asigno el id de la encontrada, para buscar la marca tendria que estar previamente en la bd.
     //Que la busque puede parecer innecesario porque si esta validado desde el front siempre la va a encontrar, porque jamas me llegaria otra marca al back
     //Pero hago la busqueda porque la tabla intermedia necesita el id de la brand y no el nombre
     //Entonces en findBrand me quedaria: (id,name) yo necesito el id
     let findBrand = await Brand.findOne({ where: { name: brand } });
-    await newProduct.addBrand(findBrand.id);
+
+    newProduct.BrandId = findBrand.id
+
+    await newProduct.save();
 
     //Hago lo mismo que arriba
     let findCategories = await Category.findAll({
@@ -119,24 +124,29 @@ router.post("/", async (req, res) => {
         },
       },
     });
+    //Hacemos la relacion del producto y su categoria
+    await newProduct.addCategory(findCategories);
 
     for (let index = 0; index < size.length; index++) {
       let findSize = await Size.findOne({ where: { size: size[index].size } });
-      let stock = size[index].stock;
-      await newProduct.addProductSize({ SizeId: findSize.id, stock });
+      let stock = size[index].stock
+
+      await newProduct.addSize(findSize.dataValues.id, { through: { stock }})
+
+      
       //addproductSize??
     }
-    await newProduct.addCategory(findCategories);
+    
 
     //-------------------------------------------------------------------------
-    let findSize = await Size.findAll({
-      attributes: ["id"],
-      where: {
-        name: {
-          [Op.or]: size,
-        },
-      },
-    });
+    // let findSize = await Size.findAll({
+    //   attributes: ["id"],
+    //   where: {
+    //     name: {
+    //       [Op.or]: size,
+    //     },
+    //   },
+    // });
     //findSize=[id,id,id]
     //stock=[4,5,6]
 
@@ -147,13 +157,15 @@ router.post("/", async (req, res) => {
 
     // await newProduct.addProductSize(findSize,stock)
 
-    for (let index = 0; index < findSize.length; index++) {
-      await newProduct.addProductSize(findSize[index], stock[index]);
-    }
+    // for (let index = 0; index < findSize.length; index++) {
+    //   await newProduct.addProductSize(findSize[index], stock[index]);
+    // }
+    res.send("Product created")
   } catch (e) {
+    console.log(e)
     res.status(400).send("There was an error, please try again");
   }
-  res.send("Product created");
+  ;
 });
 
 
