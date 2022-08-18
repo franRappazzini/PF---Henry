@@ -7,16 +7,20 @@ const{Product}=require("../../db/models/Product")
 router.get('/',async (req,res)=>{
     try {
         const allProducts=await Product.findAll({
-            include:{   
-                // model: Category,
-                // attributes: {
-                //   include: ['name'], 
-                //   exclude:['createdAt', 'updatedAt']
-                // },
+            include:[{   
+                model: Category,
+                attributes: {
+                  include: ['name'], 
+                  exclude:['createdAt', 'updatedAt']
+                },
                 // through: {
                 //   attributes:[]
-                // }
-            }
+                // },
+                model:Brand,
+                attributes:{
+                  include:['name']
+                }        
+            }]
         })
         res.status(200).send(allProducts)
     } catch (error) {
@@ -56,7 +60,7 @@ router.get('/:id', async (req,res)=>{
       })
         
       if (data) {
-        res.json(data)
+        res.status(200).json(data)
       }
       else{
         res.status(404).send('id of product not found')
@@ -70,6 +74,13 @@ router.get('/:id', async (req,res)=>{
 })
 
 router.post('/',async(req,res)=>{
+  const {name,images,brand,price,size,category} = req.body
+  try{
+    newProduct = await Product.create({name,images,brand,price,size,category})
+  }catch(e){
+    res.status(400).send("There was an error, please try again")
+  }
+  res.send("Product created")
 
 })
 
