@@ -8,7 +8,10 @@ import { Provider } from "react-redux";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import store from "./redux/store/store";
+
+import { Provider } from "react-redux";
+import store from "./redux/store/store.js"
+
 
 // TODO configurar theme
 const theme = createTheme({
@@ -31,11 +34,13 @@ const theme = createTheme({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </BrowserRouter>
+
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </BrowserRouter>
+
   </Provider>
 );
 

@@ -8,7 +8,7 @@ import style from "./ReviewContainer.module.css"
 // import { getProductDetail } from "../../Redux/actions";
 
 
-export default function ReviewContainer(/* {productDetail, getProductDetail} */){
+export default function ReviewContainer(){
    
 
 
