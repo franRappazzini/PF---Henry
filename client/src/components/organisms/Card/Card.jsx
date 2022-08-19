@@ -21,7 +21,7 @@ export default function Card({product}) {
                 <MdOutlineFavoriteBorder className={ style.iconoutline } size={30} onClick={handleFav} style={{color: fav ? '#5f27cd' : '#000'}}/>
             </div>            
                 <div className={style.product}>
-                    <img src={product.image} alt= 'not found' className={style.img} style={product.Brand.name==='Reebok'?{'width':'260px'}:{'width':'210px'}}/>
+                    <img src={product.image} alt= 'not found' className={style.img} style={product.Brand.name==='Reebok'?{'width':'275px'}:{'width':'210px'}}/>
                 </div>  
                 <div className={style.info}>
                     <div className={style.title}>{product.name}</div>
