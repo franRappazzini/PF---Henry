@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 
 export function getAllProducts() {
+  console.log('getAllProducts ACTION');
   return async (dispatch) => {
     try {
       const res = await axios.get("http://localhost:3001/product");
@@ -39,6 +40,7 @@ export async function createProduct(product) {
     return err;
   }
 }
+
 
 export function searchProduct(name) {
   return async function (dispatch) {

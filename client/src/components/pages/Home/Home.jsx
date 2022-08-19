@@ -1,3 +1,4 @@
+
 import Card from "../../organisms/Card/Card";
 import React from "react";
 import { connect } from "react-redux";
@@ -70,6 +71,21 @@ export default function Home(/*{ products, getAllProducts }*/) {
       brand: "Nike",
     },
   ];
+
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector} from 'react-redux';
+import Card from '../../organisms/Card/Card'
+import style from './Home.module.css'
+import { getAllProducts } from '../../../redux/actions/productActions.js'
+
+let Home = () => {   
+    let { products } = useSelector((state) => state.product);
+    let dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(getAllProducts())
+    },[])
+
   return (
     <div className={style.container}>
       {products.map((product) => (
@@ -79,6 +95,7 @@ export default function Home(/*{ products, getAllProducts }*/) {
   );
 }
 
+
 // let mapStateToProps = (state) => {
 //     return {
 //         products: state.products,
@@ -86,3 +103,6 @@ export default function Home(/*{ products, getAllProducts }*/) {
 //   }
 
 // export default connect(mapStateToProps,{ getAllProducts })(Home);
+
+export default Home;
+
