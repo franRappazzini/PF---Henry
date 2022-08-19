@@ -1,37 +1,42 @@
-// eslint-disable-next-line no-unused-vars
-import React from "react"
 
 import style from "./Details.module.css"
 import ProductContainer from "../../organisms/ProductContainerDetail/ProductContainer";
 import ReviewContainer from "../../organisms/ReviewContainerDetail/ReviewContainer";
-
-// import {useEffect} from "react"
-// import {useParams/* , useState */} from "react-router-dom"
-// import { getProductDetail } from "../../Redux/actions";
-
-
-export default function Detail(/* {productDetail, getProductDetail} */){
-   
+import {useSelector, useDispatch} from "react-redux"
+import {useEffect} from "react"
+import {useParams, useState} from "react-router-dom"
+import {getProduct } from "../../../redux/actions/productActions.js";
 
 
-    /* let params = useParams() */
 
-    
-   
-    /* useEffect(()=>{
-        getProductDetail(params.productId)
-    },[]) */
+export default function Detail(){
+    const {productId} = useParams()
+    const {productDetail} = useSelector(state => state.product)
+    const dispatch = useDispatch()
+    console.log("hola hola",productDetail)
+    console.log(productId)
+    useEffect(()=>{
+      console.log("en el use")
+        dispatch(getProduct(productId))
+    },[dispatch, productId])
+
+    if(productDetail.hasOwnProperty("name")){
     return(
       <div className={style.box}>
 
 
-        <ProductContainer/>
+        <ProductContainer productDetail={productDetail}/>
 
 
-        <ReviewContainer/>
+        <ReviewContainer />
 
 
         </div>
     )
-  };
+  }else{
+    return(
+      <span>no hay product Detail</span>
+    )
+  }
+}
 
