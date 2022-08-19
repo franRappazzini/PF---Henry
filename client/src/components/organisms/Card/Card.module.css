@@ -31,7 +31,6 @@
   justify-content: center;
 }
 .img {
-  width: 210px;
   z-index: 2;    
   transition: all .5s ease-in-out;
   filter: drop-shadow(2px 2px 2px #222);
