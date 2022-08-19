@@ -33,6 +33,9 @@ export default function ProductContainer({productDetail}){
         filteredSizes.push(sizes[i])
       }
     }
+    filteredSizes = filteredSizes.sort(function(a, b) {
+      return a - b;
+    });
     let arrAverage = rating.map(e=>e.star)
     let ratingAverage = arrAverage.reduce((a,b)=> a + b)/rating.length
     console.log("mi cart state: ",cart)
@@ -40,7 +43,7 @@ export default function ProductContainer({productDetail}){
     const handleCart = (e) => {
       e.preventDefault()
       MySwal.fire({
-        title: <p>The product was added to the cart successfully!</p>,
+        title: <p>the product was successfully added to the shopping cart!</p>,
         customClass: {
           confirmButton: "btn-success",
         },
@@ -57,6 +60,17 @@ export default function ProductContainer({productDetail}){
       }
     }
   
+    const handleError = (e) =>{
+      e.preventDefault()
+      MySwal.fire({
+        title: <p>You have to select almost one size</p>,
+        confirmButton: false,
+        backdrop: `
+    rgba(12,12,12,0.4)
+  `,
+        icon: false,
+      });
+    } 
     /* useEffect(()=>{
         getProductDetail(params.productId)
     },[]) */
@@ -68,7 +82,7 @@ export default function ProductContainer({productDetail}){
           <div className={style.left_side}>  
             <div className={style.top_left_container}>
             {productDetail.Brand.name==='Nike' ? <SiNike className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Adidas' ? <SiAdidas className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Puma' ? <SiPuma className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Reebok' ? <SiReebok className={style.brand_icon} size={40}/> : productDetail.Brand.name==='New Balance' ? <SiNewbalance className={style.brand_icon} size={40}/> : <BiError className={style.brand_icon} size={40}/>}
-          <button onClick={(e)=>handleCart(e)} className={!cart?style.shopping_button:style.shopping_button2}>+<RiShoppingCart2Fill className={!cart?style.shopping_icon:style.shopping_icon2}/> </button>
+          <button onClick={selectedSize===0?(e)=>handleError(e):(e)=>handleCart(e)} className={!cart?style.shopping_button:style.shopping_button2}>+<RiShoppingCart2Fill className={!cart?style.shopping_icon:style.shopping_icon2}/> </button>
             </div>
             <img className={style.product_img} src={productDetail.image} alt="" />
           </div>
@@ -80,7 +94,7 @@ export default function ProductContainer({productDetail}){
           <div className={style.br2}></div>
           <h2 className={style.available_h2}>AVAILABLE SIZES</h2>
           <div className={style.size_buttons_container}>
-            {filteredSizes.map(e=><button onClick={()=>setSelectedSize(e)} className={style.size_button}>{e}</button>)}
+            {filteredSizes.map(e=><button onClick={selectedSize===e?()=>setSelectedSize(0):()=>setSelectedSize(e)} className={selectedSize!==e?style.size_button:style.selected_button}>{e}</button>)}
             </div>
             <div className={style.br2}></div>
             <span className={style.price}>{productDetail.price}$</span>

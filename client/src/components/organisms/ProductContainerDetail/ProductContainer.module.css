@@ -119,6 +119,17 @@
     margin: 8px;
     font-family: Roboto;
 }
+.selected_button{
+    color: #ffffff;
+    border: none;
+    height: 35px;
+    width: 40px;
+    border: 1px solid #ffffff;
+    border-radius: 20px;
+    margin: 8px;
+    font-family: Roboto;
+    background-color: #5f27cd;
+}
 .size_buttons_container{
     display: flex;
     flex-direction: row;
@@ -142,7 +153,11 @@
 }
 .size_button:hover{
     cursor: pointer;
-    box-shadow: 0 0px 2px 1px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+.selected_button:hover{
+    cursor: pointer;
+    transform: scale(1.05);
 }
 .shopping_button:hover{
     cursor: pointer;
