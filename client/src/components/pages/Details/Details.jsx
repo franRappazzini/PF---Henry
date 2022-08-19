@@ -10,6 +10,7 @@ import {getProduct } from "../../../redux/actions/productActions.js";
 
 
 export default function Detail(){
+  
     const {productId} = useParams()
     const {productDetail} = useSelector(state => state.product)
     const dispatch = useDispatch()
