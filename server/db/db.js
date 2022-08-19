@@ -27,7 +27,7 @@ const sequelize =
         ssl: true,
       })
     : new Sequelize(
-        `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+        `postgres://postgres:1234@localhost:5432/proyectpf`,
         { logging: false }
       );
 
