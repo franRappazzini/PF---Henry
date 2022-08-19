@@ -14,19 +14,20 @@ function NavHeader() {
               isActive ? style.a_nav : style.a_nav_active
             }
           >
-            Categoria 1
+            Home
           </NavLink>
         </li>
         <li className={style.li_nav}>
           <NavLink
-            to={"/"}
+            to={"/create_product"}
             className={({ isActive }) =>
-              isActive ? style.a_nav : style.a_nav_active
+              isActive ? style.a_nav_active : style.a_nav
             }
           >
-            Categoria 2
+            Crear Producto
           </NavLink>
         </li>
+
         <li className={style.li_nav}>
           <NavLink
             to={"/"}
