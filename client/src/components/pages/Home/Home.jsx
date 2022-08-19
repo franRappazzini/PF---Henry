@@ -12,7 +12,6 @@ let Home = () => {
   useEffect(() => {
     dispatch(getAllProducts());
   }, []);
-
   return (
     <div className={style.container}>
       {products.map((product) => (
@@ -21,3 +20,5 @@ let Home = () => {
     </div>
   );
 };
+
+export default Home;
