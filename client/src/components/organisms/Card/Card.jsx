@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import style from './Card.module.css';
+import { Link } from 'react-router-dom';
 
 import { MdOutlineFavoriteBorder } from  'react-icons/md';
 import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
@@ -26,9 +27,11 @@ export default function Card({product}) {
                     <div className={style.title}>{product.name}</div>
                     <div className={style.price}>${product.price}</div>
                 </div>
-                <div className={style.details}>
-                    <button>View More</button>
-                </div>
+                <Link to={`/product/${product.id}`}>
+                    <div className={style.details}>
+                        <button>View More</button>
+                    </div>
+                </Link>
             </div>        
         </div>
   )
