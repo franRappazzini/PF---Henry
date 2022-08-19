@@ -1,8 +1,15 @@
-const {Router} = require('express')
+const { Router } = require("express");
 const router = Router();
-const{Product, Brand, Category, Op, Size, Product_Size}=require("../../db/db");
-
-
+const {
+  Product,
+  Brand,
+  Category,
+  Rating,
+  Op,
+  Size,
+  Product_Size,
+  Product_Category,
+} = require("../../db/db");
 
 router.get("/", async (req, res) => {
   const { name } = req.query;
@@ -40,31 +47,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const data = await Product.findByPk(id, {
       include: [
-        {
-          //     model: Category,
-          //     attributes:
-          //        ['name']
-          // },
-          // {
-          //     model: Rating,
-          //     attributes:
-          //        ['text','star']
-          // },
-          // {
-          //     model: Size,
-          //     attributes:['name', 'stock','color']},
-          // {
-          //     model: Brand,
-          //     attributes:
-          //         ['name']
-        },
+        { model: Brand },
+        { model: Rating },
+        { model: Size },
+        { model: Category },
       ],
     });
 
@@ -82,13 +73,13 @@ router.post("/", async (req, res) => {
   const { name, image, brand, price, size, category } = req.body;
 
   //Size = [{31,4}{35,5}{43,2}]
-  category.map(async (e) => 
-    await Category.findOrCreate({ where: { name: e } })
-  ) 
- 
-  ;
+  category.map(
+    async (e) => await Category.findOrCreate({ where: { name: e } })
+  );
 
-  size.forEach(async (e) => await Size.findOrCreate({ where: { size: e.size } }));
+  size.forEach(
+    async (e) => await Size.findOrCreate({ where: { size: e.size } })
+  );
 
   await Brand.findOrCreate({ where: { name: brand } });
 
@@ -111,7 +102,7 @@ router.post("/", async (req, res) => {
     //Entonces en findBrand me quedaria: (id,name) yo necesito el id
     let findBrand = await Brand.findOne({ where: { name: brand } });
 
-    newProduct.BrandId = findBrand.id
+    newProduct.BrandId = findBrand.id;
 
     await newProduct.save();
 
@@ -129,14 +120,12 @@ router.post("/", async (req, res) => {
 
     for (let index = 0; index < size.length; index++) {
       let findSize = await Size.findOne({ where: { size: size[index].size } });
-      let stock = size[index].stock
+      let stock = size[index].stock;
 
-      await newProduct.addSize(findSize.dataValues.id, { through: { stock }})
+      await newProduct.addSize(findSize.dataValues.id, { through: { stock } });
 
-      
       //addproductSize??
     }
-    
 
     //-------------------------------------------------------------------------
     // let findSize = await Size.findAll({
@@ -160,18 +149,11 @@ router.post("/", async (req, res) => {
     // for (let index = 0; index < findSize.length; index++) {
     //   await newProduct.addProductSize(findSize[index], stock[index]);
     // }
-    res.send("Product created")
+    res.send("Product created");
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(400).send("There was an error, please try again");
   }
-  ;
 });
 
-
-
-
-
-
-
-module.exports = router
+module.exports = router;

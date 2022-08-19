@@ -10,19 +10,20 @@ export default function Card({product}) {
     let handleFav = () => {
         setFav(current => !current)
     }
+    console.log('Product from Home:', product);
     
   return (
         <div className={style.container}>
             <div className={style.card}>
             <div className={style.header}>
-                {product.brand==='Nike' ? <SiNike className={style.brand} size={40}/> : product.brand==='Adidas' ? <SiAdidas className={style.brand} size={40}/> : product.brand==='Puma' ? <SiPuma className={style.brand} size={40}/> : product.brand==='Reebok' ? <SiReebok className={style.brand} size={40}/> : product.brand==='New Balance' ? <SiNewbalance className={style.brand} size={40}/> : <BiError className={style.brand} size={40}/>}
+                {product.Brand.name==='Nike' ? <SiNike className={style.brand} size={40}/> : product.Brand.name==='Adidas' ? <SiAdidas className={style.brand} size={40}/> : product.Brand.name==='Puma' ? <SiPuma className={style.brand} size={40}/> : product.Brand.name==='Reebok' ? <SiReebok className={style.brand} size={40}/> : product.Brand.name==='New Balance' ? <SiNewbalance className={style.brand} size={40}/> : <BiError className={style.brand} size={40}/>}
                 <MdOutlineFavoriteBorder className={ style.iconoutline } size={30} onClick={handleFav} style={{color: fav ? '#5f27cd' : '#000'}}/>
             </div>            
                 <div className={style.product}>
-                    <img src={product.image} alt= 'not found' className={style.img}/>
+                    <img src={product.image} alt= 'not found' className={style.img} style={product.Brand.name==='Reebok'?{'width':'260px'}:{'width':'210px'}}/>
                 </div>  
                 <div className={style.info}>
-                    <div className={style.title}>{product.title}</div>
+                    <div className={style.title}>{product.name}</div>
                     <div className={style.price}>${product.price}</div>
                 </div>
                 <div className={style.details}>
