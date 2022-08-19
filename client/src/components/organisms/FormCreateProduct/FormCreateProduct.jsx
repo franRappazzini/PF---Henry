@@ -49,8 +49,10 @@ function FormCreateProduct() {
   }
 
   function validations() {
+    // TODO ver bien las validaciones
     const urlExpression = "/(http(s?):)([/|.|w|s|-])*.(?:jpg|gif|png)/g";
-    if (!product.name.match(/^[a-zA-Z\s]*$/)) return "error name";
+    // if (!product.name.match(/^[a-zA-Z\s]*$/)) return "error name";
+    if (!product.name.length) return "error name";
     if (product.brand === "") return "error brand";
     if (product.price <= 0) return "error price";
     if (product.price <= 0) return "error price";

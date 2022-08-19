@@ -11,19 +11,23 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Box } from "@mui/system";
 import { Clear } from "@mui/icons-material";
+import { getSizes } from "../../../redux/actions/otherActions";
 import style from "./DialogSizesCreate.module.css";
 
 function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
   const [dialog, setDialog] = useState(false);
   const [options, setOptions] = useState({ size: "", stock: 0 });
+  const { sizes } = useSelector((state) => state.other);
+  const dispatch = useDispatch();
 
-  const sizes = [
-    31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
-  ]; // TODO sacar de db
+  useEffect(() => {
+    dispatch(getSizes());
+  }, [dispatch]);
 
   function handleOk() {
     console.log(options);
@@ -86,11 +90,12 @@ function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
                 onChange={handleChange}
                 value={options.size}
               >
-                {sizes.map((size) => (
-                  <MenuItem key={size} value={size}>
-                    {size}
-                  </MenuItem>
-                ))}
+                {sizes.length > 0 &&
+                  sizes.map((size) => (
+                    <MenuItem key={size.size} value={size.size}>
+                      {size.size}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
 
