@@ -4,13 +4,15 @@ import { Button } from "@mui/material";
 import DialogSizesCreate from "../../molecules/DialogSizesCreate/DialogSizesCreate";
 import InputsFormCreate from "../../molecules/InputsFormCreate/InputsFormCreate";
 import SelectCategoryCreate from "../../molecules/SelectCategoryCreate/SelectCategoryCreate";
+import Swal from "sweetalert2";
 import axios from "axios";
 import style from "./FormCreateProduct.module.css";
+import withReactContent from "sweetalert2-react-content";
 
 const instanceProduct = {
   name: "",
   brand: "",
-  price: 0,
+  price: "",
   image: "",
 };
 
@@ -18,6 +20,7 @@ function FormCreateProduct() {
   const [product, setProduct] = useState(instanceProduct);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const swal = withReactContent(Swal);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -33,17 +36,16 @@ function FormCreateProduct() {
       size: selectedSizes,
     };
 
-    console.log(newProduct);
-
     const res = await axios.post("http://localhost:3001/product", newProduct);
 
     // TODO corergir esto que no esta bien el .status
-    if (res.status === 400) {
-      alert("Error al crear el producto");
+    console.log(res.response?.status);
+    if (res.response?.status === 400) {
+      swal.fire("Error..", res.message, "error");
       return;
     }
-
-    setProduct({ name: "", brand: "", price: 0, image: "" });
+    swal.fire("Success!", "Product added!", "success");
+    setProduct({ name: "", brand: "", price: "", image: "" });
     setSelectedCategories([]);
     setSelectedSizes([]);
   }

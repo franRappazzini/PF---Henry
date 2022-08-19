@@ -21,7 +21,7 @@ import style from "./DialogSizesCreate.module.css";
 
 function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
   const [dialog, setDialog] = useState(false);
-  const [options, setOptions] = useState({ size: "", stock: 0 });
+  const [options, setOptions] = useState({ size: "", stock: "" });
   const { sizes } = useSelector((state) => state.other);
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
     console.log(options);
 
     const { size, stock } = options;
-    if (size === "" || stock <= 0) {
+    if (size === "" || stock <= 0 || stock === "") {
       // TODO avisar que tiene que elegir talle y cant
       return;
     }
@@ -42,7 +42,7 @@ function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
     if (findSize) findSize.stock = parseInt(findSize.stock) + parseInt(stock);
     else setSelectedSizes([...selectedSizes, { ...options }]);
 
-    setOptions({ size: "", stock: 0 });
+    setOptions({ size: "", stock: "" });
     handleClose();
   }
 
