@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Card from "../../organisms/Card/Card";
-import Carousel from "react-material-ui-carousel";
 import { Pagination } from "@mui/material";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
