@@ -15,20 +15,10 @@ router.get("/", async (req, res) => {
   const { name } = req.query;
   const allProducts = await Product.findAll({
     include: [
-      {
-        model: Category,
-        attributes: {
-          include: ["name"],
-          exclude: ["createdAt", "updatedAt"],
-        },
-        // through: {
-        //   attributes:[]
-        // },
-        model: Brand,
-        attributes: {
-          include: ["name"],
-        },
-      },
+      { model: Brand },
+      { model: Rating },
+      { model: Size },
+      { model: Category },
     ],
   });
   if (name) {
