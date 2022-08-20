@@ -2,7 +2,9 @@ import {GET_ALL_PRODUCTS, GET_PRODUCT,GET_PRODUCT_NAME,FILTER_BY_BRAND,FILTER_BY
 
 const initialState = {
   products:[],
+  filteredProducts:[],
   productDetail:{}
+  
 };
 
 export function productReducer(state = initialState, action) {
@@ -10,7 +12,8 @@ export function productReducer(state = initialState, action) {
     case GET_ALL_PRODUCTS:
       return{
         ...state,
-        products:action.payload
+        products:action.payload,
+        filteredProducts: action.payload
       }
       case GET_PRODUCT:
         return{
@@ -24,21 +27,28 @@ export function productReducer(state = initialState, action) {
         }
       case FILTER_BY_BRAND:
         var product=state.products
-        const brandFiltered= action.payload==='all' ? product : product.filter(el=>el.brand===action.payload)
+        const brandFiltered= action.payload==='All' ? product : product.filter(el=>el.Brand.name===action.payload)
         return{
           ...state,
-          products:brandFiltered
+          filteredProducts:brandFiltered
         }
         case FILTER_BY_CATEGORY:
         var product=state.products
-        const categoryFiltered= action.payload==='all' ? product : product.filter(el=>el.category===action.payload)
+
+        const categoryFiltered= action.payload==='All' ? product : product.filter(el=>{
+          for (let i = 0; i < el.Categories.length; i++) {
+            if (el.Categories[i].name===action.payload) {
+              return true
+            }
+          }
+        })
         return{
           ...state,
-          products:categoryFiltered
+          filteredProducts:categoryFiltered
         }
         case FILTER_BY_SIZE:
           var product=state.products
-          const sizeFiltered= action.payload==='all' ? product : product.filter(el=>el.size===action.payload)
+          const sizeFiltered= action.payload==='All' ? product : product.filter(el=>el.size===action.payload)
           return{
             ...state,
             products:sizeFiltered

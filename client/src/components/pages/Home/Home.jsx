@@ -5,9 +5,11 @@ import Card from "../../organisms/Card/Card";
 import { Pagination } from "@mui/material";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
+import Order from "../../organisms/Order/Order";
+import Filters from "../../organisms/Filters/Filters";
 
 let Home = () => {
-  let { products } = useSelector((state) => state.product);
+  let { filteredProducts } = useSelector((state) => state.product);
   let dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const prodPerPage = 12;
@@ -18,6 +20,14 @@ let Home = () => {
   }, [dispatch]);
 
   return (
+
+    <div>
+
+        <Order />
+        <Filters/>
+    <div className={style.container}>
+      
+
     <div className={style.globalContainer}>
       <div className={style.carouselContainer}>
         {/* <Carousel>
@@ -29,7 +39,7 @@ let Home = () => {
       <div className={style.functionalitiesContainer}>
         <div className={style.utilities}></div>
         <div className={style.cardsContainer}>
-          {products
+          {filteredProducts
             .slice(
               (page - 1) * prodPerPage,
               (page - 1) * prodPerPage + prodPerPage
@@ -47,6 +57,9 @@ let Home = () => {
           onChange={(e, value) => setPage(value)}
         />
       </section>
+    </div>
+
+
     </div>
   );
 };

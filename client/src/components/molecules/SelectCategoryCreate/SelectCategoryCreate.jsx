@@ -1,10 +1,17 @@
 import { Box, Checkbox, InputLabel } from "@mui/material";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import React from "react";
+import { getCategories } from "../../../redux/actions/otherActions";
 import style from "./SelectCategoryCreate.module.css";
 
 function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
-  const categories = ["Urban", "Training and Fitness", "Running", "Unisex"];
+  const { categories } = useSelector((state) => state.other);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
   function handleChange(e) {
     const { checked, value } = e.target;
@@ -19,21 +26,22 @@ function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
     <section className={style.checkbox_container}>
       <ul className={style.ul_category}>
         <span>Categories:</span>
-        {categories.map((cat) => (
-          <li key={cat}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Checkbox
-                id={cat}
-                value={cat}
-                color="secondary"
-                onChange={handleChange}
-              />
-              <InputLabel htmlFor={cat} variant="standard">
-                {cat}
-              </InputLabel>
-            </Box>
-          </li>
-        ))}
+        {categories.length > 0 &&
+          categories.map((cat) => (
+            <li key={cat.name}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Checkbox
+                  id={cat.name}
+                  value={cat.name}
+                  color="secondary"
+                  onChange={handleChange}
+                />
+                <InputLabel htmlFor={cat.name} variant="standard">
+                  {cat.name}
+                </InputLabel>
+              </Box>
+            </li>
+          ))}
       </ul>
     </section>
   );
