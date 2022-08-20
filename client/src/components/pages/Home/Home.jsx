@@ -17,6 +17,7 @@ let Home = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
+    console.log(filteredProducts);
   }, [dispatch]);
 
   return (
