@@ -156,4 +156,58 @@ router.post("/", async (req, res) => {
   }
 });
 
+// ESTA ES PARA CREAR TODOS DE UNA
+// router.post("/", async (req, res) => {
+//   // const { name, image, brand, price, size, category } = req.body;
+
+//   //Busco o creo: Marca,size y category
+//   for (let index = 0; index < req.body.length; index++) {
+//     const name = req.body[index].name;
+//     const image = req.body[index].image;
+//     const price = req.body[index].price;
+//     const brand = req.body[index].brand;
+//     const category = req.body[index].category;
+//     const size = req.body[index].size;
+//     category.map(
+//       async (e) => await Category.findOrCreate({ where: { name: e } })
+//     );
+//     size.forEach(
+//       async (e) => await Size.findOrCreate({ where: { size: e.size } })
+//     );
+//     await Brand.findOrCreate({ where: { name: brand } });
+
+//     //Creo el producto y hago las relaciones
+
+//     try {
+//       const newProduct = await Product.create({ name, image, price });
+//       let findBrand = await Brand.findOne({ where: { name: brand } });
+//       newProduct.BrandId = findBrand.id;
+//       await newProduct.save();
+//       let findCategories = await Category.findAll({
+//         attributes: ["id"],
+//         where: {
+//           name: {
+//             [Op.or]: category,
+//           },
+//         },
+//       });
+//       await newProduct.addCategory(findCategories);
+
+//       for (let index = 0; index < size.length; index++) {
+//         let findSize = await Size.findOne({
+//           where: { size: size[index].size },
+//         });
+//         let stock = size[index].stock;
+//         await newProduct.addSize(findSize.dataValues.id, {
+//           through: { stock },
+//         });
+//       }
+//     } catch (e) {
+//       console.log(e);
+//       res.status(400).send("There was an error, please try again");
+//     }
+//   }
+//   res.status(200).send("Product created");
+// });
+
 module.exports = router;
