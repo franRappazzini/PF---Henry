@@ -1,11 +1,53 @@
-.container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+.globalContainer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+  flex-direction: column;
+}
+.carouselContainer {
+  display: flex;
+  width: 100%;
+  height: 370px;
+  border: 2px solid red;
+  background-color: #5f27cd;
+}
+.functionalitiesContainer {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  margin-top: 2px;
+  border: 3px solid green;
+}
+.utilities {
+  display: flex;
+  border: 2px solid red;
+  width: 17%;
+  height: auto;
+  margin: 2px 3%;
+  margin-left: 5%;
+  background-color: #5f27cd;
+}
+.cardsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 60%;
+  height: auto;
+  z-index: 2;
+  margin: 2px;
+  border: 2px solid red;
+}
+
+.pagination_container {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+@media (max-width: 1400px) {
+  .cardsContainer {
     width: 70%;
-    height: auto;
-    z-index: 2;
-    margin-top: 3%;
-    margin-left: 15%;
+  }
 }
