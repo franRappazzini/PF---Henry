@@ -1,14 +1,22 @@
 import { MenuItem, TextField } from "@mui/material";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import React from "react";
+import { getBrands } from "../../../redux/actions/otherActions";
 import style from "./InputsFormCreate.module.css";
 
 function InputsFormCreate({ product, setProduct }) {
-  const brands = ["Nike", "Adidas", "Reebok", "Puma"]; // TODO deberia venir de la db
+  const { brands } = useSelector((state) => state.other);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getBrands());
+  }, [dispatch]);
 
   function handleChange(e) {
     setProduct({ ...product, [e.target.name]: e.target.value });
   }
+
   return (
     <section className={style.inputs_container}>
       <TextField
@@ -36,11 +44,12 @@ function InputsFormCreate({ product, setProduct }) {
         <MenuItem value="">
           <em>None</em>
         </MenuItem>
-        {brands.map((brand) => (
-          <MenuItem key={brand} value={brand}>
-            {brand}
-          </MenuItem>
-        ))}
+        {brands.length > 0 &&
+          brands.map((brand) => (
+            <MenuItem key={brand.name} value={brand.name}>
+              {brand.name}
+            </MenuItem>
+          ))}
       </TextField>
 
       <TextField

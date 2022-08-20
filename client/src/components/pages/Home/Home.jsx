@@ -1,17 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../organisms/Card/Card";
+import Filters from "../../organisms/Filters/Filters";
+import Order from "../../organisms/Order/Order";
+import { Pagination } from "@mui/material";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
 import Slider from '../../organisms/Carousel/Carousel.jsx'
 
 let Home = () => {
-  let { products } = useSelector((state) => state.product);
+  let { filteredProducts } = useSelector((state) => state.product);
   let dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+  const prodPerPage = 12;
+  const totalPage = Math.ceil(filteredProducts.length / prodPerPage);
 
   useEffect(() => {
     dispatch(getAllProducts());
-  }, []);
+    console.log(filteredProducts);
+  }, [dispatch]);
   
   return (
     <div className={style.globalContainer}>
@@ -20,16 +27,30 @@ let Home = () => {
         </div>
         <div className={style.functionalitiesContainer}>
             <div className={style.utilities}>
-                
+            <Order />
+            <Filters />                
             </div>
             <div className={style.cardsContainer}>
-              {products.map((product) => (
-                <Card product={product}/>
-              ))}
+              {filteredProducts
+                .slice(
+                  (page - 1) * prodPerPage,
+                  (page - 1) * prodPerPage + prodPerPage
+                )
+                .map((product, i) => (
+                  <Card key={i} product={product} />
+                ))}
             </div>
         </div>
+        <section className={style.pagination_container}>
+            <Pagination
+              count={totalPage}
+              shape="rounded"
+              onChange={(e, value) => setPage(value)}
+            />
+          </section>
     </div>
   );
 };
 
 export default Home;
+
