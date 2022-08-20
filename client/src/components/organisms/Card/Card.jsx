@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import style from './Card.module.css';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import { MdOutlineFavoriteBorder } from  'react-icons/md';
 import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
 import { BiError } from 'react-icons/bi';
