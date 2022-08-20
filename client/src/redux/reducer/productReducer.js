@@ -71,17 +71,6 @@ export function productReducer(state = initialState, action) {
         });
       }
 
-      // const sizeFiltered = action.payload === "All" ? copyProducts : arr;
-
-      console.log(typeof action.payload);
-      console.log(copyProducts[0]);
-      console.log(copyProducts[1]);
-      console.log(arr);
-      // var product = state.products;
-      // const sizeFiltered =
-      //   action.payload === "All"
-      //     ? product
-      //     : product.filter((el) => el.size === action.payload);
       return {
         ...state,
         filteredProducts: action.payload === "All" ? copyProducts : arr,
