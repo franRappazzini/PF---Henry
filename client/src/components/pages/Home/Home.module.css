@@ -3,6 +3,8 @@
   width: 100%;
   height: 100%;
   flex-direction: column;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 .carouselContainer {
   display: flex;
@@ -12,28 +14,27 @@
   justify-content: center;
 }
 .functionalitiesContainer {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  margin-top: 2px;
+  margin-top: 1rem;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
 }
 .utilities {
+  position: sticky;
+  top: 0;
   display: flex;
-  width: 25vw;
-  height: auto;
-  margin-left: 1vw;
+  flex-direction: column;
+  padding: 1rem;
   background-color: #5f27cd;
   opacity: 0.4;
   border-radius: 0.5vw;
+  height: fit-content;
 }
+
 .cardsContainer {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  width: 71vw;
-  height: auto;
-  z-index: 2;
 }
 
 .pagination_container {
@@ -42,11 +43,11 @@
   justify-content: center;
 }
 
-@media (max-width: 1200px) {
-  .utilities {
-    width: 30vw;
+@media only screen and (max-width: 820px) {
+  .functionalitiesContainer {
+    grid-template-columns: 1fr;
   }
-  .cardsContainer {
-    width: 65vw;
+  .utilities {
+    position: static;
   }
 }

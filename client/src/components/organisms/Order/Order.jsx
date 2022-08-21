@@ -1,37 +1,38 @@
-import React, { useState } from 'react';
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-import {useDispatch} from 'react-redux';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { filterProductByPrice } from "../../../redux/actions/productActions";
+import { useDispatch } from "react-redux";
 
-import { getAllProducts } from "../../../redux/actions/productActions.js";
+function Order() {
+  const dispatch = useDispatch();
 
-import { filterProductByPrice } from '../../../redux/actions/productActions';
+  function handleFilterPrice(e) {
+    dispatch(filterProductByPrice(e.target.value));
+  }
 
-// import style from './Card.module.css';
-
-
-// function handleFilterPrice(e){
-//     e.preventDefault();
-//     dispatch(filterProductByPrice(e.target.value))
-//   } 
-
-function Order(){
-    const dispatch = useDispatch()
-    function handleFilterPrice(e){
-        e.preventDefault();
-        dispatch(filterProductByPrice(e.target.value))
-      } 
-return(
-<div>
-
-<select onChange={e=>handleFilterPrice(e)}>
-        <option  disabled selected hidden>ORDER</option>
-        <option value='ascending'>Ascending</option>
-        <option value='descending' >Descending</option>
-</select>
-
-</div>
-
-);
+  return (
+    <div>
+      <FormControl
+        fullWidth
+        size="small"
+        sx={{ backgroundColor: "white", marginBottom: "1rem" }}
+      >
+        <InputLabel id="order">ORDER</InputLabel>
+        <Select
+          labelId="order"
+          id="demo-simple-select"
+          label="ORDER"
+          onChange={handleFilterPrice}
+        >
+          <MenuItem selected hidden disabled>
+            Default
+          </MenuItem>
+          <MenuItem value={"ascending"}>Ascending</MenuItem>
+          <MenuItem value={"descending"}>Descending</MenuItem>
+        </Select>
+      </FormControl>
+    </div>
+  );
 }
 export default Order;
