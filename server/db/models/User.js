@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize");
+const { hash } = require("../../utils/functions");
 
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {
@@ -31,6 +32,9 @@ module.exports = (sequelize) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+      set(value) {
+        this.setDataValue("password", hash(value));
+      },
     },
 
     isAdmin: {
