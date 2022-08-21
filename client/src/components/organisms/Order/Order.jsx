@@ -1,32 +1,37 @@
-import React, { useState } from 'react';
-import style from './Order.module.css';
-import {useDispatch} from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getAllProducts } from "../../../redux/actions/productActions.js";
-import { filterProductByPrice } from '../../../redux/actions/productActions';
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-// import style from './Card.module.css';
+import React from "react";
+import { filterProductByPrice } from "../../../redux/actions/productActions";
+import { useDispatch } from "react-redux";
 
+function Order() {
+  const dispatch = useDispatch();
 
-// function handleFilterPrice(e){
-//     e.preventDefault();  
-//     dispatch(filterProductByPrice(e.target.value))
-//   } 
+  function handleFilterPrice(e) {
+    dispatch(filterProductByPrice(e.target.value));
+  }
 
-function Order(){
-    const dispatch = useDispatch()
-    function handleFilterPrice(e){
-        e.preventDefault();
-        dispatch(filterProductByPrice(e.target.value))
-      } 
-return(
-<div className={style.orderContainer}>
-  <select onChange={e=>handleFilterPrice(e)} className={style.order}>
-    <option  disabled selected hidden>Sort By</option>
-    <option value='ascending'>Ascending</option>
-    <option value='descending' >Descending</option>
-  </select>
-</div>
-);
+  return (
+    <FormControl
+      fullWidth={window.innerWidth > 820 ? false : true}
+      size="small"
+      sx={{ marginBottom: "1rem", minWidth: "6rem" }}
+    >
+      <InputLabel id="order">ORDER</InputLabel>
+      <Select
+        labelId="order"
+        id="demo-simple-select"
+        label="ORDER"
+        onChange={handleFilterPrice}
+        sx={{ backgroundColor: "white" }}
+      >
+        <MenuItem selected hidden disabled>
+          Default
+        </MenuItem>
+        <MenuItem value={"ascending"}>Ascending</MenuItem>
+        <MenuItem value={"descending"}>Descending</MenuItem>
+      </Select>
+    </FormControl>
+  );
 }
 export default Order;
