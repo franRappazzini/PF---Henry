@@ -6,6 +6,7 @@ const size = require("./routes/size");
 const category = require("./routes/category");
 const server = express();
 const product = require("./routes/product");
+const user = require("./routes/user");
 
 server.use(cors());
 server.use(express.json());
@@ -13,6 +14,7 @@ server.use("/product", product);
 server.use("/category", category);
 server.use("/brand", brand);
 server.use("/size", size);
+server.use("/user", user);
 
 server.listen(3001, () => {
   sequelize.sync({ force: false });
