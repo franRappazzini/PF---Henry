@@ -15,8 +15,13 @@
 .order_container {
   margin-top: 1rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 0 2rem;
+}
+
+.search_container {
+  display: flex;
+  align-items: flex-end;
 }
 
 .functionalitiesContainer {
@@ -52,15 +57,14 @@
   }
   .functionalitiesContainer {
     grid-template-columns: 1fr;
-
   }
   .utilities {
     position: static;
   }
 }
 
-@media (max-width:700px) {
-  .items{
+@media (max-width: 700px) {
+  .items {
     margin-left: 37vw;
     font-size: 1.6vw;
   }
