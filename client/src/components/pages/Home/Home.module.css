@@ -1,45 +1,52 @@
 .globalContainer {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
 }
 .carouselContainer {
-    display: flex;
-    width: 100%;
-    height: 22vw;
-    background-color: #5f27cd;
-    justify-content: center;
+  display: flex;
+  width: 100%;
+  height: 22vw;
+  background-color: #5f27cd;
+  justify-content: center;
 }
 .functionalitiesContainer {
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    margin-top: 2px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  margin-top: 2px;
 }
 .utilities {
-    display: flex;
-    width: 25vw;
-    height: auto;
-    margin-left: 1vw;
-    background-color: #5f27cd;
-    opacity: .4;
-    border-radius: .5vw;
+  display: flex;
+  width: 25vw;
+  height: auto;
+  margin-left: 1vw;
+  background-color: #5f27cd;
+  opacity: 0.4;
+  border-radius: 0.5vw;
 }
 .cardsContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 71vw;
-    height: auto;
-    z-index: 2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 71vw;
+  height: auto;
+  z-index: 2;
 }
+
+.pagination_container {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 1200px) {
-    .utilities {
-        width: 30vw;
-    }
-    .cardsContainer {
-        width: 65vw;
-    }
+  .utilities {
+    width: 30vw;
+  }
+  .cardsContainer {
+    width: 65vw;
+  }
 }
