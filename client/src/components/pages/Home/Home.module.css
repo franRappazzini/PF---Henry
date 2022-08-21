@@ -1,33 +1,39 @@
 .globalContainer {
   display: flex;
-  width: 100%;
-  height: 100%;
+  width: auto;
   flex-direction: column;
 }
 .carouselContainer {
   display: flex;
-  width: 100%;
+  width: auto;
   height: 22vw;
   background-color: #5f27cd;
   justify-content: center;
 }
 .functionalitiesContainer {
+  border-radius: 0.5vw;
   display: flex;
-  width: 100%;
+  width: auto;
   flex-direction: row;
   margin-top: 2px;
 }
 .utilities {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 25vw;
   height: auto;
   margin-left: 1vw;
-  background-color: #5f27cd;
-  opacity: 0.4;
   border-radius: 0.5vw;
+}
+.filtersTitle {
+  margin: 1vw;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.7vw;
 }
 .cardsContainer {
   display: flex;
+  border-radius: 0.5vw;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
@@ -35,18 +41,46 @@
   height: auto;
   z-index: 2;
 }
-
 .pagination_container {
   margin: 2rem 0;
   display: flex;
   justify-content: center;
 }
-
-@media (max-width: 1200px) {
+.functionalitiesHeader {
+  width: 96vw;
+  border-radius: 0.5vw;
+  display: flex;
+  height: auto;
+  margin: 1px 1.5vw;
+  padding: 0.2vw;
+}
+.items {
+  font-weight: 400;
+  font-size: 1vw;
+  color: #6e6e6e;
+  width: 10vw;
+  text-align: center;
+  flex-direction: column;
+  align-self: center;
+  margin-left: 30vw;
+}
+@media (min-width:701px) and (max-width: 1200px) {
+  .items {
+    margin-left: 34vw;
+  }
   .utilities {
     width: 30vw;
   }
   .cardsContainer {
     width: 65vw;
+  }
+}
+@media (max-width:700px) {
+  .items{
+    margin-left: 37vw;
+    font-size: 1.6vw;
+  }
+  .filtersTitle {
+    font-size: 2.3vw;
   }
 }

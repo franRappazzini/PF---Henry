@@ -5,7 +5,7 @@ import {
   filterProductBySize,
 } from "../../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
-
+import style from './Filters.module.css'
 import { getSizes } from "../../../redux/actions/otherActions";
 
 function Filters() {
@@ -31,8 +31,8 @@ function Filters() {
   }
 
   return (
-    <div>
-      <select onChange={(e) => handleFilterBrand(e)}>
+    <div className={style.filtersContainer}>
+      <select onChange={(e) => handleFilterBrand(e)} className={style.select}>
         <option disabled selected hidden>
           BRANDS
         </option>
@@ -44,7 +44,7 @@ function Filters() {
         <option value="Reebok">Reebok</option>
       </select>
 
-      <select onChange={(e) => handleFilterCategory(e)}>
+      <select onChange={(e) => handleFilterCategory(e)} className={style.select}>
         <option disabled selected hidden>
           CATEGORY
         </option>
@@ -56,7 +56,7 @@ function Filters() {
         <option value="Running">Running</option>
       </select>
 
-      <select onChange={handleFilterSizes}>
+      <select onChange={handleFilterSizes} className={style.select}>
         <option disabled selected hidden>
           SIZE
         </option>
