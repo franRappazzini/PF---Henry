@@ -17,28 +17,49 @@
   transition: all .4s ease-in-out;    
 }
 .card:hover {
-    box-shadow: 3px 22px 22px rgba(0, 0, 0, 0.3), 3px 0px 55px rgba(0, 0, 0, 0.4);
-    transform: scale(1.03);
+  box-shadow: 3px 22px 22px rgba(0, 0, 0, 0.3), 3px 0px 55px rgba(0, 0, 0, 0.4);
+  transform: scale(1.03);
 }
-.card:hover .img{
-    transform: rotate(-20deg);
-    filter: drop-shadow(5px 5px 5px #222);
+.card:hover .img {
+  transform: rotate(-20deg);
+  filter: drop-shadow(5px 5px 5px #222);
 }
-.product { 
+.card:hover .img2 {
+  transform: rotate(-20deg);
+  filter: drop-shadow(5px 5px 5px #222);
+}
+.product {
+  border: 1px solid yellow;
   height: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.img {   
+.img {
+  border: 1px solid black; 
   transition: all .5s ease-in-out;
   filter: drop-shadow(2px 2px 2px #222);
   width: 210px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .img2{
+  border: 1px solid black;
   transition: all .5s ease-in-out;
   filter: drop-shadow(2px 2px 2px #222);
   width: 275px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .title {   
   font-weight: bold;
@@ -49,6 +70,13 @@
   margin: 0;
   padding: 5px;
   text-shadow: 3px 3px 4px rgba(0,0,0,0.25);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .details {
   display: flex;
@@ -79,7 +107,8 @@
   text-align: center;
   text-shadow: 3px 2px 4px rgba(0,0,0,0.2)
 }
-.iconoutline {     
+.iconoutline {
+  z-index: 3;    
   transition: all .2s ease-in-out;
   width: 30px;
   height: auto;
@@ -107,15 +136,15 @@
 }
 @media (min-width: 701px) and (max-width: 1000px) {
   .container {
-      width: 192px;
-      height: 312px;
-      margin: 8px;
+    width: 192px;
+    height: 312px;
+    margin: 8px;
   }
   .card {
-      width: 184px;
-      height: 288px;
-      border-radius: 24px;
-      padding: 0px 8px;
+    width: 184px;
+    height: 288px;
+    border-radius: 24px;
+    padding: 0px 8px;
   }
   .price {
     font-size: 14px;
@@ -153,15 +182,15 @@
 }
 @media (min-width: 501px) and (max-width: 700px) {
   .container {
-      width: 144px;
-      height: 234px;
-      margin: 6px;
+    width: 144px;
+    height: 234px;
+    margin: 6px;
   }
   .card {
-      width: 138px;
-      height: 216px;
-      border-radius: 18px;
-      padding: 0px 6px;
+    width: 138px;
+    height: 216px;
+    border-radius: 18px;
+    padding: 0px 6px;
   }
   .price {
     font-size: 10.5px;
@@ -199,15 +228,15 @@
 }
 @media (max-width: 500px) {
   .container {
-      width: 96px;
-      height: 156px;
-      margin: 4px;
+    width: 96px;
+    height: 156px;
+    margin: 4px;
   }
   .card {
-      width: 92px;
-      height: 144px;
-      border-radius: 12px;
-      padding: 0px 4px;
+    width: 92px;
+    height: 144px;
+    border-radius: 12px;
+    padding: 0px 4px;
   }
   .price {
     font-size: 7px;
