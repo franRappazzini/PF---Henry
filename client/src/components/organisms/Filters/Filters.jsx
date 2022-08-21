@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Order from "../Order/Order";
 import style from "./Filters.module.css";
+import { getSizes } from "../../../redux/actions/otherActions";
+
 
 function Filters() {
   const { sizes, brands, categories } = useSelector((state) => state.other);
@@ -96,19 +98,6 @@ function Filters() {
             ))}
         </Select>
       </FormControl>
-
-      {/* <select onChange={handleFilterSizes}>
-        <option disabled selected hidden>
-          SIZE
-        </option>
-        <option value="All">All</option>
-        {sizes.length > 0 &&
-          sizes.map((size, i) => (
-            <option key={i} value={size.size}>
-              {size.size}
-            </option>
-          ))}
-      </select> */}
     </div>
   );
 }

@@ -34,7 +34,6 @@ let Home = () => {
         <div className={style.utilities}>
           <Filters />
         </div>
-
         <div className={style.cardsContainer}>
           {filteredProducts
             .slice(
@@ -43,7 +42,7 @@ let Home = () => {
             )
             .map((product, i) => (
               <Card key={i} product={product} />
-            ))}
+            ))}        
         </div>
       </div>
 

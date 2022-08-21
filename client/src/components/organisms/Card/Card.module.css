@@ -4,29 +4,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
-  margin: 0px 10px;
+  padding: 0.26vw;
+  margin: 0px 0.52vw;
 }
 .card {   
   background-color: #fff;
   height: 360px;
   width: 230px;
   border-radius: 30px;
-  padding: 0px 10px;
-  box-shadow: 2px 20px 20px rgba(0, 0, 0, 0.3), 2px 0px 50px rgba(0, 0, 0, 0.3);
+  padding: 0px 0.52vw;
+  box-shadow: 0.1vw 1vw 1vw rgba(0, 0, 0, 0.3), 0.1vw 0px 2.6vw rgba(0, 0, 0, 0.3);
   transition: all .4s ease-in-out;    
 }
 .card:hover {
-  box-shadow: 3px 22px 22px rgba(0, 0, 0, 0.3), 3px 0px 55px rgba(0, 0, 0, 0.4);
+  box-shadow: 0.15vw 1.146vw 1.146vw rgba(0, 0, 0, 0.3), 0.15vw 0px 2.865vw rgba(0, 0, 0, 0.4);
   transform: scale(1.03);
 }
 .card:hover .img {
   transform: rotate(-20deg);
-  filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(0.26vw 0.26vw 0.26vw #222);
 }
 .card:hover .img2 {
   transform: rotate(-20deg);
-  filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(0.26vw 0.26vw 0.26vw #222);
 }
 .product {
   height: 170px;
