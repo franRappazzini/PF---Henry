@@ -1,0 +1,16 @@
+.filtersContainer {
+    display: flex;
+    flex-direction: column;
+}
+.select {
+    font-size: 1vw;
+    margin: 3vw;
+    width: 17vw;
+    text-align: center;
+    padding: 0.5vw;
+}
+@media (max-width:700px) {
+    .select{
+      font-size: 1.6vw;
+    }
+  }

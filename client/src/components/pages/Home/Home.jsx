@@ -25,12 +25,17 @@ let Home = () => {
         <div className={style.carouselContainer}>
             <Slider/>
         </div>
+        <div className={style.functionalitiesHeader}>
+          <div className={style.items}>{filteredProducts.length} Products</div>
+          <Order />
+        </div>
         <div className={style.functionalitiesContainer}>
             <div className={style.utilities}>
-            <Order />
+            <div className={style.filtersTitle}>Filters</div>
             <Filters />                
             </div>
             <div className={style.cardsContainer}>
+              
               {filteredProducts
                 .slice(
                   (page - 1) * prodPerPage,
