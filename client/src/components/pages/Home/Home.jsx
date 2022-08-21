@@ -46,6 +46,7 @@ let Home = () => {
             variant="standard"
             onChange={handleChange}
             value={search}
+            autoComplete="off"
           />
           <Button type="submit">Search</Button>
         </form>
