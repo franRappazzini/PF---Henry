@@ -14,8 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Order from "../Order/Order";
 import style from "./Filters.module.css";
-import { getSizes } from "../../../redux/actions/otherActions";
-
 
 function Filters() {
   const { sizes, brands, categories } = useSelector((state) => state.other);
