@@ -39,13 +39,14 @@ function Filters() {
 
   return (
     <div className={style.filter_container}>
-      <Order />
+      <div className={style.order_container}>
+        <Order />
+      </div>
 
       <FormControl fullWidth size="small" sx={{ marginBottom: "1rem" }}>
         <InputLabel id="brand">BRANDS</InputLabel>
         <Select
           labelId="brand"
-          id="demo-simple-select"
           label="BRANDS"
           onChange={handleFilterBrand}
           sx={{ backgroundColor: "white" }}
@@ -64,7 +65,6 @@ function Filters() {
         <InputLabel id="category">CATEGORY</InputLabel>
         <Select
           labelId="category"
-          id="demo-simple-select"
           label="CATEGORY"
           onChange={handleFilterCategory}
           sx={{ backgroundColor: "white" }}
@@ -83,7 +83,6 @@ function Filters() {
         <InputLabel id="size">SIZE</InputLabel>
         <Select
           labelId="size"
-          id="demo-simple-select"
           label="SIZE"
           onChange={handleFilterSizes}
           sx={{ backgroundColor: "white" }}

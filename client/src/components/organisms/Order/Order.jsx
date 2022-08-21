@@ -12,27 +12,26 @@ function Order() {
   }
 
   return (
-    <div>
-      <FormControl
-        fullWidth
-        size="small"
-        sx={{ backgroundColor: "white", marginBottom: "1rem" }}
+    <FormControl
+      fullWidth={window.innerWidth > 820 ? false : true}
+      size="small"
+      sx={{ marginBottom: "1rem", minWidth: "6rem" }}
+    >
+      <InputLabel id="order">ORDER</InputLabel>
+      <Select
+        labelId="order"
+        id="demo-simple-select"
+        label="ORDER"
+        onChange={handleFilterPrice}
+        sx={{ backgroundColor: "white" }}
       >
-        <InputLabel id="order">ORDER</InputLabel>
-        <Select
-          labelId="order"
-          id="demo-simple-select"
-          label="ORDER"
-          onChange={handleFilterPrice}
-        >
-          <MenuItem selected hidden disabled>
-            Default
-          </MenuItem>
-          <MenuItem value={"ascending"}>Ascending</MenuItem>
-          <MenuItem value={"descending"}>Descending</MenuItem>
-        </Select>
-      </FormControl>
-    </div>
+        <MenuItem selected hidden disabled>
+          Default
+        </MenuItem>
+        <MenuItem value={"ascending"}>Ascending</MenuItem>
+        <MenuItem value={"descending"}>Descending</MenuItem>
+      </Select>
+    </FormControl>
   );
 }
 export default Order;

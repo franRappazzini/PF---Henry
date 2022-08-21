@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Card from "../../organisms/Card/Card";
 import Filters from "../../organisms/Filters/Filters";
+import Order from "../../organisms/Order/Order";
 import { Pagination } from "@mui/material";
 import Slider from "../../organisms/Carousel/Carousel.jsx";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
@@ -24,6 +25,10 @@ let Home = () => {
       <div className={style.carouselContainer}>
         <Slider />
       </div>
+
+      <section className={style.order_container}>
+        <Order />
+      </section>
 
       <div className={style.functionalitiesContainer}>
         <div className={style.utilities}>
