@@ -1,32 +1,37 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React from "react";
-import { filterProductByPrice } from "../../../redux/actions/productActions";
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
 
-function Order() {
-  const dispatch = useDispatch();
+import {useDispatch} from 'react-redux';
+import { Link } from 'react-router-dom';
 
-  function handleFilterPrice(e) {
-    dispatch(filterProductByPrice(e.target.value));
-  }
+import { getAllProducts } from "../../../redux/actions/productActions.js";
 
-  return (
-    <FormControl
-      size="small"
-      sx={{ marginTop: "0.5rem", minWidth: "6rem" }}
-    >
-      <InputLabel id="order">ORDER</InputLabel>
-      <Select
-        labelId="order"
-        id="demo-simple-select"
-        label="ORDER"
-        onChange={handleFilterPrice}
-        sx={{ backgroundColor: "white" }}
-      >
-        <MenuItem value={"ascending"}>Ascending</MenuItem>
-        <MenuItem value={"descending"}>Descending</MenuItem>
-      </Select>
-    </FormControl>
-  );
+import { filterProductByPrice } from '../../../redux/actions/productActions';
+
+// import style from './Card.module.css';
+
+
+// function handleFilterPrice(e){
+//     e.preventDefault();
+//     dispatch(filterProductByPrice(e.target.value))
+//   } 
+
+function Order(){
+    const dispatch = useDispatch()
+    function handleFilterPrice(e){
+        e.preventDefault();
+        dispatch(filterProductByPrice(e.target.value))
+      } 
+return(
+<div>
+
+<select onChange={e=>handleFilterPrice(e)}>
+        <option  disabled selected hidden>ORDER</option>
+        <option value='ascending'>Ascending</option>
+        <option value='descending' >Descending</option>
+</select>
+
+</div>
+
+);
 }
 export default Order;
