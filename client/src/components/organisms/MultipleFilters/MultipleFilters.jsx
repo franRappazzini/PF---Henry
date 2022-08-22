@@ -16,7 +16,7 @@ import {
     getSizes,
   } from "../../../redux/actions/otherActions";
 
-export default function MultipleFilters() {
+export default function MultipleFilters({pagination}) {
     let { brands, categories, sizes} = useSelector((state) => state.other);
     let dispatch = useDispatch();
   
@@ -38,7 +38,7 @@ export default function MultipleFilters() {
     <div>
         <FormControl sx={{ m: 1.4, minWidth: 120}} size="small">
         <InputLabel htmlFor="grouped-select">Filters</InputLabel>
-        <Select defaultValue="" label="Filters"onChange={handleFilters}>
+        <Select label="Filters" onChange={handleFilters}>
           
           <ListSubheader>BRAND</ListSubheader>
           <MenuItem value='All'>All</MenuItem>
