@@ -1,6 +1,6 @@
 import { Badge, IconButton, Menu, MenuItem } from "@mui/material";
 import { FavoriteBorder, Person, ShoppingCart } from "@mui/icons-material";
-
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import React from "react";
 import style from "./BtnsHeader.module.css";
@@ -11,6 +11,7 @@ function BtnsHeader() {
   const { loginWithPopup, logout, isAuthenticated } = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  let { favorites } = useSelector((state) => state.product);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,9 +68,11 @@ function BtnsHeader() {
         color="secondary"
         className={style.btn_icon}
       >
-        <Badge badgeContent={4} color="error">
-          <FavoriteBorder />
-        </Badge>
+        <Link to={'/favorites'}>
+          <Badge badgeContent={favorites.length} color="error">          
+            <FavoriteBorder />         
+          </Badge>
+        </Link>
       </IconButton>
       <IconButton
         aria-label="Carrito"

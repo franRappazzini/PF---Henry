@@ -40,11 +40,6 @@ function DrawerHeader() {
               </Link>
             </ListItemButton>
             <ListItemButton>
-              <Link to={'/favorites'}>
-                <ListItemText primary="Favorites" />
-              </Link>
-            </ListItemButton>
-            <ListItemButton>
               <ListItemText primary="Shopping Cart" />
             </ListItemButton>
             <ListItemButton onClick={handleClick}>
