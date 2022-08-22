@@ -27,7 +27,7 @@ function FormCreateProduct() {
     console.log(image);
 
     if (validations()) {
-      alert(validations());
+      swal.fire("Error..", validations(), "error");
       return;
     }
 
@@ -59,7 +59,7 @@ function FormCreateProduct() {
       return;
     }
     swal.fire("Success!", "Product added!", "success");
-    setProduct({ name: "", brand: "", price: "", image: "" });
+    setProduct({ name: "", brand: "", price: "" });
     setSelectedCategories([]);
     setSelectedSizes([]);
   }
