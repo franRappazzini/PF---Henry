@@ -13,7 +13,7 @@ function Header() {
 
 
    <Link to="/" >
-    <img src="https://res.cloudinary.com/df7ja4fel/image/upload/v1661178406/kemba_vizt7f.png" alt="logo" width= "110px"/>
+    <img src="https://res.cloudinary.com/df7ja4fel/image/upload/v1661178406/kemba_vizt7f.png" alt="logoKemba" width= "110px"/>
    </Link>
 
       <NavHeader />
