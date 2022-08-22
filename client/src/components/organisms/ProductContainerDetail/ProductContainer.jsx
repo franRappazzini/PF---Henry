@@ -23,7 +23,7 @@ export default function ProductContainer({productDetail}){
     const [cart, setCart] = useState(false)
     const [amount, setAmount] = useState(0)
     const [selectedSize, setSelectedSize] = useState(0)
-    const sizes = productDetail.Sizes.map(e=>e.size)
+    const sizes = productDetail.Sizes
     // PRUEBA DE RAITING
     let rating = [{id:1, text:"good", star:3.5, UserId:6, ProductId:1},{id:1, text:"good", star:3, UserId:6, ProductId:1},{id:1, text:"good", star:1, UserId:6, ProductId:1}]
     // PRUEBA DE RATING
@@ -31,8 +31,8 @@ export default function ProductContainer({productDetail}){
     const MySwal = withReactContent(Swal)
     let filteredSizes = []
     for (let i = 0; i < sizes.length; i++) {
-      if(!filteredSizes.includes(sizes[i])){
-        filteredSizes.push(sizes[i])
+      if(!filteredSizes.includes(sizes[i].size) && sizes[i].Product_Size.stock > 0){
+        filteredSizes.push(sizes[i].size)
       }
     }
     filteredSizes = filteredSizes.sort(function(a, b) {
@@ -103,7 +103,7 @@ export default function ProductContainer({productDetail}){
           <div className={style.br2}></div>
           <h2 className={style.available_h2}>AVAILABLE SIZES</h2>
           <div className={style.size_buttons_container}>
-            {filteredSizes.map(e=><button onClick={selectedSize===e?()=>{setSelectedSize(0); setCart(false)}:()=>{setSelectedSize(e); setCart(false)}} className={selectedSize!==e?style.size_button:style.selected_button}>{e}</button>)}
+            {filteredSizes.map(e=><button onClick={selectedSize===e?()=>{setSelectedSize(0); setCart(false)}:()=>{setSelectedSize(e); setCart(false)}} className={selectedSize!==e?style.size_button:style.selected_button} key = {e}>{e}</button>)}
             <div className={style.amount_container}>
             {selectedSize!==0?<div><span>AMOUNT: </span><input max="99" min="1" className={style.amount_input} type="number" defaultValue={1}></input></div>:""}
             </div>
