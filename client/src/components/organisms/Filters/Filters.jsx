@@ -11,6 +11,7 @@ import {
   getSizes,
 } from "../../../redux/actions/otherActions";
 import { useDispatch, useSelector } from "react-redux";
+
 import style from "./Filters.module.css";
 
 function Filters() {
@@ -37,10 +38,14 @@ function Filters() {
 
   return (
     <div className={style.filter_container}>
-      <div className={style.order_container}>
-      </div>
+      <div className={style.order_container}></div>
 
-      <FormControl fullWidth size="small" className={style.filter} sx={{ marginBottom: "1rem" }}>
+      <FormControl
+        fullWidth
+        size="small"
+        className={style.filter}
+        sx={{ marginBottom: "1rem" }}
+      >
         <InputLabel id="brand">Brand</InputLabel>
         <Select
           labelId="brand"
@@ -58,7 +63,12 @@ function Filters() {
         </Select>
       </FormControl>
 
-      <FormControl fullWidth size="small" className={style.filter} sx={{ marginBottom: "1rem" }}>
+      <FormControl
+        fullWidth
+        size="small"
+        className={style.filter}
+        sx={{ marginBottom: "1rem" }}
+      >
         <InputLabel id="category">Category</InputLabel>
         <Select
           labelId="category"
@@ -82,7 +92,7 @@ function Filters() {
           labelId="size"
           label="SIZE"
           onChange={handleFilterSizes}
-          sx={{ backgroundColor: "#fff"}}
+          sx={{ backgroundColor: "#fff" }}
         >
           <MenuItem value="All">All</MenuItem>
           {sizes.length > 0 &&
