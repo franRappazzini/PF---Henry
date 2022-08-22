@@ -1,40 +1,15 @@
-import React, { useState } from 'react';
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import React from "react";
+import { filterProductByPrice } from "../../../redux/actions/productActions";
+import { useDispatch } from "react-redux";
 
-import {useDispatch} from 'react-redux';
-import { Link } from 'react-router-dom';
+function Order() {
+  const dispatch = useDispatch();
 
-import { getAllProducts } from "../../../redux/actions/productActions.js";
+  function handleFilterPrice(e) {
+    dispatch(filterProductByPrice(e.target.value));
+  }
 
-<<<<<<< HEAD
-import { filterProductByPrice } from '../../../redux/actions/productActions';
-
-// import style from './Card.module.css';
-
-
-// function handleFilterPrice(e){
-//     e.preventDefault();
-//     dispatch(filterProductByPrice(e.target.value))
-//   } 
-
-function Order(){
-    const dispatch = useDispatch()
-    function handleFilterPrice(e){
-        e.preventDefault();
-        dispatch(filterProductByPrice(e.target.value))
-      } 
-return(
-<div>
-
-<select onChange={e=>handleFilterPrice(e)}>
-        <option  disabled selected hidden>ORDER</option>
-        <option value='ascending'>Ascending</option>
-        <option value='descending' >Descending</option>
-</select>
-
-</div>
-
-);
-=======
   return (
     <FormControl
       size="small"
@@ -53,6 +28,5 @@ return(
       </Select>
     </FormControl>
   );
->>>>>>> origin/development
 }
 export default Order;
