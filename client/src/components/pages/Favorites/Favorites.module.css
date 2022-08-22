@@ -1,7 +1,7 @@
 .favoritesContainer {
     display: flex;
     margin: 4vw 12vw;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
 }
 @media (min-width: 601px) and (max-width: 800px) {
