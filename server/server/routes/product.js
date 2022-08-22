@@ -11,7 +11,7 @@ const {
   Product_Category,
 } = require("../../db/db");
 
-router.get("/", async (req, res) => {
+router.get("", async (req, res) => {
   const { name } = req.query;
 
   try {
@@ -85,7 +85,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("", async (req, res) => {
   const { name, image, brand, price, size, category } = req.body;
 
   //Size = [{31,4}{35,5}{43,2}]

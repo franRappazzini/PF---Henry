@@ -2,7 +2,7 @@ const { Category } = require("../../db/db");
 const { Router } = require("express");
 const category = Router();
 
-category.get("/", async (req, res) => {
+category.get("", async (req, res) => {
   try {
     const response = await Category.findAll({
       attributes: ["name"],

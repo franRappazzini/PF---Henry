@@ -15,7 +15,7 @@ function Order() {
       size="small"
       sx={{ marginTop: "0.5rem", minWidth: "6rem" }}
     >
-      <InputLabel id="order">ORDER</InputLabel>
+      <InputLabel id="order">Order</InputLabel>
       <Select
         labelId="order"
         id="demo-simple-select"

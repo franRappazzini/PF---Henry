@@ -21,11 +21,13 @@ import { useState } from "react";
 export default function ProductContainer({productDetail}){
 
     const [cart, setCart] = useState(false)
+    const [amount, setAmount] = useState(0)
     const [selectedSize, setSelectedSize] = useState(0)
     const sizes = productDetail.Sizes
     // PRUEBA DE RAITING
     let rating = [{id:1, text:"good", star:3.5, UserId:6, ProductId:1},{id:1, text:"good", star:3, UserId:6, ProductId:1},{id:1, text:"good", star:1, UserId:6, ProductId:1}]
     // PRUEBA DE RATING
+    
     const MySwal = withReactContent(Swal)
     let filteredSizes = []
     for (let i = 0; i < sizes.length; i++) {
@@ -40,8 +42,12 @@ export default function ProductContainer({productDetail}){
     let ratingAverage = arrAverage.reduce((a,b)=> a + b)/rating.length
     console.log("mi cart state: ",cart)
     console.log("mi cart state: ",selectedSize)
+
     const handleCart = (e) => {
       e.preventDefault()
+      if(cart){
+        setSelectedSize(0)
+      }else{
       MySwal.fire({
         title: <p>the product was successfully added to the shopping cart!</p>,
         customClass: {
@@ -53,11 +59,14 @@ export default function ProductContainer({productDetail}){
   `,
         icon: "success",
       });
+    }
       if(cart){
         setCart(false)
+        setSelectedSize(0)
       }else{
         setCart(true)
       }
+      
     }
   
     const handleError = (e) =>{
@@ -94,10 +103,13 @@ export default function ProductContainer({productDetail}){
           <div className={style.br2}></div>
           <h2 className={style.available_h2}>AVAILABLE SIZES</h2>
           <div className={style.size_buttons_container}>
-            {filteredSizes.map(e=><button onClick={selectedSize===e?()=>setSelectedSize(0):()=>setSelectedSize(e)} className={selectedSize!==e?style.size_button:style.selected_button} key = {e}> {e} </button>)}
+            {filteredSizes.map(e=><button onClick={selectedSize===e?()=>{setSelectedSize(0); setCart(false)}:()=>{setSelectedSize(e); setCart(false)}} className={selectedSize!==e?style.size_button:style.selected_button} key = {e}>{e}</button>)}
+            <div className={style.amount_container}>
+            {selectedSize!==0?<div><span>AMOUNT: </span><input max="99" min="1" className={style.amount_input} type="number" defaultValue={1}></input></div>:""}
             </div>
-            <div className={style.br2}></div>
-            <span className={style.price}>{productDetail.price}$</span>
+            </div>
+            <div className={style.br3}></div>
+            <div className={style.price_container}><span className={style.price}>{productDetail.price}$</span></div>
           </div>
         </div>
     )
