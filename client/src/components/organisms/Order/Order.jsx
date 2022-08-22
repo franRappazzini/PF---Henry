@@ -8,7 +8,7 @@ function Order() {
 
   function handleFilterPrice(e) {
     dispatch(filterProductByPrice(e.target.value));
-  }
+      } 
 
   return (
     <FormControl
