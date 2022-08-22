@@ -6,12 +6,15 @@ import {
   GET_ALL_PRODUCTS,
   GET_PRODUCT,
   GET_PRODUCT_NAME,
+  ADD_FAVORITES,
+  REMOVE_FAVORITES,
 } from "../../utils/reduxVars.js";
 
 const initialState = {
   products: [],
   filteredProducts: [],
   productDetail: {},
+  favorites: [],
 };
 
 export function productReducer(state = initialState, action) {
@@ -27,6 +30,16 @@ export function productReducer(state = initialState, action) {
         ...state,
         productDetail: action.payload,
       };
+    case ADD_FAVORITES:
+      return {
+        ...state,
+        favorites: state.favorites.concat(action.payload)
+      };
+      case REMOVE_FAVORITES:
+        return {
+          ...state,
+          favorites: state.favorites.filter(prod=>prod.id!==action.payload)
+        };      
     case GET_PRODUCT_NAME:
       return {
         ...state,
