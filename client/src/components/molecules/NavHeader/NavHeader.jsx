@@ -30,7 +30,18 @@ function NavHeader() {
               Create product
             </NavLink>
           </li>
-        )}
+        )} 
+        <li className={style.li_nav}>
+          <NavLink
+            to={"/favorites"}
+            className={({ isActive }) =>
+              isActive ? style.a_nav_active : style.a_nav
+            }
+          >
+            Favorites
+          </NavLink>
+        </li>
+
       </ul>
     </nav>
   );
