@@ -6,6 +6,9 @@
   max-width: 1440px;
   margin: 0 auto;
 }
+.logo {
+  width: 7vw;
+}
 
 @media only screen and (max-width: 860px) {
   .header {
@@ -14,6 +17,6 @@
   }
 
   .logo {
-    text-align: center;
+    width: 10vw;
   }
 }
