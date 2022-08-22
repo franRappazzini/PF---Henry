@@ -12,7 +12,6 @@ export default function Card({product}) {
     let dispatch = useDispatch()
     let faved = favorites.filter(fav=>fav.id===product.id).length
     let [fav, setFav] = useState(faved ? true : false)
-    console.log(faved);
     let handleFav = async () => {
         await setFav(current => !current)
         !fav ? dispatch(addFavorites(product)) : dispatch(removeFavorites(product.id))
