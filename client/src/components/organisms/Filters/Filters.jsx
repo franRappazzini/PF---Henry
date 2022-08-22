@@ -1,3 +1,4 @@
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useEffect } from "react";
 import {
   filterProductByBrand,
@@ -106,4 +107,3 @@ function Filters() {
   );
 }
 export default Filters;
-
