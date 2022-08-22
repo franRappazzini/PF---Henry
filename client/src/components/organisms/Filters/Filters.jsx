@@ -11,8 +11,6 @@ import {
   getSizes,
 } from "../../../redux/actions/otherActions";
 import { useDispatch, useSelector } from "react-redux";
-
-import Order from "../Order/Order";
 import style from "./Filters.module.css";
 
 function Filters() {
@@ -40,16 +38,15 @@ function Filters() {
   return (
     <div className={style.filter_container}>
       <div className={style.order_container}>
-        <Order />
       </div>
 
-      <FormControl fullWidth size="small" sx={{ marginBottom: "1rem" }}>
-        <InputLabel id="brand">BRANDS</InputLabel>
+      <FormControl fullWidth size="small" className={style.filter} sx={{ marginBottom: "1rem" }}>
+        <InputLabel id="brand">Brand</InputLabel>
         <Select
           labelId="brand"
-          label="BRANDS"
+          label="BRAND"
           onChange={handleFilterBrand}
-          sx={{ backgroundColor: "white" }}
+          sx={{ backgroundColor: "#fff" }}
         >
           <MenuItem value="All">All</MenuItem>
           {brands.length > 0 &&
@@ -61,13 +58,13 @@ function Filters() {
         </Select>
       </FormControl>
 
-      <FormControl fullWidth size="small" sx={{ marginBottom: "1rem" }}>
-        <InputLabel id="category">CATEGORY</InputLabel>
+      <FormControl fullWidth size="small" className={style.filter} sx={{ marginBottom: "1rem" }}>
+        <InputLabel id="category">Category</InputLabel>
         <Select
           labelId="category"
           label="CATEGORY"
           onChange={handleFilterCategory}
-          sx={{ backgroundColor: "white" }}
+          sx={{ backgroundColor: "#fff" }}
         >
           <MenuItem value="All">All</MenuItem>
           {categories.length > 0 &&
@@ -79,13 +76,13 @@ function Filters() {
         </Select>
       </FormControl>
 
-      <FormControl fullWidth size="small">
-        <InputLabel id="size">SIZE</InputLabel>
+      <FormControl fullWidth size="small" className={style.filter}>
+        <InputLabel id="size">Size</InputLabel>
         <Select
           labelId="size"
           label="SIZE"
           onChange={handleFilterSizes}
-          sx={{ backgroundColor: "white" }}
+          sx={{ backgroundColor: "#fff"}}
         >
           <MenuItem value="All">All</MenuItem>
           {sizes.length > 0 &&

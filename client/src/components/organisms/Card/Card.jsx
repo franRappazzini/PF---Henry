@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import style from './Card.module.css';
 import { Link } from 'react-router-dom'
-import {MdOutlineFavoriteBorder as F } from  'react-icons/md';
+import { MdOutlineFavoriteBorder as F } from  'react-icons/md';
 import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
 import { BiError } from 'react-icons/bi';
 
@@ -10,7 +10,6 @@ export default function Card({product}) {
     let handleFav = () => {
         setFav(current => !current)
     }
-    console.log('Product from Home:', product);
     
   return (
         <div className={style.container}>
@@ -32,7 +31,7 @@ export default function Card({product}) {
                 <F className={style.iconoutline} onClick={handleFav} style={{color: fav ? '#5f27cd' : '#000'}}/>
             </div>            
                 <div className={style.product}>
-                    <img src={product.image} alt= 'not found' className={product.Brand.name==='Reebok'?style.img2:style.img}/>
+                    <img src={product.image} alt= 'not found' className={product.Brand.name==='Reebok'? style.img2 : style.img}/>
                 </div>  
                 <div className={style.info}>
                     <div className={style.title}>{product.name}</div>
