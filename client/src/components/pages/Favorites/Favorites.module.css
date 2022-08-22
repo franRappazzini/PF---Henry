@@ -1,0 +1,16 @@
+.favoritesContainer {
+    display: flex;
+    margin: 4vw 12vw;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+@media (min-width: 601px) and (max-width: 800px) {
+    .favoritesContainer {
+        margin: 3.5vw 8vw;
+    }
+}
+@media (max-width: 700px) {
+    .favoritesContainer {
+        margin: 3vw 7vw;
+    }
+}
