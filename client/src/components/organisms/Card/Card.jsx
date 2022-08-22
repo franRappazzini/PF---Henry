@@ -8,8 +8,8 @@ import { addFavorites, removeFavorites} from '../../../redux/actions/productActi
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Card({product}) {
-    let { favorites } = useSelector((state) => state.product)
     let dispatch = useDispatch()
+    let { favorites } = useSelector((state) => state.product)    
     let checkFaved = () => {
        return favorites.filter(fav=>fav.id===product.id).length
     }

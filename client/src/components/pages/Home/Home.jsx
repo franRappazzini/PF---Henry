@@ -2,13 +2,13 @@ import { Pagination } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { getAllProducts } from '../../../redux/actions/productActions.js';
 import { useDispatch, useSelector } from 'react-redux';
-import MultipleFilters from '../../organisms/MultipleFilters/MultipleFilters.jsx'
+import MultipleFilters from '../../organisms/MultipleFilters/MultipleFilters.jsx';
 import Card from '../../organisms/Card/Card';
 import Filters from '../../organisms/Filters/Filters';
 import Order from '../../organisms/Order/Order';
 import Slider from '../../organisms/Carousel/Carousel.jsx';
 import style from './Home.module.css';
-import SearchBar2 from '../../organisms/SearchBar2/SearchBar2.jsx'
+import SearchBar2 from '../../organisms/SearchBar2/SearchBar2.jsx';
 
 let Home = () => {
   let { filteredProducts } = useSelector((state) => state.product);
@@ -19,11 +19,11 @@ let Home = () => {
   let width = window.innerWidth;
   let [dimensions, setDimensions] = useState({
     width: window.innerWidth
-  });
+  })
   let handleResize = () => {
     setDimensions({
       width: window.innerWidth
-    });
+    })
   }
 
   useEffect(() => {

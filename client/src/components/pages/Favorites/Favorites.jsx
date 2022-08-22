@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { useSelector } from 'react-redux';
 import Card from '../../organisms/Card/Card';
-import style from './Favorites.module.css'
+import style from './Favorites.module.css';
 
 export default function Favorites() {
   let { favorites } = useSelector((state) => state.product)
