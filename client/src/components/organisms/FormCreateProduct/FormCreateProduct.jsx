@@ -13,41 +13,53 @@ const instanceProduct = {
   name: "",
   brand: "",
   price: "",
-  image: "",
 };
 
 function FormCreateProduct() {
   const [product, setProduct] = useState(instanceProduct);
+  const [image, setImage] = useState("");
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const swal = withReactContent(Swal);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    console.log(image);
 
     if (validations()) {
       alert(validations());
       return;
     }
 
-    const newProduct = {
-      ...product,
-      category: selectedCategories,
-      size: selectedSizes,
-    };
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", "y01iz8m3");
 
-    const res = await axios.post("http://localhost:3001/product", newProduct);
+    const imgRes = await axios.post(
+      "https://api.cloudinary.com/v1_1/rappanui/upload",
+      formData
+    );
 
-    // TODO corergir esto que no esta bien el .status
-    console.log(res.response?.status);
-    if (res.response?.status === 400) {
-      swal.fire("Error..", res.message, "error");
-      return;
-    }
-    swal.fire("Success!", "Product added!", "success");
-    setProduct({ name: "", brand: "", price: "", image: "" });
-    setSelectedCategories([]);
-    setSelectedSizes([]);
+    console.log(imgRes);
+
+    // const newProduct = {
+    //   ...product,
+    //   category: selectedCategories,
+    //   size: selectedSizes,
+    // };
+
+    // const res = await axios.post("http://localhost:3001/product", newProduct);
+
+    // // TODO corergir esto que no esta bien el .status
+    // console.log(res.response?.status);
+    // if (res.response?.status === 400) {
+    //   swal.fire("Error..", res.message, "error");
+    //   return;
+    // }
+    // swal.fire("Success!", "Product added!", "success");
+    // setProduct({ name: "", brand: "", price: "", image: "" });
+    // setSelectedCategories([]);
+    // setSelectedSizes([]);
   }
 
   function validations() {
@@ -65,7 +77,12 @@ function FormCreateProduct() {
 
   return (
     <form onSubmit={handleSubmit} className={style.form}>
-      <InputsFormCreate product={product} setProduct={setProduct} />
+      <InputsFormCreate
+        product={product}
+        setProduct={setProduct}
+        image={image}
+        setImage={setImage}
+      />
 
       <section className={style.container}>
         <SelectCategoryCreate
