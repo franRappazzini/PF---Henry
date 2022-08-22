@@ -1,13 +1,13 @@
-import { Pagination } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { getAllProducts } from "../../../redux/actions/productActions.js";
-import { useDispatch, useSelector } from "react-redux";
+import { Pagination } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { getAllProducts } from '../../../redux/actions/productActions.js';
+import { useDispatch, useSelector } from 'react-redux';
 import MultipleFilters from '../../organisms/MultipleFilters/MultipleFilters.jsx'
-import Card from "../../organisms/Card/Card";
-import Filters from "../../organisms/Filters/Filters";
-import Order from "../../organisms/Order/Order";
-import Slider from "../../organisms/Carousel/Carousel.jsx";
-import style from "./Home.module.css";
+import Card from '../../organisms/Card/Card';
+import Filters from '../../organisms/Filters/Filters';
+import Order from '../../organisms/Order/Order';
+import Slider from '../../organisms/Carousel/Carousel.jsx';
+import style from './Home.module.css';
 import SearchBar2 from '../../organisms/SearchBar2/SearchBar2.jsx'
 
 let Home = () => {
@@ -28,7 +28,7 @@ let Home = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
-    window.addEventListener("resize", handleResize, false);
+    window.addEventListener('resize', handleResize, false);
   }, [dispatch]);
 
   return (
@@ -54,13 +54,13 @@ let Home = () => {
                 (page - 1) * prodPerPage,
                 (page - 1) * prodPerPage + prodPerPage
               )
-              .map(product => <Card product={product}/>)}
+              .map(product => <Card key={product.id} product={product}/>)}
         </div>
       </div>
       <section className={style.pagination_container}>
         <Pagination
           count={totalPage}
-          shape="rounded"
+          shape='rounded'
           onChange={(e, value) => setPage(value)}
         />
       </section>
