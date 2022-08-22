@@ -1,13 +1,17 @@
 import { Badge, IconButton, Menu, MenuItem } from "@mui/material";
 import { FavoriteBorder, Person, ShoppingCart } from "@mui/icons-material";
 
+import { Link } from "react-router-dom";
 import React from "react";
 import style from "./BtnsHeader.module.css";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
 
 function BtnsHeader() {
+  const { loginWithPopup, logout, isAuthenticated } = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -15,6 +19,11 @@ function BtnsHeader() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  function handleLogIn() {
+    loginWithPopup();
+    setAnchorEl(null);
+  }
 
   return (
     <section className={style.icons_container}>
@@ -38,8 +47,20 @@ function BtnsHeader() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Perfil</MenuItem>
-        <MenuItem onClick={handleClose}>Cerrar sesion</MenuItem>
+        {isAuthenticated ? (
+          <>
+            <MenuItem>
+              <Link to={"/profile"}>Profile</Link>
+            </MenuItem>
+            <MenuItem
+              onClick={() => logout({ returnTo: window.location.origin })}
+            >
+              Log Out
+            </MenuItem>
+          </>
+        ) : (
+          <MenuItem onClick={handleLogIn}>Log In</MenuItem>
+        )}
       </Menu>
       <IconButton
         aria-label="Favoritos"

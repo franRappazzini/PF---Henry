@@ -6,6 +6,8 @@ import {
   GET_ALL_PRODUCTS,
   GET_PRODUCT,
   GET_PRODUCT_NAME,
+  ADD_FAVORITES,
+  REMOVE_FAVORITES,
 } from "../../utils/reduxVars";
 
 import axios from "axios";
@@ -27,6 +29,26 @@ export function getProduct(id) {
     try {
       const res = await axios.get(`http://localhost:3001/product/${id}`);
       dispatch({ type: GET_PRODUCT, payload: res.data });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+export function addFavorites(product) {
+  console.log('Product from addFavorites:', product);
+  return (dispatch) => {
+    try {
+      dispatch({ type: ADD_FAVORITES, payload: product });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+export function removeFavorites(id) {
+  console.log('id from removeFavorites', id);
+  return (dispatch) => {
+    try {
+      dispatch({ type: REMOVE_FAVORITES, payload: id });
     } catch (err) {
       console.log(err);
     }

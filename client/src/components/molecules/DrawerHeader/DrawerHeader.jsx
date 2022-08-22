@@ -36,29 +36,31 @@ function DrawerHeader() {
             </ListItemButton>
             <ListItemButton>
               <Link to={"/create_product"} onClick={() => setBurger(false)}>
-                <ListItemText primary="Crear producto" />
+                <ListItemText primary="Create Product" />
               </Link>
             </ListItemButton>
             <ListItemButton>
-              <ListItemText primary="Favoritos" />
+              <Link to={'/favorites'}>
+                <ListItemText primary="Favorites" />
+              </Link>
             </ListItemButton>
             <ListItemButton>
-              <ListItemText primary="Carrito" />
+              <ListItemText primary="Shopping Cart" />
             </ListItemButton>
             <ListItemButton onClick={handleClick}>
-              <ListItemText primary="Categorias" />
+              <ListItemText primary="Categories" />
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemText primary="Categoria 1" />
+                  <ListItemText primary="Category 1" />
                 </ListItemButton>
                 <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemText primary="Categoria 2" />
+                  <ListItemText primary="Category 2" />
                 </ListItemButton>
                 <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemText primary="Categoria 3" />
+                  <ListItemText primary="Category 3" />
                 </ListItemButton>
               </List>
             </Collapse>

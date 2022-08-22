@@ -36,28 +36,27 @@ let Home = () => {
       <div className={style.carouselContainer}>
         <Slider />
       </div>
-    <div className={style.utilsHeader}>
-    {width < 601 ? <MultipleFilters/> : null}
-    <SearchBar2/>
-      <div className={style.orderContainer}>
-        <Order/>
-      </div> 
-    </div>    
+      <div className={style.utilsHeader}>
+        {width < 601 ? <MultipleFilters/> : null}
+        <SearchBar2/>
+        <div className={style.orderContainer}>
+          <Order/>
+        </div> 
+      </div>    
       <div className={style.functionalitiesContainer}>
         <div className={style.utilities}>
-        {width > 600 ? <Filters/> : null}
+          {width > 600 ? <Filters/> : null}
         </div>
         <div className={style.cardsContainer}>
-          {filteredProducts.length > 0 &&
+          {filteredProducts.length &&
             filteredProducts
               .slice(
                 (page - 1) * prodPerPage,
                 (page - 1) * prodPerPage + prodPerPage
               )
-              .map((product, i) => <Card key={i} product={product} />)}
+              .map(product => <Card product={product}/>)}
         </div>
       </div>
-
       <section className={style.pagination_container}>
         <Pagination
           count={totalPage}

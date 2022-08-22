@@ -42,6 +42,9 @@ export default function ProductContainer({productDetail}){
     console.log("mi cart state: ",selectedSize)
     const handleCart = (e) => {
       e.preventDefault()
+      if(cart){
+        setSelectedSize(0)
+      }else{
       MySwal.fire({
         title: <p>the product was successfully added to the shopping cart!</p>,
         customClass: {
@@ -53,6 +56,7 @@ export default function ProductContainer({productDetail}){
   `,
         icon: "success",
       });
+    }
       if(cart){
         setCart(false)
       }else{

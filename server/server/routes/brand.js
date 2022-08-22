@@ -2,7 +2,7 @@ const { Brand } = require("../../db/db");
 const { Router } = require("express");
 const brand = Router();
 
-brand.get("/", async (req, res) => {
+brand.get("", async (req, res) => {
   try {
     const response = await Brand.findAll({
       attributes: ["name"],

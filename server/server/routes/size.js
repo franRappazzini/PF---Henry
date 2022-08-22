@@ -2,7 +2,7 @@ const { Size } = require("../../db/db");
 const { Router } = require("express");
 const size = Router();
 
-size.get("/", async (req, res) => {
+size.get("", async (req, res) => {
   try {
     const response = await Size.findAll({
       attributes: ["size"],
