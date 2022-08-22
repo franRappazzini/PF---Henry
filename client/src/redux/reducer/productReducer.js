@@ -30,7 +30,7 @@ export function productReducer(state = initialState, action) {
     case GET_PRODUCT_NAME:
       return {
         ...state,
-        products: action.payload,
+        filteredProducts: action.payload,
       };
     case FILTER_BY_BRAND:
       var product = state.products;

@@ -13,28 +13,54 @@ const {
 
 router.get("/", async (req, res) => {
   const { name } = req.query;
-  const allProducts = await Product.findAll({
-    include: [
-      { model: Brand },
-      { model: Rating },
-      { model: Size },
-      { model: Category },
-    ],
-  });
-  if (name) {
-    try {
-      let findByName = await allProducts.filter((p) =>
-        p.name.toLowerCase().includes(name.toLowerCase())
-      );
-      findByName.length
-        ? res.status(200).send(findByName)
-        : res.status(404).send("Not found");
-    } catch (error) {
-      res.status(400).send("Problem");
+
+  try {
+    let response = [];
+    const options = {
+      include: [
+        { model: Brand },
+        { model: Rating },
+        { model: Size },
+        { model: Category },
+      ],
+    };
+
+    if (name) {
+      response = await Product.findAll({
+        where: { name: { [Op.iLike]: `%${name}%` } },
+        ...options,
+      });
+    } else {
+      response = await Product.findAll(options);
     }
-  } else {
-    res.status(200).send(allProducts);
+
+    res.json(response);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
   }
+
+  // const allProducts = await Product.findAll({
+  //   include: [
+  //     { model: Brand },
+  //     { model: Rating },
+  //     { model: Size },
+  //     { model: Category },
+  //   ],
+  // });
+  // if (name) {
+  //   try {
+  //     let findByName = await allProducts.filter((p) =>
+  //       p.name.toLowerCase().includes(name.toLowerCase())
+  //     );
+  //     findByName.length
+  //       ? res.status(200).send(findByName)
+  //       : res.status(404).send("Not found");
+  //   } catch (error) {
+  //     res.status(400).send("Problem");
+  //   }
+  // } else {
+  //   res.status(200).send(allProducts);
+  // }
 });
 
 router.get("/:id", async (req, res) => {
