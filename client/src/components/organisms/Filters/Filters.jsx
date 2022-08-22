@@ -1,45 +1,99 @@
-import React, { useState } from 'react';
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import React, { useEffect } from "react";
+import {
+  filterProductByBrand,
+  filterProductByCategory,
+  filterProductBySize,
+} from "../../../redux/actions/productActions";
+import {
+  getBrands,
+  getCategories,
+  getSizes,
+} from "../../../redux/actions/otherActions";
+import { useDispatch, useSelector } from "react-redux";
+import style from "./Filters.module.css";
 
-import {useDispatch} from 'react-redux';
+function Filters() {
+  const { sizes, brands, categories } = useSelector((state) => state.other);
+  const dispatch = useDispatch();
 
-import {filterProductBySize,filterProductByCategory,filterProductByBrand } from '../../../redux/actions/productActions';
+  useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getBrands());
+    dispatch(getSizes());
+  }, [dispatch]);
 
-function Filters(){
-    const dispatch = useDispatch()
+  function handleFilterBrand(e) {
+    dispatch(filterProductByBrand(e.target.value));
+  }
 
-    function handleFilterBrand(e){
-        e.preventDefault();
-        dispatch(filterProductByBrand(e.target.value))
-      } 
-      function handleFilterCategory(e){
-        e.preventDefault();
-        dispatch(filterProductByCategory(e.target.value))
-      } 
+  function handleFilterCategory(e) {
+    dispatch(filterProductByCategory(e.target.value));
+  }
 
-    return(
-    <div>
+  function handleFilterSizes(e) {
+    dispatch(filterProductBySize(e.target.value));
+  }
 
-            <select  onChange={e=>handleFilterBrand(e)} >
-                 <option disabled selected hidden>BRANDS</option>
-                    <option value='All' >All</option>
-                    <option value='Nike' >Nike</option>
-                    <option value='Adidas' >Adidas</option>
-                    <option value='Puma' >Puma</option>
-                    <option value='New Balance' >New Balance</option>
-                    <option value='Reebok' >Reebok</option>
-            </select>
+  return (
+    <div className={style.filter_container}>
+      <div className={style.order_container}>
+      </div>
 
-            <select  onChange={e=>handleFilterCategory(e)} >
-                 <option disabled selected hidden>CATEGORY</option>
-                    <option value='All' >All</option>
-                    <option value='Hombre' >Hombre</option>
-                    <option value='Casual' >Casual</option>
-                    <option value='Unisex' >Unisex</option>
-                    <option value='Training and Fitness' >Training and Fitness</option>
-                    <option value='Running' >Running</option>
-            </select>
+      <FormControl fullWidth size="small" className={style.filter} sx={{ marginBottom: "1rem" }}>
+        <InputLabel id="brand">Brand</InputLabel>
+        <Select
+          labelId="brand"
+          label="BRAND"
+          onChange={handleFilterBrand}
+          sx={{ backgroundColor: "#fff" }}
+        >
+          <MenuItem value="All">All</MenuItem>
+          {brands.length > 0 &&
+            brands.map((brand, i) => (
+              <MenuItem key={i} value={brand.name}>
+                {brand.name}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
 
+      <FormControl fullWidth size="small" className={style.filter} sx={{ marginBottom: "1rem" }}>
+        <InputLabel id="category">Category</InputLabel>
+        <Select
+          labelId="category"
+          label="CATEGORY"
+          onChange={handleFilterCategory}
+          sx={{ backgroundColor: "#fff" }}
+        >
+          <MenuItem value="All">All</MenuItem>
+          {categories.length > 0 &&
+            categories.map((cat, i) => (
+              <MenuItem key={i} value={cat.name}>
+                {cat.name}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth size="small" className={style.filter}>
+        <InputLabel id="size">Size</InputLabel>
+        <Select
+          labelId="size"
+          label="SIZE"
+          onChange={handleFilterSizes}
+          sx={{ backgroundColor: "#fff"}}
+        >
+          <MenuItem value="All">All</MenuItem>
+          {sizes.length > 0 &&
+            sizes.map((size, i) => (
+              <MenuItem key={i} value={size.size}>
+                {size.size}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
     </div>
-    )
+  );
 }
 export default Filters;
