@@ -9,7 +9,10 @@ function Header() {
     <header className={style.header}>
       <DrawerHeader />
 
-      <h2 className={style.logo}>LOGO</h2>
+      <Link to="/" >
+    <img src="https://res.cloudinary.com/df7ja4fel/image/upload/v1661178406/kemba_vizt7f.png" alt="logo" width= "110px"/>
+   </Link>
+
 
       <NavHeader />
 
