@@ -33,33 +33,35 @@ function FormCreateProduct() {
 
     const formData = new FormData();
     formData.append("file", image);
-    formData.append("upload_preset", "y01iz8m3");
-
+    formData.append("upload_preset", "gsx0rfx1");
     const imgRes = await axios.post(
-      "https://api.cloudinary.com/v1_1/rappanui/upload",
+      "https://api.cloudinary.com/v1_1/dnwamkq58/upload",
       formData
     );
+    if (imgRes.response?.data.error) {
+      swal.fire("Error..", imgRes.message, "error");
+      return;
+    }
 
-    console.log(imgRes);
+    const newProduct = {
+      ...product,
+      image: imgRes.data.url,
+      category: selectedCategories,
+      size: selectedSizes,
+    };
 
-    // const newProduct = {
-    //   ...product,
-    //   category: selectedCategories,
-    //   size: selectedSizes,
-    // };
+    const res = await axios.post("http://localhost:3001/product", newProduct);
 
-    // const res = await axios.post("http://localhost:3001/product", newProduct);
-
-    // // TODO corergir esto que no esta bien el .status
-    // console.log(res.response?.status);
-    // if (res.response?.status === 400) {
-    //   swal.fire("Error..", res.message, "error");
-    //   return;
-    // }
-    // swal.fire("Success!", "Product added!", "success");
-    // setProduct({ name: "", brand: "", price: "", image: "" });
-    // setSelectedCategories([]);
-    // setSelectedSizes([]);
+    // TODO corergir esto que no esta bien el .status
+    console.log(res.response?.status);
+    if (res.response?.status === 400) {
+      swal.fire("Error..", res.message, "error");
+      return;
+    }
+    swal.fire("Success!", "Product added!", "success");
+    setProduct({ name: "", brand: "", price: "", image: "" });
+    setSelectedCategories([]);
+    setSelectedSizes([]);
   }
 
   function validations() {
