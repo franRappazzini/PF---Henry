@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 
+<<<<<<< HEAD
 import { filterProductByPrice } from '../../../redux/actions/productActions';
 
 // import style from './Card.module.css';
@@ -33,5 +34,25 @@ return(
 </div>
 
 );
+=======
+  return (
+    <FormControl
+      size="small"
+      sx={{ marginTop: "0.5rem", minWidth: "6rem" }}
+    >
+      <InputLabel id="order">Order</InputLabel>
+      <Select
+        labelId="order"
+        id="demo-simple-select"
+        label="ORDER"
+        onChange={handleFilterPrice}
+        sx={{ backgroundColor: "white" }}
+      >
+        <MenuItem value={"ascending"}>Ascending</MenuItem>
+        <MenuItem value={"descending"}>Descending</MenuItem>
+      </Select>
+    </FormControl>
+  );
+>>>>>>> origin/development
 }
 export default Order;

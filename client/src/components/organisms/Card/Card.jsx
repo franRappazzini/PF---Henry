@@ -4,11 +4,17 @@ import { Link } from 'react-router-dom'
 import { MdOutlineFavoriteBorder as F } from  'react-icons/md';
 import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
 import { BiError } from 'react-icons/bi';
+import { addFavorites, removeFavorites} from "../../../redux/actions/productActions.js";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Card({product}) {
-    let [fav, setFav] = useState(false)
-    let handleFav = () => {
-        setFav(current => !current)
+    let { favorites } = useSelector((state) => state.product);
+    let dispatch = useDispatch()
+    let faved = favorites.filter(fav=>fav.id===product.id).length
+    let [fav, setFav] = useState(faved ? true : false)
+    let handleFav = async () => {
+        await setFav(current => !current)
+        !fav ? dispatch(addFavorites(product)) : dispatch(removeFavorites(product.id))
     }
     
   return (

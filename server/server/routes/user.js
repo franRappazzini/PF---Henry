@@ -2,7 +2,7 @@ const { User } = require("../../db/db");
 const Router = require("express");
 const user = Router();
 
-user.post("/", async (req, res) => {
+user.post("", async (req, res) => {
   const { name, lastName, email, password, isAdmin } = req.body;
   const newUser = { name, lastName, email, password, isAdmin };
 
