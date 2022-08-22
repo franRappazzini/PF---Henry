@@ -16,7 +16,9 @@ server.use("/brand", brand);
 server.use("/size", size);
 server.use("/user", user);
 
-server.listen(3001, () => {
+const port = process.env.PORT || 3001;
+
+server.listen(port, () => {
   sequelize.sync({ force: false });
-  console.log("Server listening on port: 3001");
+  console.log("Server listening on port:", port);
 });
