@@ -4,15 +4,16 @@ import NavHeader from "../../molecules/NavHeader/NavHeader";
 import React from "react";
 import style from "./Header.module.css";
 import logo from "./logo_large.png"
-
+import { Link } from 'react-router-dom'
 function Header() {
   return (
     <header className={style.header}>
       <DrawerHeader />
 
-   <div className={style.logo}>
+
+   <Link to="/" >
     <img src="https://res.cloudinary.com/df7ja4fel/image/upload/v1661178406/kemba_vizt7f.png" alt="logo" width= "110px"/>
-   </div>
+   </Link>
 
       <NavHeader />
 
