@@ -7,13 +7,10 @@ import SelectCategoryCreate from "../../molecules/SelectCategoryCreate/SelectCat
 import Swal from "sweetalert2";
 import axios from "axios";
 import style from "./FormCreateProduct.module.css";
+import { useNavigate } from "react-router-dom";
 import withReactContent from "sweetalert2-react-content";
 
-const instanceProduct = {
-  name: "",
-  brand: "",
-  price: "",
-};
+const instanceProduct = { name: "", brand: "", price: "" };
 
 function FormCreateProduct() {
   const [product, setProduct] = useState(instanceProduct);
@@ -21,10 +18,10 @@ function FormCreateProduct() {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const swal = withReactContent(Swal);
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(image);
 
     if (validations()) {
       swal.fire("Error..", validations(), "error");
@@ -52,29 +49,44 @@ function FormCreateProduct() {
 
     const res = await axios.post("http://localhost:3001/product", newProduct);
 
+    console.log(res);
+
     // TODO corergir esto que no esta bien el .status
     console.log(res.response?.status);
     if (res.response?.status === 400) {
       swal.fire("Error..", res.message, "error");
       return;
     }
-    swal.fire("Success!", "Product added!", "success");
+
+    swal
+      .fire({
+        icon: "success",
+        title: "Producto creado",
+        html: "Deseas ver el producto creado? O quieres seguir creando mas?",
+        showDenyButton: true,
+        confirmButtonText: "Ver producto",
+        denyButtonText: `Seguir creando`,
+        denyButtonColor: "grey",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          navigate(`/product/${res.data.id}`);
+        }
+      });
     setProduct({ name: "", brand: "", price: "" });
     setSelectedCategories([]);
     setSelectedSizes([]);
   }
 
   function validations() {
-    // TODO ver bien las validaciones
-    const urlExpression = "/(http(s?):)([/|.|w|s|-])*.(?:jpg|gif|png)/g";
-    // if (!product.name.match(/^[a-zA-Z\s]*$/)) return "error name";
+    const imageRegex = /^.+\.(jpe?g|gif|png)$/i;
     if (!product.name.length) return "error name";
-    if (product.brand === "") return "error brand";
-    if (product.price <= 0) return "error price";
-    if (product.price <= 0) return "error price";
-    // if (!product.image.match(urlExpression)) return "error image";
-    if (!selectedCategories.length) return "error category";
-    if (!selectedSizes.length) return "error sizes";
+    if (product.brand === "") return "You must choose a brand";
+    if (product.price <= 0) return "Price must be greater than $0";
+    // if (!image.match(imageRegex)) return "Wrong image format";
+    if (!selectedCategories.length)
+      return "You must choose at least one category";
+    if (!selectedSizes.length) return "You must choose at least one size";
   }
 
   return (

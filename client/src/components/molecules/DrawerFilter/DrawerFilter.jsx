@@ -42,11 +42,9 @@ function DrawerFilter({ filters, setFilters }) {
 
   return (
     <section className={style.drawer_container}>
-      <Button onClick={handleToggle}>
-        <IconButton>
-          <FilterList />
-        </IconButton>
-      </Button>
+      <IconButton onClick={handleToggle}>
+        <FilterList />
+      </IconButton>
       <SwipeableDrawer
         anchor={"right"}
         open={open}

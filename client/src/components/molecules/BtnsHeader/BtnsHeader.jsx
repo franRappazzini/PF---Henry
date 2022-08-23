@@ -1,10 +1,11 @@
 import { Badge, IconButton, Menu, MenuItem } from "@mui/material";
 import { FavoriteBorder, Person, ShoppingCart } from "@mui/icons-material";
-import { useSelector } from 'react-redux';
+
 import { Link } from "react-router-dom";
 import React from "react";
 import style from "./BtnsHeader.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 
 function BtnsHeader() {
@@ -39,41 +40,37 @@ function BtnsHeader() {
       >
         <Person />
       </IconButton>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
+
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {isAuthenticated ? (
-          <>
-            <MenuItem>
+          [
+            <MenuItem key={0}>
               <Link to={"/profile"}>Profile</Link>
-            </MenuItem>
+            </MenuItem>,
             <MenuItem
+              key={1}
               onClick={() => logout({ returnTo: window.location.origin })}
             >
               Log Out
-            </MenuItem>
-          </>
+            </MenuItem>,
+          ].map((item) => item)
         ) : (
           <MenuItem onClick={handleLogIn}>Log In</MenuItem>
         )}
       </Menu>
+
       <IconButton
         aria-label="Favoritos"
         color="secondary"
         className={style.btn_icon}
       >
-        <Link to={'/favorites'}>
-          <Badge badgeContent={favorites.length} color="error">          
-            <FavoriteBorder />         
+        <Link to={"/favorites"}>
+          <Badge badgeContent={favorites.length} color="error">
+            <FavoriteBorder />
           </Badge>
         </Link>
       </IconButton>
+
       <IconButton
         aria-label="Carrito"
         color="secondary"

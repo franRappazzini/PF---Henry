@@ -1,10 +1,6 @@
 import {
   ADD_FAVORITES,
   FILTERS,
-  FILTER_BY_BRAND,
-  FILTER_BY_CATEGORY,
-  FILTER_BY_PRICE,
-  FILTER_BY_SIZE,
   GET_ALL_PRODUCTS,
   GET_PRODUCT,
   GET_PRODUCT_NAME,
@@ -90,32 +86,5 @@ export function filter(name, brand, category, size, order) {
     } catch (err) {
       console.log(err.message);
     }
-  };
-}
-
-// TODO sacar esto
-// // filtrados (por marca, categoría y talles)
-export function filterProductByBrand(payload) {
-  return {
-    type: FILTER_BY_BRAND,
-    payload,
-  };
-}
-export function filterProductByCategory(payload) {
-  return {
-    type: FILTER_BY_CATEGORY,
-    payload,
-  };
-}
-export function filterProductBySize(payload) {
-  return {
-    type: FILTER_BY_SIZE,
-    payload,
-  };
-}
-export function filterProductByPrice(payload) {
-  return {
-    type: FILTER_BY_PRICE,
-    payload,
   };
 }
