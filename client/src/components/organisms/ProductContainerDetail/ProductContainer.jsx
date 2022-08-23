@@ -2,6 +2,7 @@
 import React from "react"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { useDispatch } from "react-redux"
 import style from "./ProductContainer.module.css"
 import { SiNike } from 'react-icons/si';
 import { SiAdidas } from 'react-icons/si'
@@ -14,6 +15,7 @@ import { FaCartPlus } from "react-icons/fa"
 import { FaShoppingCart } from 'react-icons/fa';
 import { Rating } from "@mui/material"
 import { useState } from "react";
+import { addFavorites, removeFavorites } from "../../../redux/actions/productActions"
 
 
 // import {useEffect} from "react"
@@ -22,7 +24,8 @@ import { useState } from "react";
 
 
 export default function ProductContainer({productDetail}){
- console.log(productDetail)
+  const dispatch = useDispatch()
+
     const [cart, setCart] = useState(false)
     const [amount, setAmount] = useState(0)
     const [selectedSize, setSelectedSize] = useState(0)
@@ -53,12 +56,13 @@ export default function ProductContainer({productDetail}){
 
     const handleFav = (e) =>{
       if(fav){
+        dispatch(removeFavorites(productDetail.id))
         setFav(false)
       }else{
+        dispatch(addFavorites(productDetail))
         setFav(true)
       }
     }
-
     const handleCart = (e) => {
       e.preventDefault()
       if(cart){
@@ -82,7 +86,6 @@ export default function ProductContainer({productDetail}){
       }else{
         setCart(true)
       }
-      
     }
   
     const handleError = (e) =>{
@@ -132,5 +135,5 @@ export default function ProductContainer({productDetail}){
           </div>
         </div>
     )
-  };
+  }
   }
