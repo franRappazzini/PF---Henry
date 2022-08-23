@@ -11,6 +11,7 @@
   background-color: #5f27cd;
   justify-content: center;
 }
+
 .utilsHeader {
   padding: 1rem 2rem;
   display: grid;
@@ -59,6 +60,10 @@
   }
   .functionalitiesContainer {
     display: flex;
+  }
+
+  .order_desktop {
+    display: none;
   }
 
   .none {

@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  filter,
-  getAllProducts,
-} from "../../../redux/actions/productActions.js";
 import { useDispatch, useSelector } from "react-redux";
 
 import Card from "../../organisms/Card/Card";
 import DrawerFilter from "../../molecules/DrawerFilter/DrawerFilter.jsx";
 import Filters from "../../organisms/Filters/Filters";
-import MultipleFilters from "../../organisms/MultipleFilters/MultipleFilters.jsx";
 import Order from "../../organisms/Order/Order";
 import { Pagination } from "@mui/material";
 import SearchBar2 from "../../organisms/SearchBar2/SearchBar2.jsx";
 import Slider from "../../organisms/Carousel/Carousel.jsx";
+import { filter } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
 
 const instanceFilter = { name: "", brand: "", category: "", size: "" };
@@ -24,7 +20,6 @@ let Home = () => {
   const [page, setPage] = useState(1);
   const prodPerPage = 12;
   const totalPage = Math.ceil(filteredProducts.length / prodPerPage);
-  const innerWidth = window.innerWidth;
 
   useEffect(() => {
     dispatch(
@@ -43,7 +38,9 @@ let Home = () => {
 
         <SearchBar2 filters={filters} setFilters={setFilters} />
 
-        {innerWidth > 600 && <Order />}
+        <div className={style.order_desktop}>
+          <Order />
+        </div>
 
         <DrawerFilter filters={filters} setFilters={setFilters} />
       </section>
