@@ -4,19 +4,23 @@ import { Link } from 'react-router-dom'
 import { MdOutlineFavoriteBorder as F } from  'react-icons/md';
 import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
 import { BiError } from 'react-icons/bi';
-import { addFavorites, removeFavorites} from "../../../redux/actions/productActions.js";
-import { useDispatch, useSelector } from "react-redux";
+import { addFavorites, removeFavorites} from '../../../redux/actions/productActions.js';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Card({product}) {
-    let { favorites } = useSelector((state) => state.product);
     let dispatch = useDispatch()
-    let faved = favorites.filter(fav=>fav.id===product.id).length
-    let [fav, setFav] = useState(faved ? true : false)
-    let handleFav = async () => {
-        await setFav(current => !current)
-        !fav ? dispatch(addFavorites(product)) : dispatch(removeFavorites(product.id))
+    let { favorites } = useSelector((state) => state.product)    
+    let checkFaved = () => {
+       return favorites.filter(fav=>fav.id===product.id).length
     }
-    
+
+    let [fav, setFav] = useState(checkFaved()?true:false)
+
+    let handleFav = () => {        
+        fav ? dispatch(removeFavorites(product.id)) : dispatch(addFavorites(product))
+        setFav(current => !current)      
+    }
+        
   return (
         <div className={style.container}>
             <div className={style.card}>

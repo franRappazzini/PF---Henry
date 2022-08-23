@@ -9,16 +9,6 @@ function NavHeader() {
   return (
     <nav className={style.nav}>
       <ul className={style.ul_nav}>
-        <li className={style.li_nav}>
-          <NavLink
-            to={"/"}
-            className={({ isActive }) =>
-              isActive ? style.a_nav_active : style.a_nav
-            }
-          >
-            Home
-          </NavLink>
-        </li>
         {isAuthenticated && (
           <li className={style.li_nav}>
             <NavLink
@@ -31,17 +21,6 @@ function NavHeader() {
             </NavLink>
           </li>
         )} 
-        <li className={style.li_nav}>
-          <NavLink
-            to={"/favorites"}
-            className={({ isActive }) =>
-              isActive ? style.a_nav_active : style.a_nav
-            }
-          >
-            Favorites
-          </NavLink>
-        </li>
-
       </ul>
     </nav>
   );
