@@ -76,7 +76,6 @@ function InputsFormCreate({ product, setProduct, image, setImage }) {
         type="file"
         color="secondary"
         onChange={handleChangeImage}
-        // value={product.image}
         required
       />
     </section>
