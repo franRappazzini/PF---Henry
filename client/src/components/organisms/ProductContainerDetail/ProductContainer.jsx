@@ -135,5 +135,5 @@ export default function ProductContainer({productDetail}){
           </div>
         </div>
     )
-  };
+  }
   }
