@@ -1,11 +1,6 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useEffect } from "react";
 import {
-  filterProductByBrand,
-  filterProductByCategory,
-  filterProductBySize,
-} from "../../../redux/actions/productActions";
-import {
   getBrands,
   getCategories,
   getSizes,
@@ -14,7 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import style from "./Filters.module.css";
 
-function Filters() {
+// import {
+//   filterProductByBrand,
+//   filterProductByCategory,
+//   filterProductBySize,
+// } from "../../../redux/actions/productActions";
+
+function Filters({ filters, setFilters }) {
+  const { brand, category, size } = filters;
   const { sizes, brands, categories } = useSelector((state) => state.other);
   const dispatch = useDispatch();
 
@@ -24,17 +26,21 @@ function Filters() {
     dispatch(getSizes());
   }, [dispatch]);
 
-  function handleFilterBrand(e) {
-    dispatch(filterProductByBrand(e.target.value));
+  function handleFilter(e) {
+    setFilters({ ...filters, [e.target.name]: e.target.value });
   }
 
-  function handleFilterCategory(e) {
-    dispatch(filterProductByCategory(e.target.value));
-  }
+  // function handleFilterBrand(e) {
+  //   dispatch(filterProductByBrand(e.target.value));
+  // }
 
-  function handleFilterSizes(e) {
-    dispatch(filterProductBySize(e.target.value));
-  }
+  // function handleFilterCategory(e) {
+  //   dispatch(filterProductByCategory(e.target.value));
+  // }
+
+  // function handleFilterSizes(e) {
+  //   dispatch(filterProductBySize(e.target.value));
+  // }
 
   return (
     <div className={style.filter_container}>
@@ -50,10 +56,11 @@ function Filters() {
         <Select
           labelId="brand"
           label="BRAND"
-          onChange={handleFilterBrand}
-          sx={{ backgroundColor: "#fff" }}
+          name="brand"
+          onChange={handleFilter}
+          value={brand}
         >
-          <MenuItem value="All">All</MenuItem>
+          <MenuItem value="">All</MenuItem>
           {brands.length > 0 &&
             brands.map((brand, i) => (
               <MenuItem key={i} value={brand.name}>
@@ -73,10 +80,11 @@ function Filters() {
         <Select
           labelId="category"
           label="CATEGORY"
-          onChange={handleFilterCategory}
-          sx={{ backgroundColor: "#fff" }}
+          name="category"
+          onChange={handleFilter}
+          value={category}
         >
-          <MenuItem value="All">All</MenuItem>
+          <MenuItem value="">All</MenuItem>
           {categories.length > 0 &&
             categories.map((cat, i) => (
               <MenuItem key={i} value={cat.name}>
@@ -91,10 +99,11 @@ function Filters() {
         <Select
           labelId="size"
           label="SIZE"
-          onChange={handleFilterSizes}
-          sx={{ backgroundColor: "#fff" }}
+          name="size"
+          onChange={handleFilter}
+          value={size}
         >
-          <MenuItem value="All">All</MenuItem>
+          <MenuItem value="">All</MenuItem>
           {sizes.length > 0 &&
             sizes.map((size, i) => (
               <MenuItem key={i} value={size.size}>

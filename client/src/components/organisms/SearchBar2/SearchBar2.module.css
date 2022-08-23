@@ -1,13 +1,10 @@
 .search_container {
-    align-self: center;
-    margin-bottom: 2vw;
-    width: auto;
-    display: flex;
-    margin-left: 35vw;
-    margin-top: 0.4vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 @media (max-width: 600px) {
-    .search_container {
-        margin-left: 6vw;
-    }
+  .search_container {
+    justify-content: center;
+  }
 }
