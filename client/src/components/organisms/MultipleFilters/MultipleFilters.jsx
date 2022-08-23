@@ -1,74 +1,88 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import ListSubheader from '@mui/material/ListSubheader';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import {
-    filterProductByBrand,
-    filterProductByCategory,
-    filterProductBySize,
-  } from "../../../redux/actions/productActions";
-  import {
-    getBrands,
-    getCategories,
-    getSizes,
-  } from "../../../redux/actions/otherActions";
+  filterProductByBrand,
+  filterProductByCategory,
+  filterProductBySize,
+} from "../../../redux/actions/productActions";
+import {
+  getBrands,
+  getCategories,
+  getSizes,
+} from "../../../redux/actions/otherActions";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function MultipleFilters({pagination}) {
-    let { brands, categories, sizes} = useSelector((state) => state.other);
-    let dispatch = useDispatch();
-  
-    useEffect(() => {
-      dispatch(getCategories());
-      dispatch(getBrands());
-      dispatch(getSizes());
-    }, [dispatch]);
-  
-    function handleFilters(e){
-        sizes.filter(size=>size.size===e.target.value).length
-        ? dispatch(filterProductBySize(e.target.value))
-        : brands.filter(brand=>brand.name===e.target.value).length
-        ? dispatch(filterProductByBrand(e.target.value))
-        : dispatch(filterProductByCategory(e.target.value))
-    }
-  
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import ListSubheader from "@mui/material/ListSubheader";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
+export default function MultipleFilters({ filters, setFilters }) {
+  let { brands, categories, sizes } = useSelector((state) => state.other);
+  let dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getBrands());
+    dispatch(getSizes());
+  }, [dispatch]);
+
+  function handleFilters(key, value) {
+    setFilters({ ...filters, [key]: value });
+  }
+
+  // function handleFilters(e) {
+  //   sizes.filter((size) => size.size === e.target.value).length
+  //     ? dispatch(filterProductBySize(e.target.value))
+  //     : brands.filter((brand) => brand.name === e.target.value).length
+  //     ? dispatch(filterProductByBrand(e.target.value))
+  //     : dispatch(filterProductByCategory(e.target.value));
+  // }
+
   return (
     <div>
-        <FormControl sx={{ m: 1.4, minWidth: 120}} size="small">
+      {/* <GroupSelected /> */}
+
+      <FormControl sx={{ m: 1.4, minWidth: 120 }} size="small">
         <InputLabel htmlFor="grouped-select">Filters</InputLabel>
-        <Select label="Filters" onChange={handleFilters}>
-          
+        <Select label="Filters">
           <ListSubheader>BRAND</ListSubheader>
-          <MenuItem value='All'>All</MenuItem>
-          { brands.length &&
+          <MenuItem onClick={() => handleFilters("brand", "")}>All</MenuItem>
+          {brands.length > 0 &&
             brands.map((brand, i) => (
-              <MenuItem key={i} value={brand.name}>
+              <MenuItem
+                key={i}
+                onClick={() => handleFilters("brand", brand.name)}
+              >
                 {brand.name}
               </MenuItem>
             ))}
 
           <ListSubheader>CATEGORY</ListSubheader>
-          <MenuItem value='All'>All</MenuItem>
-          { categories.length &&
-            categories.map((categorie, i) => (
-              <MenuItem key={i} value={categorie.name}>
-                {categorie.name}
+          <MenuItem onClick={() => handleFilters("category", "")}>All</MenuItem>
+          {categories.length > 0 &&
+            categories.map((category, i) => (
+              <MenuItem
+                key={i}
+                onClick={() => handleFilters("category", category.name)}
+              >
+                {category.name}
               </MenuItem>
             ))}
 
           <ListSubheader>SIZE</ListSubheader>
-          <MenuItem value='All'>All</MenuItem>
-          { sizes.length &&
+          <MenuItem onClick={() => handleFilters("size", "")}>All</MenuItem>
+          {sizes.length > 0 &&
             sizes.map((size, i) => (
-              <MenuItem key={i} value={size.size}>
+              <MenuItem
+                key={i}
+                onClick={() => handleFilters("size", size.size)}
+              >
                 {size.size}
               </MenuItem>
             ))}
-            
         </Select>
       </FormControl>
     </div>
-  )
+  );
 }

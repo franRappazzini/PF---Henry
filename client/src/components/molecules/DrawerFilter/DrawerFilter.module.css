@@ -1,0 +1,19 @@
+.drawer_container {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .drawer_container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .order_container {
+    display: flex;
+  }
+
+  .drawer {
+    padding: 2rem 1rem;
+    width: 65vw;
+  }
+}
