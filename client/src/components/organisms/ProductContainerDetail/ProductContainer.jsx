@@ -9,9 +9,12 @@ import { SiPuma } from 'react-icons/si'
 import { SiReebok } from 'react-icons/si'
 import { SiNewbalance } from 'react-icons/si'
 import { BiError } from 'react-icons/bi'
-import { RiShoppingCart2Fill } from 'react-icons/ri';
+import { FaHeart } from "react-icons/fa"
+import { FaCartPlus } from "react-icons/fa"
+import { FaShoppingCart } from 'react-icons/fa';
 import { Rating } from "@mui/material"
 import { useState } from "react";
+
 
 // import {useEffect} from "react"
 // import {useParams/* , useState */} from "react-router-dom"
@@ -19,10 +22,11 @@ import { useState } from "react";
 
 
 export default function ProductContainer({productDetail}){
-
+ console.log(productDetail)
     const [cart, setCart] = useState(false)
     const [amount, setAmount] = useState(0)
     const [selectedSize, setSelectedSize] = useState(0)
+    const [fav, setFav] = useState(false)
     const sizes = productDetail.Sizes.map(e=>e.size)
     // PRUEBA DE RAITING
     let rating = [{id:1, text:"good", star:3.5, UserId:6, ProductId:1},{id:1, text:"good", star:3, UserId:6, ProductId:1},{id:1, text:"good", star:1, UserId:6, ProductId:1}]
@@ -42,6 +46,14 @@ export default function ProductContainer({productDetail}){
     let ratingAverage = arrAverage.reduce((a,b)=> a + b)/rating.length
     console.log("mi cart state: ",cart)
     console.log("mi cart state: ",selectedSize)
+
+    const handleFav = (e) =>{
+      if(fav){
+        setFav(false)
+      }else{
+        setFav(true)
+      }
+    }
 
     const handleCart = (e) => {
       e.preventDefault()
@@ -91,15 +103,18 @@ export default function ProductContainer({productDetail}){
           <div className={style.left_side}>  
             <div className={style.top_left_container}>
             {productDetail.Brand.name==='Nike' ? <SiNike className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Adidas' ? <SiAdidas className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Puma' ? <SiPuma className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Reebok' ? <SiReebok className={style.brand_icon} size={40}/> : productDetail.Brand.name==='New Balance' ? <SiNewbalance className={style.brand_icon} size={40}/> : <BiError className={style.brand_icon} size={40}/>}
-          <button onClick={selectedSize===0?(e)=>handleError(e):(e)=>handleCart(e)} className={!cart?style.shopping_button:style.shopping_button2}>+<RiShoppingCart2Fill className={!cart?style.shopping_icon:style.shopping_icon2}/> </button>
+              <button onClick={(e)=>handleFav(e)} className={style.heart_button}><FaHeart className={!fav?style.heart_icon1:style.heart_icon2} /></button>
             </div>
             <img className={style.product_img} src={productDetail.image} alt="" />
           </div>
 
           <div className={style.right_side}>
+         
           <h1 className={style.title}>{productDetail.name}</h1>
           <div className={style.br1}></div>
           <span><Rating name="read-only" value={ratingAverage} readOnly /></span>
+          <div className={style.br2}></div>
+          <div className={style.category_container}>{productDetail.Categories.map(c=>c.name).join(", ")}</div>
           <div className={style.br2}></div>
           <h2 className={style.available_h2}>AVAILABLE SIZES</h2>
           <div className={style.size_buttons_container}>
@@ -109,7 +124,7 @@ export default function ProductContainer({productDetail}){
             </div>
             </div>
             <div className={style.br3}></div>
-            <div className={style.price_container}><span className={style.price}>{productDetail.price}$</span></div>
+            <div className={style.price_container}><span className={style.price}>{productDetail.price}$</span>  <button onClick={selectedSize===0?(e)=>handleError(e):(e)=>handleCart(e)} className={!cart?style.shopping_button:style.shopping_button2}>{!cart?<FaCartPlus className={style.shopping_icon1}/>:<FaShoppingCart className={style.shopping_icon2}/> }</button></div>
           </div>
         </div>
     )
