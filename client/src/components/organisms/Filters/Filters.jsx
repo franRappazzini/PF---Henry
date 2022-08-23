@@ -9,12 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import style from "./Filters.module.css";
 
-// import {
-//   filterProductByBrand,
-//   filterProductByCategory,
-//   filterProductBySize,
-// } from "../../../redux/actions/productActions";
-
 function Filters({ filters, setFilters }) {
   const { brand, category, size } = filters;
   const { sizes, brands, categories } = useSelector((state) => state.other);
@@ -29,18 +23,6 @@ function Filters({ filters, setFilters }) {
   function handleFilter(e) {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   }
-
-  // function handleFilterBrand(e) {
-  //   dispatch(filterProductByBrand(e.target.value));
-  // }
-
-  // function handleFilterCategory(e) {
-  //   dispatch(filterProductByCategory(e.target.value));
-  // }
-
-  // function handleFilterSizes(e) {
-  //   dispatch(filterProductBySize(e.target.value));
-  // }
 
   return (
     <div className={style.filter_container}>
