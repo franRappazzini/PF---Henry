@@ -25,7 +25,7 @@ import { addFavorites, removeFavorites } from "../../../redux/actions/productAct
 
 export default function ProductContainer({productDetail}){
   const dispatch = useDispatch()
-
+    console.log()
     const [cart, setCart] = useState(false)
     const [amount, setAmount] = useState(0)
     const [selectedSize, setSelectedSize] = useState(0)
@@ -34,7 +34,9 @@ export default function ProductContainer({productDetail}){
       return favorites.filter(fav=>fav.id===productDetail.id).length
    }
    const [fav, setFav] = useState(checkFaved()?true:false)
-console.log(favorites,"mis favs")
+
+console.log("mis favs",favorites)
+console.log("estado fav: ", fav)
     const sizes = productDetail.Sizes.map(e=>e.size)
 
     // PRUEBA DE RAITING
@@ -70,18 +72,47 @@ console.log(favorites,"mis favs")
       e.preventDefault()
       if(cart){
         setSelectedSize(0)
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'bottom',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          ProgressBarColor: "white",
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'error',
+          title: 'The product was removed from the cart',
+          background: "#c70000",
+          color: "white",
+          textAlign: "center"
+        })
       }else{
-      MySwal.fire({
-        title: <p>the product was successfully added to the shopping cart!</p>,
-        customClass: {
-          confirmButton: "btn-success",
-        },
-        confirmButtonColor: '#5f27cd',
-        backdrop: `
-    rgba(12,12,12,0.4)
-  `,
-        icon: "success",
-      });
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'bottom',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          ProgressBarColor: "white",
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'The product was added to the cart successfully!',
+          background: "#5f27cd",
+          color: "white",
+          
+        })
     }
       if(cart){
         setCart(false)
@@ -115,6 +146,7 @@ console.log(favorites,"mis favs")
             {productDetail.Brand.name==='Nike' ? <SiNike className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Adidas' ? <SiAdidas className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Puma' ? <SiPuma className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Reebok' ? <SiReebok className={style.brand_icon} size={40}/> : productDetail.Brand.name==='New Balance' ? <SiNewbalance className={style.brand_icon} size={40}/> : <BiError className={style.brand_icon} size={40}/>}
               <button onClick={(e)=>{handleFav(e)}} className={style.heart_button}><FaHeart className={!fav?style.heart_icon1:style.heart_icon2} /></button>
             </div>
+            
             <img className={style.product_img} src={productDetail.image} alt="" />
           </div>
 
