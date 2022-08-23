@@ -6,8 +6,10 @@ import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si
 import { BiError } from 'react-icons/bi';
 import { addFavorites, removeFavorites} from '../../../redux/actions/productActions.js';
 import { useDispatch, useSelector } from 'react-redux';
+import SuccessSnackbar from '../SnackBar/SnackBar.jsx'
 
 export default function Card({product}) {
+    const [open, setOpen] = useState(false);
     let dispatch = useDispatch()
     let { favorites } = useSelector((state) => state.product)    
     let checkFaved = () => {
@@ -16,13 +18,22 @@ export default function Card({product}) {
 
     let [fav, setFav] = useState(checkFaved()?true:false)
 
-    let handleFav = () => {        
+    let handleFav = async () => {        
         fav ? dispatch(removeFavorites(product.id)) : dispatch(addFavorites(product))
-        setFav(current => !current)      
+        await checkFaved()?setOpen(false):setOpen(true); 
+        await setFav(current => !current)         
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }    
+        setOpen(false);
+      };
         
   return (
         <div className={style.container}>
+            <SuccessSnackbar open={open} handleClose={handleClose} checkFaved={checkFaved} message='Product successfully added to favorites'/>           
             <div className={style.card}>
             <div className={style.header}>
                 {
