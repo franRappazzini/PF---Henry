@@ -63,7 +63,6 @@ export default function ProductContainer({productDetail}){
         setFav(true)
       }
     }
-
     const handleCart = (e) => {
       e.preventDefault()
       if(cart){
