@@ -14,7 +14,10 @@ function Order() {
 
   return (
     <div className={style.order_container}>
-      <FormControl size="small" className={style.order}>
+      <FormControl
+        size="small"
+        sx={{ minWidth: window.innerWidth > 600 ? "6rem" : "100%" }}
+      >
         <InputLabel id="order">Order</InputLabel>
         <Select
           labelId="order"
