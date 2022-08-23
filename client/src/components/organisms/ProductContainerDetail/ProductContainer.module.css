@@ -204,6 +204,9 @@
     font-size: 15px;
     font-family: Roboto;
 }
+.swal-text {
+    text-align: center
+  }
 .size_button:hover{
     cursor: pointer;
     transform: scale(1.05);
