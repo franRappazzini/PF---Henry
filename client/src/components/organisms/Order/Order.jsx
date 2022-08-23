@@ -1,16 +1,11 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 import React from "react";
-import { filterProductByPrice } from "../../../redux/actions/productActions";
 import style from "./Order.module.css";
 import { useDispatch } from "react-redux";
 
 function Order() {
   const dispatch = useDispatch();
-
-  function handleFilterPrice(e) {
-    dispatch(filterProductByPrice(e.target.value));
-  }
 
   return (
     <div className={style.order_container}>
@@ -24,7 +19,7 @@ function Order() {
           labelId="order"
           id="demo-simple-select"
           label="ORDER"
-          onChange={handleFilterPrice}
+          // onChange={handleFilterPrice}
           sx={{ backgroundColor: "white" }}
         >
           <MenuItem value={"ascending"}>Price Ascending</MenuItem>

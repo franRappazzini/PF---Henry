@@ -1,10 +1,6 @@
 import {
   ADD_FAVORITES,
   FILTERS,
-  FILTER_BY_BRAND,
-  FILTER_BY_CATEGORY,
-  FILTER_BY_PRICE,
-  FILTER_BY_SIZE,
   GET_ALL_PRODUCTS,
   GET_PRODUCT,
   GET_PRODUCT_NAME,
@@ -13,7 +9,7 @@ import {
 
 const initialState = {
   products: [],
-  filteredProducts: [],
+  // filteredProducts: [],
   productDetail: {},
   favorites: [],
 };
@@ -24,13 +20,10 @@ export function productReducer(state = initialState, action) {
       return {
         ...state,
         products: action.payload,
-        filteredProducts: action.payload,
+        // filteredProducts: action.payload,
       };
     case GET_PRODUCT:
-      return {
-        ...state,
-        productDetail: action.payload,
-      };
+      return { ...state, productDetail: action.payload };
     case ADD_FAVORITES:
       return {
         ...state,
@@ -42,82 +35,9 @@ export function productReducer(state = initialState, action) {
         favorites: state.favorites.filter((prod) => prod.id !== action.payload),
       };
     case GET_PRODUCT_NAME:
-      return {
-        ...state,
-        filteredProducts: action.payload,
-      };
+      return { ...state, products: action.payload };
     case FILTERS:
-      return { ...state, filteredProducts: action.payload };
-
-    // case FILTER_BY_BRAND:
-    //   var product = state.products;
-    //   const brandFiltered =
-    //     action.payload === "All"
-    //       ? product
-    //       : product.filter((el) => el.Brand.name === action.payload);
-    //   return {
-    //     ...state,
-    //     filteredProducts: brandFiltered,
-    //   };
-    // case FILTER_BY_CATEGORY:
-    //   var product = state.products;
-
-    //   const categoryFiltered =
-    //     action.payload === "All"
-    //       ? product
-    //       : product.filter((el) => {
-    //           for (let i = 0; i < el.Categories.length; i++) {
-    //             if (el.Categories[i].name === action.payload) {
-    //               return true;
-    //             }
-    //           }
-    //         });
-    //   return {
-    //     ...state,
-    //     filteredProducts: categoryFiltered,
-    //   };
-    // case FILTER_BY_SIZE:
-    //   const copyProducts = state.products;
-
-    //   const arr = [];
-    //   if (action.payload !== "All") {
-    //     copyProducts.forEach((p) => {
-    //       p.Sizes.forEach((s) => {
-    //         if (s.size === parseInt(action.payload)) arr.push(p);
-    //       });
-    //     });
-    //   }
-
-    //   return {
-    //     ...state,
-    //     filteredProducts: action.payload === "All" ? copyProducts : arr,
-    //   };
-    // case FILTER_BY_PRICE:
-    // let sortPayload =
-    //   action.payload === "ascending"
-    //     ? state.products.sort(function (a, b) {
-    //         //el sort ordena mueve para la izq o der
-    //         if (a.price > b.price) {
-    //           //el price a es mayor q b? si lo es devuelvo 1
-    //           return 1;
-    //         }
-    //         if (b.price > a.price) {
-    //           return -1;
-    //         }
-    //         return 0;
-    //       })
-    //     : state.products.sort(function (a, b) {
-    //         if (a.price > b.price) {
-    //           return -1;
-    //         }
-    //         if (b.price > a.price) {
-    //           return 1;
-    //         }
-    //       });
-    // return {
-    //   ...state,
-    //   products: sortPayload,
-    // };
+      return { ...state, products: action.payload };
     default:
       return state;
   }

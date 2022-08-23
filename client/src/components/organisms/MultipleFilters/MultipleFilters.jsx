@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  filterProductByBrand,
-  filterProductByCategory,
-  filterProductBySize,
-} from "../../../redux/actions/productActions";
-import {
   getBrands,
   getCategories,
   getSizes,
@@ -31,18 +26,8 @@ export default function MultipleFilters({ filters, setFilters }) {
     setFilters({ ...filters, [key]: value });
   }
 
-  // function handleFilters(e) {
-  //   sizes.filter((size) => size.size === e.target.value).length
-  //     ? dispatch(filterProductBySize(e.target.value))
-  //     : brands.filter((brand) => brand.name === e.target.value).length
-  //     ? dispatch(filterProductByBrand(e.target.value))
-  //     : dispatch(filterProductByCategory(e.target.value));
-  // }
-
   return (
     <div>
-      {/* <GroupSelected /> */}
-
       <FormControl sx={{ m: 1.4, minWidth: 120 }} size="small">
         <InputLabel htmlFor="grouped-select">Filters</InputLabel>
         <Select label="Filters">
