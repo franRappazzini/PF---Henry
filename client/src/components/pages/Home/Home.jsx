@@ -10,6 +10,8 @@ import SearchBar2 from "../../organisms/SearchBar2/SearchBar2.jsx";
 import Slider from "../../organisms/Carousel/Carousel.jsx";
 import { filter } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
+import { getAllProducts } from '../../../redux/actions/productActions.js';
+
 
 const instanceFilter = { name: "", brand: "", category: "", size: "" };
 
@@ -21,11 +23,17 @@ let Home = () => {
   const prodPerPage = 12;
   const totalPage = Math.ceil(filteredProducts.length / prodPerPage);
 
+
   useEffect(() => {
     dispatch(
       filter(filters.name, filters.brand, filters.category, filters.size)
     );
   }, [dispatch, filters]);
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
+
 
   return (
     <div className={style.globalContainer}>
@@ -57,13 +65,13 @@ let Home = () => {
                 (page - 1) * prodPerPage,
                 (page - 1) * prodPerPage + prodPerPage
               )
-              .map((product) => <Card product={product} />)}
+              .map(product => <Card key={product.id} product={product}/>)}
         </div>
       </section>
       <section className={style.pagination_container}>
         <Pagination
           count={totalPage}
-          shape="rounded"
+          shape='rounded'
           onChange={(e, value) => setPage(value)}
         />
       </section>

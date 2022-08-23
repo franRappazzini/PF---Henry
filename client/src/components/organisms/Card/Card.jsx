@@ -4,21 +4,36 @@ import { Link } from 'react-router-dom'
 import { MdOutlineFavoriteBorder as F } from  'react-icons/md';
 import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
 import { BiError } from 'react-icons/bi';
-import { addFavorites, removeFavorites} from "../../../redux/actions/productActions.js";
-import { useDispatch, useSelector } from "react-redux";
+import { addFavorites, removeFavorites} from '../../../redux/actions/productActions.js';
+import { useDispatch, useSelector } from 'react-redux';
+import SuccessSnackbar from '../SnackBar/SnackBar.jsx'
 
 export default function Card({product}) {
-    let { favorites } = useSelector((state) => state.product);
+    const [open, setOpen] = useState(false);
     let dispatch = useDispatch()
-    let faved = favorites.filter(fav=>fav.id===product.id).length
-    let [fav, setFav] = useState(faved ? true : false)
-    let handleFav = async () => {
-        await setFav(current => !current)
-        !fav ? dispatch(addFavorites(product)) : dispatch(removeFavorites(product.id))
+    let { favorites } = useSelector((state) => state.product)    
+    let checkFaved = () => {
+       return favorites.filter(fav=>fav.id===product.id).length
     }
-    
+
+    let [fav, setFav] = useState(checkFaved()?true:false)
+
+    let handleFav = async () => {        
+        fav ? dispatch(removeFavorites(product.id)) : dispatch(addFavorites(product))
+        await checkFaved()?setOpen(false):setOpen(true); 
+        await setFav(current => !current)         
+    }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }    
+        setOpen(false);
+      };
+        
   return (
         <div className={style.container}>
+            <SuccessSnackbar open={open} handleClose={handleClose} checkFaved={checkFaved} message='Product successfully added to favorites'/>           
             <div className={style.card}>
             <div className={style.header}>
                 {
