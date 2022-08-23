@@ -13,6 +13,7 @@ import { BiError } from 'react-icons/bi'
 import { FaHeart } from "react-icons/fa"
 import { FaCartPlus } from "react-icons/fa"
 import { FaShoppingCart } from 'react-icons/fa';
+
 import { Rating } from "@mui/material"
 import { useState } from "react";
 import { addFavorites, removeFavorites } from "../../../redux/actions/productActions"
