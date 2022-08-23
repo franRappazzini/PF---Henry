@@ -3,6 +3,7 @@ import "./index.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import App from "./App";
+import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import React from "react";
@@ -28,15 +29,23 @@ const theme = createTheme({
   },
 });
 
+const { REACT_APP_AUTH_DOMAIN, REACT_APP_AUTH_CLIENT } = process.env;
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </BrowserRouter>
-  </Provider>
+  <Auth0Provider
+    domain={REACT_APP_AUTH_DOMAIN}
+    clientId={REACT_APP_AUTH_CLIENT}
+    redirectUri={window.location.origin}
+  >
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  </Auth0Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

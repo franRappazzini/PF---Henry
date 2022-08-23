@@ -11,40 +11,56 @@ const {
   Product_Category,
 } = require("../../db/db");
 
-router.get("/", async (req, res) => {
+router.get("", async (req, res) => {
   const { name } = req.query;
-  const allProducts = await Product.findAll({
-    include: [
-      {
-        model: Category,
-        attributes: {
-          include: ["name"],
-          exclude: ["createdAt", "updatedAt"],
-        },
-        // through: {
-        //   attributes:[]
-        // },
-        model: Brand,
-        attributes: {
-          include: ["name"],
-        },
-      },
-    ],
-  });
-  if (name) {
-    try {
-      let findByName = await allProducts.filter((p) =>
-        p.name.toLowerCase().includes(name.toLowerCase())
-      );
-      findByName.length
-        ? res.status(200).send(findByName)
-        : res.status(404).send("Not found");
-    } catch (error) {
-      res.status(400).send("Problem");
+
+  try {
+    let response = [];
+    const options = {
+      include: [
+        { model: Brand },
+        { model: Rating },
+        { model: Size },
+        { model: Category },
+      ],
+    };
+
+    if (name) {
+      response = await Product.findAll({
+        where: { name: { [Op.iLike]: `%${name}%` } },
+        ...options,
+      });
+    } else {
+      response = await Product.findAll(options);
     }
-  } else {
-    res.status(200).send(allProducts);
+
+    res.json(response);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
   }
+
+  // const allProducts = await Product.findAll({
+  //   include: [
+  //     { model: Brand },
+  //     { model: Rating },
+  //     { model: Size },
+  //     { model: Category },
+  //   ],
+  // });
+  // if (name) {
+  //   try {
+  //     let findByName = await allProducts.filter((p) =>
+  //       p.name.toLowerCase().includes(name.toLowerCase())
+  //     );
+  //     findByName.length
+  //       ? res.status(200).send(findByName)
+  //       : res.status(404).send("Not found");
+  //   } catch (error) {
+  //     res.status(400).send("Problem");
+  //   }
+  // } else {
+  //   res.status(200).send(allProducts);
+  // }
 });
 
 router.get("/:id", async (req, res) => {
@@ -69,7 +85,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("", async (req, res) => {
   const { name, image, brand, price, size, category } = req.body;
 
   //Size = [{31,4}{35,5}{43,2}]
@@ -155,5 +171,59 @@ router.post("/", async (req, res) => {
     res.status(400).send("There was an error, please try again");
   }
 });
+
+// ESTA ES PARA CREAR TODOS DE UNA
+// router.post("/", async (req, res) => {
+//   // const { name, image, brand, price, size, category } = req.body;
+
+//   //Busco o creo: Marca,size y category
+//   for (let index = 0; index < req.body.length; index++) {
+//     const name = req.body[index].name;
+//     const image = req.body[index].image;
+//     const price = req.body[index].price;
+//     const brand = req.body[index].brand;
+//     const category = req.body[index].category;
+//     const size = req.body[index].size;
+//     category.map(
+//       async (e) => await Category.findOrCreate({ where: { name: e } })
+//     );
+//     size.forEach(
+//       async (e) => await Size.findOrCreate({ where: { size: e.size } })
+//     );
+//     await Brand.findOrCreate({ where: { name: brand } });
+
+//     //Creo el producto y hago las relaciones
+
+//     try {
+//       const newProduct = await Product.create({ name, image, price });
+//       let findBrand = await Brand.findOne({ where: { name: brand } });
+//       newProduct.BrandId = findBrand.id;
+//       await newProduct.save();
+//       let findCategories = await Category.findAll({
+//         attributes: ["id"],
+//         where: {
+//           name: {
+//             [Op.or]: category,
+//           },
+//         },
+//       });
+//       await newProduct.addCategory(findCategories);
+
+//       for (let index = 0; index < size.length; index++) {
+//         let findSize = await Size.findOne({
+//           where: { size: size[index].size },
+//         });
+//         let stock = size[index].stock;
+//         await newProduct.addSize(findSize.dataValues.id, {
+//           through: { stock },
+//         });
+//       }
+//     } catch (e) {
+//       console.log(e);
+//       res.status(400).send("There was an error, please try again");
+//     }
+//   }
+//   res.status(200).send("Product created");
+// });
 
 module.exports = router;
