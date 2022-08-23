@@ -185,7 +185,7 @@ router.post("", async (req, res) => {
     // for (let index = 0; index < findSize.length; index++) {
     //   await newProduct.addProductSize(findSize[index], stock[index]);
     // }
-    res.send("Product created");
+    res.status(200).json(newProduct);
   } catch (e) {
     console.log(e);
     res.status(400).send("There was an error, please try again");
