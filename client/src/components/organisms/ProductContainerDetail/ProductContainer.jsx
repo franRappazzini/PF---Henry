@@ -29,7 +29,7 @@ export default function ProductContainer({productDetail}){
 
     const [fav, setFav] = useState(false)
     const sizes = productDetail.Sizes.map(e=>e.size)
-
+    console.log(sizes)
     // PRUEBA DE RAITING
     let rating = [{id:1, text:"good", star:3.5, UserId:6, ProductId:1},{id:1, text:"good", star:3, UserId:6, ProductId:1},{id:1, text:"good", star:1, UserId:6, ProductId:1}]
     // PRUEBA DE RATING
@@ -37,17 +37,19 @@ export default function ProductContainer({productDetail}){
     const MySwal = withReactContent(Swal)
     let filteredSizes = []
     for (let i = 0; i < sizes.length; i++) {
-      if(!filteredSizes.includes(sizes[i].size) && sizes[i].Product_Size.stock > 0){
-        filteredSizes.push(sizes[i].size)
+      if(!filteredSizes.includes(sizes[i]) && productDetail.Sizes[i].Product_Size.stock > 0){
+        filteredSizes.push(sizes[i])
       }
     }
     filteredSizes = filteredSizes.sort(function(a, b) {
       return a - b;
     });
+    console.log(filteredSizes)
     let arrAverage = rating.map(e=>e.star)
     let ratingAverage = arrAverage.reduce((a,b)=> a + b)/rating.length
     console.log("mi cart state: ",cart)
     console.log("mi cart state: ",selectedSize)
+    
 
     const handleFav = (e) =>{
       if(fav){
