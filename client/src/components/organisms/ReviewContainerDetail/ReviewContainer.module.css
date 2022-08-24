@@ -67,3 +67,18 @@
     outline: 2px solid #5f27cd;
     border: none;
 }
+@media (max-width: 600px) {
+    .review_container{
+        width: 90%;
+
+    }
+    .reviews{
+        width: 80%;
+    }
+    .review_form{
+        transform: scale(0.8);
+    }
+    .review_title{
+        font-size: 30px;
+    }
+}

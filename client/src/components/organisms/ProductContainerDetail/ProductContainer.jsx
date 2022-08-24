@@ -155,7 +155,7 @@ console.log("estado fav: ", fav)
          
           <h1 className={style.title}>{productDetail.name}</h1>
           <div className={style.br1}></div>
-          <span><Rating name="read-only" value={ratingAverage} readOnly /></span>
+          <span><Rating className={style.rating} name="read-only" value={ratingAverage} readOnly /></span>
           <div className={style.br2}></div>
           <div className={style.category_container}>{productDetail.Categories.map(c=>c.name).join(", ")}</div>
           <div className={style.br2}></div>

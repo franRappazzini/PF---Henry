@@ -10,3 +10,8 @@
     margin-top: 100px;
 
 }
+@media (max-width: 600px) {
+ .title_container{
+    font-size: 8px;
+ }   
+}
