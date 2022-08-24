@@ -12,7 +12,7 @@ const {
 } = require("../../db/db");
 
 router.get("", async (req, res) => {
-  const { name, category, brand, size } = req.query;
+  const { name, category, brand, size, by, order } = req.query;
 
   try {
     let response = [];
@@ -41,6 +41,7 @@ router.get("", async (req, res) => {
         [Op.and]: [...options.where[Op.and], { "$Sizes.size$": size }],
       };
     }
+    if (by && order) options.order = [[by, order]];
 
     if (name) {
       response = await Product.findAll({
