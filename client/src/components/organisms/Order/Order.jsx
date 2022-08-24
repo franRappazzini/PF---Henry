@@ -2,14 +2,12 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useState } from "react";
 
 import style from "./Order.module.css";
-import { useDispatch } from "react-redux";
 
-function Order() {
-  const [order, setOrder] = useState("");
-  const dispatch = useDispatch();
+function Order({ filters, setFilters }) {
+  // const [order, setOrder] = useState("");
 
   function handleChange(e) {
-    setOrder(e.target.value);
+    setFilters({ ...filters, order: { by: "price", order: e.target.value } });
   }
 
   return (
@@ -25,11 +23,11 @@ function Order() {
           id="demo-simple-select"
           label="ORDER"
           onChange={handleChange}
-          value={order}
+          value={filters.order.order}
         >
           <MenuItem value="">All</MenuItem>
-          <MenuItem value="ascending">Price Ascending</MenuItem>
-          <MenuItem value="descending">Price Descending</MenuItem>
+          <MenuItem value="ASC">Price Ascending</MenuItem>
+          <MenuItem value="DESC">Price Descending</MenuItem>
         </Select>
       </FormControl>
     </div>
