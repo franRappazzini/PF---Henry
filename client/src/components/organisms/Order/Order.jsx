@@ -18,12 +18,11 @@ function Order({ filters, setFilters }) {
         <InputLabel id="order">Order</InputLabel>
         <Select
           labelId="order"
-          id="demo-simple-select"
           label="ORDER"
           onChange={handleChange}
           value={filters.order.order}
         >
-          <MenuItem value="">All</MenuItem>
+          <MenuItem value="">Default</MenuItem>
           <MenuItem value="ASC">Price Ascending</MenuItem>
           <MenuItem value="DESC">Price Descending</MenuItem>
         </Select>
