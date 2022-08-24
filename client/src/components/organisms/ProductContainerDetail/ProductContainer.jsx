@@ -16,7 +16,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 
 import { Rating } from "@mui/material"
 import { useState } from "react";
-import { addFavorites, removeFavorites } from "../../../redux/actions/productActions"
+import { addFavorites, removeFavorites, addToCart, removeFromCart } from "../../../redux/actions/productActions"
 
 
 // import {useEffect} from "react"
@@ -25,10 +25,17 @@ import { addFavorites, removeFavorites } from "../../../redux/actions/productAct
 
 
 export default function ProductContainer({productDetail}){
+
+
+  let amountInput = "";
+  if(document.getElementById("amount")){
+    amountInput = document.getElementById("amount")
+  }
+
+
   const dispatch = useDispatch()
-    console.log()
     const [cart, setCart] = useState(false)
-    const [amount, setAmount] = useState(0)
+    const [amount, setAmount] = useState(amountInput!==""&&amountInput.value?amountInput.value:1)
     const [selectedSize, setSelectedSize] = useState(0)
     const { favorites } = useSelector(state=> state.product)
      let checkFaved = () => {
@@ -36,8 +43,12 @@ export default function ProductContainer({productDetail}){
    }
    const [fav, setFav] = useState(checkFaved()?true:false)
 
-console.log("mis favs",favorites)
-console.log("estado fav: ", fav)
+
+   console.log("My real amount: ", amount)
+   console.log("My real size: ", selectedSize)
+
+/* console.log("mis favs",favorites)
+console.log("estado fav: ", fav) */
     const sizes = productDetail.Sizes.map(e=>e.size)
 
     // PRUEBA DE RAITING
@@ -59,7 +70,7 @@ console.log("estado fav: ", fav)
     
 
     const handleFav = (e) =>{
-      console.log("EN EL HANDLE FAV")
+     /*  console.log("EN EL HANDLE FAV") */
       e.preventDefault()
       if(fav){
         dispatch(removeFavorites(productDetail.id))
@@ -72,6 +83,7 @@ console.log("estado fav: ", fav)
     const handleCart = (e) => {
       e.preventDefault()
       if(cart){
+        dispatch(removeFromCart(productDetail.id))
         setSelectedSize(0)
         const Toast = Swal.mixin({
           toast: true,
@@ -94,6 +106,7 @@ console.log("estado fav: ", fav)
           textAlign: "center"
         })
       }else{
+        
         const Toast = Swal.mixin({
           toast: true,
           position: 'bottom',
@@ -114,6 +127,20 @@ console.log("estado fav: ", fav)
           color: "white",
           
         })
+        
+        console.log("myamount2", amount)
+        console.log(productDetail)
+        dispatch(addToCart({
+          id:productDetail.id,
+          Brand:productDetail.Brand,
+          Categories:productDetail.Categories,
+          image:productDetail.image,
+          name:productDetail.name,
+          price: productDetail.price,
+          choosedSize:selectedSize,
+          choosedAmount:amount,
+          Sizes:productDetail.Sizes
+        }))
     }
       if(cart){
         setCart(false)
@@ -122,6 +149,7 @@ console.log("estado fav: ", fav)
         setCart(true)
       }
     }
+    
   
     const handleError = (e) =>{
       e.preventDefault()
@@ -163,11 +191,11 @@ console.log("estado fav: ", fav)
           <div className={style.size_buttons_container}>
             {filteredSizes.map(e=><button onClick={selectedSize===e?()=>{setSelectedSize(0); setCart(false)}:()=>{setSelectedSize(e); setCart(false)}} className={selectedSize!==e?style.size_button:style.selected_button} key = {e}>{e}</button>)}
             <div className={style.amount_container}>
-            {selectedSize!==0?<div><span>AMOUNT: </span><input max="99" min="1" className={style.amount_input} type="number" defaultValue={1}></input></div>:""}
+            {selectedSize!==0?<div><span>AMOUNT: </span><input id="amount" onChange={()=>setAmount(amountInput.value)} max="99" min="1" className={style.amount_input} type="number" defaultValue={1}></input></div>:""}
             </div>
             </div>
             <div className={style.br3}></div>
-            <div className={style.price_container}><span className={style.price}>{productDetail.price}$</span>  <button onClick={selectedSize===0?(e)=>handleError(e):(e)=>handleCart(e)} className={!cart?style.shopping_button:style.shopping_button2}>{!cart?<FaCartPlus className={style.shopping_icon1}/>:<FaShoppingCart className={style.shopping_icon2}/> }</button></div>
+            <div className={style.price_container}><span className={style.price}>{productDetail.price}$</span>  <button onClick={selectedSize===0||!amount?(e)=>handleError(e):(e)=>handleCart(e)} className={!cart?style.shopping_button:style.shopping_button2}>{!cart?<FaCartPlus className={style.shopping_icon1}/>:<FaShoppingCart className={style.shopping_icon2}/> }</button></div>
           </div>
         </div>
     )

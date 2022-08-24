@@ -8,6 +8,7 @@ import Header from "./components/organisms/Header/Header";
 import Home from "./components/pages/Home/Home.jsx";
 import Profile from "./components/pages/Profile/Profile";
 import Favorites from "./components/pages/Favorites/Favorites";
+import Cart from "./components/pages/Cart/Cart";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/favorites" element={<Favorites />} />
+
+        <Route path="/cart" element={<Cart />} />
         
         <Route path="/create_product" element={<CreateProduct />} />
       </Routes>
