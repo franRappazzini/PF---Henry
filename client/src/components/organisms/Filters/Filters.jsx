@@ -26,10 +26,6 @@ function Filters({ filters, setFilters }) {
 
   return (
     <div className={style.filter_container}>
-      {/* <div className={style.order_container}>
-        <Order filters={filters} setFilters={setFilters} />
-      </div> */}
-
       <FormControl
         fullWidth
         size="small"
