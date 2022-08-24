@@ -76,9 +76,11 @@ function BtnsHeader() {
         color="secondary"
         className={style.btn_icon}
       >
+        <Link to={"/cart"}>
         <Badge color="error" variant="dot" invisible={true}>
           <ShoppingCart />
         </Badge>
+        </Link>
       </IconButton>
     </section>
   );
