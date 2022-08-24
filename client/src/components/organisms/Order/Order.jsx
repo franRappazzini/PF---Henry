@@ -1,11 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React, { useState } from "react";
 
+import React from "react";
 import style from "./Order.module.css";
 
 function Order({ filters, setFilters }) {
-  // const [order, setOrder] = useState("");
-
   function handleChange(e) {
     setFilters({ ...filters, order: { by: "price", order: e.target.value } });
   }
