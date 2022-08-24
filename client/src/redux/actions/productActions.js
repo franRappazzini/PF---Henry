@@ -76,8 +76,8 @@ export function searchProduct(name) {
   };
 }
 
-export function filter(name, brand, category, size, order) {
-  const queries = `?name=${name}&brand=${brand}&category=${category}&size=${size}`;
+export function filter(name, brand, category, size, by, order) {
+  const queries = `?name=${name}&brand=${brand}&category=${category}&size=${size}&by=${by}&order=${order}`;
 
   return async (dispatch) => {
     try {

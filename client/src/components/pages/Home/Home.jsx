@@ -12,7 +12,13 @@ import { filter } from "../../../redux/actions/productActions.js";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
 
-const instanceFilter = { name: "", brand: "", category: "", size: "" };
+const instanceFilter = {
+  name: "",
+  brand: "",
+  category: "",
+  size: "",
+  order: { by: "price", order: "" },
+};
 
 let Home = () => {
   const [filters, setFilters] = useState(instanceFilter);
@@ -24,7 +30,14 @@ let Home = () => {
 
   useEffect(() => {
     dispatch(
-      filter(filters.name, filters.brand, filters.category, filters.size)
+      filter(
+        filters.name,
+        filters.brand,
+        filters.category,
+        filters.size,
+        filters.order.by,
+        filters.order.order
+      )
     );
   }, [dispatch, filters]);
 
@@ -44,7 +57,7 @@ let Home = () => {
         <SearchBar2 filters={filters} setFilters={setFilters} />
 
         <div className={style.order_desktop}>
-          <Order />
+          <Order filters={filters} setFilters={setFilters} />
         </div>
 
         <DrawerFilter filters={filters} setFilters={setFilters} />
