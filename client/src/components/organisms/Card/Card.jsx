@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { MdOutlineFavoriteBorder as F, MdOutlineAddShoppingCart as SC} from  'react-icons/md';
 import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
 import { BiError } from 'react-icons/bi';
-import { addFavorites, removeFavorites} from '../../../redux/actions/productActions.js';
+import { addFavorites, removeFavorites, removeFromCart, addToCart} from '../../../redux/actions/productActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import SuccessSnackbar from '../SnackBar/SnackBar.jsx'
 import Box from '@mui/material/Box';
@@ -24,7 +24,7 @@ export default function Card({product}) {
     let [popUpOpen, setPopUpOpen] = useState(false)
     let [size, setSize] = useState()
     let [cart, setCart] = useState(false)    
-    let { favorites } = useSelector((state) => state.product) 
+    let { favorites, cartProducts } = useSelector((state) => state.product) 
 
     let checkFaved = () => {
        return favorites.filter(fav=>fav.id===product.id).length
@@ -66,7 +66,7 @@ export default function Card({product}) {
     };
 
     let handleAddToCart = () => {
-
+        addToCart(product)
     };
         
   return (

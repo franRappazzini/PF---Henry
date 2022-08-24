@@ -1,11 +1,13 @@
-import React from "react"
+
 import React, { useEffect, useState } from 'react';
 import { getAllProducts } from '../../../redux/reducer/productReducer';
+import Card from '../../organisms/Card/Card.jsx'
 
 export default function Cart(){
     const [products, setProducts] = React.useState(getAllProducts);
     const [cart, setCart] = React.useState([]);
     const [compraRealizada, setCompraRealizada] = React.useState(false);
+    let { cartProducts } = useSelector((state) => state.product) 
 
     // const addProduct = product => {
     //     const productsList = products.filter(item => item.id !== product.id);
@@ -44,6 +46,8 @@ export default function Cart(){
 
         <h4>Carrito</h4>
         <ul>
+
+          {cartProducts.map(prod=><Card id={prod.id} />)}
           {!compraRealizada && cart.length === 0 && <span>Vacio 😑</span>}
           {cart.map(item => (
             <li>

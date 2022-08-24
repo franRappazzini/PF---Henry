@@ -1,10 +1,12 @@
 import {
   ADD_FAVORITES,
+  ADD_TO_CART,
   FILTERS,
   GET_ALL_PRODUCTS,
   GET_PRODUCT,
   GET_PRODUCT_NAME,
   REMOVE_FAVORITES,
+  REMOVE_FROM_CART,
 } from "../../utils/reduxVars";
 
 import axios from "axios";
@@ -36,6 +38,25 @@ export function addFavorites(product) {
   return (dispatch) => {
     try {
       dispatch({ type: ADD_FAVORITES, payload: product });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+export function addToCart(prod) {
+console.log('id and size from actions :',prod);
+  return (dispatch) => {
+    try {
+      dispatch({ type: ADD_TO_CART, payload: prod});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+export function removeFromCart(id) {
+  return (dispatch) => {
+    try {
+      dispatch({ type: REMOVE_FROM_CART, payload: id });
     } catch (err) {
       console.log(err);
     }
