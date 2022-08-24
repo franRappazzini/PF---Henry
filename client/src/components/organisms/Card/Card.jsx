@@ -99,7 +99,7 @@ export default function Card({product}) {
                                 id: 'size',
                                 }}
                         >
-                            <MenuItem value=''>None</MenuItem>
+                            <MenuItem value='none'>None</MenuItem>
                             {product.Sizes.map(s=><MenuItem value={s.size}>{s.size}</MenuItem>)}
                         </Select>
                     </FormControl>
@@ -135,8 +135,7 @@ export default function Card({product}) {
                 <div className={style.info}>
                     <div className={style.title}>{product.name}</div>
                     <div className={style.price}>${product.price}</div>
-                </div>
-                
+                </div>                
                     <div className={style.details}>
                             <Link to={`/product/${product.id}`} className={style.linkMore}>
                                 <button className={style.detailsButton}>View More</button>
