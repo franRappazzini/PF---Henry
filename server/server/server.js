@@ -20,6 +20,6 @@ const port = process.env.PORT || 3001;
 
 server.listen(port, () => {
   console.log(sequelize.models);
-  sequelize.sync({ force: true });
+  sequelize.sync({ force: false });
   console.log("Server listening on port:", port);
 });
