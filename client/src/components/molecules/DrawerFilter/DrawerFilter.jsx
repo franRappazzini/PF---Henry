@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   FormControl,
   IconButton,
   InputLabel,
@@ -52,9 +51,7 @@ function DrawerFilter({ filters, setFilters }) {
         onOpen={handleOpen}
       >
         <Box className={style.drawer}>
-          {/* <div className={style.order_container}> */}
-          <Order />
-          {/* </div> */}
+          <Order filters={filters} setFilters={setFilters} />
 
           <FormControl
             fullWidth
