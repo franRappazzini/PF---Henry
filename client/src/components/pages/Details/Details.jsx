@@ -2,17 +2,20 @@
 import style from "./Details.module.css"
 import ProductContainer from "../../organisms/ProductContainerDetail/ProductContainer";
 import ReviewContainer from "../../organisms/ReviewContainerDetail/ReviewContainer";
+import CarouselContainer from "../../organisms/CarouselContainerDetail/CarouselContainer"
 import {useSelector, useDispatch} from "react-redux"
 import {useEffect} from "react"
 import {useParams, useState} from "react-router-dom"
 import {getProduct } from "../../../redux/actions/productActions.js";
+import CarouselTitle from "../../molecules/CarouselTitleDetails/CarouselTitle";
+
 
 
 
 export default function Detail(){
   
     const {productId} = useParams()
-    const {productDetail} = useSelector(state => state.product)
+    const {productDetail, products} = useSelector(state => state.product)
     const dispatch = useDispatch()
     console.log("hola hola",productDetail)
     console.log(productId)
@@ -28,6 +31,11 @@ export default function Detail(){
 
         <ProductContainer productDetail={productDetail}/>
 
+        <CarouselTitle/>
+
+
+        <CarouselContainer productDetail={productDetail} products={products}/>
+
 
         <ReviewContainer />
 
@@ -36,7 +44,7 @@ export default function Detail(){
     )
   }else{
     return(
-      <span>no hay product Detail</span>
+      <span>theres no product Detail</span>
     )
   }
 }

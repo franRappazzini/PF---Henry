@@ -10,7 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@coreui/react": "^4.3.1",
     "react-icons": "^4.4.0",
+    "react-responsive-carousel": "^3.2.23",
     "sweetalert2": "^11.4.28",
     "sweetalert2-react-content": "^5.0.3"
   }

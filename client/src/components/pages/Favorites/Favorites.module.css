@@ -1,3 +1,16 @@
+.globalContainer {
+    display: flex;
+    width: auto;
+    flex-direction: column;
+    margin: 0 auto;
+}
+.carouselContainer {
+    display: flex;
+    width: auto;
+    height: 22vw;
+    background-color: #5f27cd;
+    justify-content: center;
+}
 .favoritesContainer {
     display: flex;
     margin: 4vw 12vw;

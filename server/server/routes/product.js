@@ -12,11 +12,12 @@ const {
 } = require("../../db/db");
 
 router.get("", async (req, res) => {
-  const { name } = req.query;
+  const { name, category, brand, size } = req.query;
 
   try {
     let response = [];
     const options = {
+      where: { [Op.and]: [] },
       include: [
         { model: Brand },
         { model: Rating },
@@ -25,10 +26,29 @@ router.get("", async (req, res) => {
       ],
     };
 
+    if (category) {
+      options.where = {
+        [Op.and]: [...options.where[Op.and], { "$Categories.name$": category }],
+      };
+    }
+    if (brand) {
+      options.where = {
+        [Op.and]: [...options.where[Op.and], { "$Brand.name$": brand }],
+      };
+    }
+    if (size) {
+      options.where = {
+        [Op.and]: [...options.where[Op.and], { "$Sizes.size$": size }],
+      };
+    }
+
     if (name) {
       response = await Product.findAll({
-        where: { name: { [Op.iLike]: `%${name}%` } },
         ...options,
+        where: {
+          [Op.and]: [...options.where[Op.and]],
+          name: { [Op.iLike]: `%${name}%` },
+        },
       });
     } else {
       response = await Product.findAll(options);
@@ -165,7 +185,7 @@ router.post("", async (req, res) => {
     // for (let index = 0; index < findSize.length; index++) {
     //   await newProduct.addProductSize(findSize[index], stock[index]);
     // }
-    res.send("Product created");
+    res.status(200).json(newProduct);
   } catch (e) {
     console.log(e);
     res.status(400).send("There was an error, please try again");

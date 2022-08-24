@@ -1,12 +1,9 @@
 import {
-  FILTER_BY_BRAND,
-  FILTER_BY_CATEGORY,
-  FILTER_BY_PRICE,
-  FILTER_BY_SIZE,
+  ADD_FAVORITES,
+  FILTERS,
   GET_ALL_PRODUCTS,
   GET_PRODUCT,
   GET_PRODUCT_NAME,
-  ADD_FAVORITES,
   REMOVE_FAVORITES,
 } from "../../utils/reduxVars";
 
@@ -35,7 +32,7 @@ export function getProduct(id) {
   };
 }
 export function addFavorites(product) {
-  console.log('Product from addFavorites:', product);
+  console.log("Product from addFavorites:", product);
   return (dispatch) => {
     try {
       dispatch({ type: ADD_FAVORITES, payload: product });
@@ -45,7 +42,7 @@ export function addFavorites(product) {
   };
 }
 export function removeFavorites(id) {
-  console.log('id from removeFavorites', id);
+  console.log("id from removeFavorites", id);
   return (dispatch) => {
     try {
       dispatch({ type: REMOVE_FAVORITES, payload: id });
@@ -66,7 +63,9 @@ export async function createProduct(product) {
 export function searchProduct(name) {
   return async function (dispatch) {
     try {
-      var json = await axios.get(`http://localhost:3001/product?name=${name}`);
+      const json = await axios.get(
+        `http://localhost:3001/product?name=${name}`
+      );
       return dispatch({
         type: GET_PRODUCT_NAME,
         payload: json.data,
@@ -77,28 +76,15 @@ export function searchProduct(name) {
   };
 }
 
-// filtrados (por marca, categoría y talles)
-export function filterProductByBrand(payload) {
-  return {
-    type: FILTER_BY_BRAND,
-    payload,
-  };
-}
-export function filterProductByCategory(payload) {
-  return {
-    type: FILTER_BY_CATEGORY,
-    payload,
-  };
-}
-export function filterProductBySize(payload) {
-  return {
-    type: FILTER_BY_SIZE,
-    payload,
-  };
-}
-export function filterProductByPrice(payload) {
-  return {
-    type: FILTER_BY_PRICE,
-    payload,
+export function filter(name, brand, category, size, order) {
+  const queries = `?name=${name}&brand=${brand}&category=${category}&size=${size}`;
+
+  return async (dispatch) => {
+    try {
+      const res = await axios.get("http://localhost:3001/product/" + queries);
+      dispatch({ type: FILTERS, payload: res.data });
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 }

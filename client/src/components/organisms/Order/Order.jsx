@@ -1,32 +1,38 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React from "react";
-import { filterProductByPrice } from "../../../redux/actions/productActions";
+import React, { useState } from "react";
+
+import style from "./Order.module.css";
 import { useDispatch } from "react-redux";
 
 function Order() {
+  const [order, setOrder] = useState("");
   const dispatch = useDispatch();
 
-  function handleFilterPrice(e) {
-    dispatch(filterProductByPrice(e.target.value));
+  function handleChange(e) {
+    setOrder(e.target.value);
   }
 
   return (
-    <FormControl
-      size="small"
-      sx={{ marginTop: "0.5rem", minWidth: "6rem" }}
-    >
-      <InputLabel id="order">Order</InputLabel>
-      <Select
-        labelId="order"
-        id="demo-simple-select"
-        label="ORDER"
-        onChange={handleFilterPrice}
-        sx={{ backgroundColor: "white" }}
+    <div className={style.order_container}>
+      <FormControl
+        size="small"
+        className={style.order}
+        sx={{ minWidth: window.innerWidth > 600 ? "6rem" : "100%" }}
       >
-        <MenuItem value={"ascending"}>Ascending</MenuItem>
-        <MenuItem value={"descending"}>Descending</MenuItem>
-      </Select>
-    </FormControl>
+        <InputLabel id="order">Order</InputLabel>
+        <Select
+          labelId="order"
+          id="demo-simple-select"
+          label="ORDER"
+          onChange={handleChange}
+          value={order}
+        >
+          <MenuItem value="">All</MenuItem>
+          <MenuItem value="ascending">Price Ascending</MenuItem>
+          <MenuItem value="descending">Price Descending</MenuItem>
+        </Select>
+      </FormControl>
+    </div>
   );
 }
 export default Order;

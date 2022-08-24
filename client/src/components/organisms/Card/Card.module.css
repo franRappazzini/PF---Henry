@@ -64,6 +64,7 @@
   font-size: 16px;
   align-items: center;
   text-align: center;
+  text-decoration: none;
   height: 40px;
   margin: 0;
   padding: 5px;
@@ -78,12 +79,22 @@
 }
 .details {
   display: flex;
-  justify-content: center;
   margin-top: 10px;
 }
-.details button {   
-  width: 70%;
-  padding: 6%;
+.linkMore {
+  display: flex;
+  height: auto;
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 4%;
+}
+.detailsButton {
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 10%;
   background: #5f27cd;
   border: none;
   color: white;
@@ -94,12 +105,17 @@
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
   transition: all .3s ease-in-out;
 }
-.details button:hover {
+.cartButton {
+  padding: 0;
+  border: none;
+  background: none;
+}
+.detailsButton:hover {
   cursor: pointer;
   transform: scale(1.03);
   box-shadow: 1px 6px 12px rgba(0, 0, 0, 0.3);
 }
-.price {   
+.price {
   font-weight: 600;
   font-size: 17px;
   text-align: center;
@@ -133,6 +149,18 @@
   margin-top: 1.5%;
   margin-bottom: 6px;   
 }
+.shoppingCart {
+  transition: all .2s ease-in-out;
+  background-color: transparent;
+  width: 30px;
+  height: auto;
+  margin: 0;
+}
+.shoppingCart:hover {
+  transform: scale(1.1);
+  color: #5f27cd;
+  cursor: pointer;
+}
 @media (min-width: 701px) and (max-width: 1000px) {
   .container {
     width: 192px;
@@ -156,7 +184,7 @@
   .details {
     margin-top: 8px;
   }
-  .details button {
+  .detailsButton {
     font-size: 11px;
     border-radius: 24px;
   }
@@ -173,6 +201,9 @@
     width: 32px;
   }
   .iconoutline {
+    width: 24px;
+  }
+  .shoppingCart {
     width: 24px;
   }
   .info {
@@ -200,9 +231,9 @@
     padding: 3px;
   }
   .details {
-    margin-top: 6px;
+    margin-top: 8px;
   }
-  .details button {
+  .detailsButton{
     font-size: 8.25px;
     border-radius: 18px;
   }
@@ -219,6 +250,9 @@
     width: 24px;
   }
   .iconoutline {
+    width: 18px;
+  }
+  .shoppingCart {
     width: 18px;
   }
   .info {
@@ -246,9 +280,9 @@
     padding: 2px;
   }
   .details {
-    margin-top: 4px;
+    margin-top: 6px;    
   }
-  .details button {
+  .detailsButton {
     font-size: 5.5px;
     border-radius: 12px;
   }
@@ -265,6 +299,9 @@
     width: 16px;
   }
   .iconoutline {
+    width: 12px;
+  }
+  .shoppingCart {
     width: 12px;
   }
   .info {

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBrands } from "../../../redux/actions/otherActions";
 import style from "./InputsFormCreate.module.css";
 
-function InputsFormCreate({ product, setProduct }) {
+function InputsFormCreate({ product, setProduct, image, setImage }) {
   const { brands } = useSelector((state) => state.other);
   const dispatch = useDispatch();
 
@@ -15,6 +15,10 @@ function InputsFormCreate({ product, setProduct }) {
 
   function handleChange(e) {
     setProduct({ ...product, [e.target.name]: e.target.value });
+  }
+
+  function handleChangeImage(e) {
+    setImage(e.target.files[0]);
   }
 
   return (
@@ -69,10 +73,9 @@ function InputsFormCreate({ product, setProduct }) {
         variant="standard"
         autoComplete="off"
         name="image"
-        type="text"
+        type="file"
         color="secondary"
-        onChange={handleChange}
-        value={product.image}
+        onChange={handleChangeImage}
         required
       />
     </section>
