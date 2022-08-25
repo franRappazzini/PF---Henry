@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 // const sequelize = new Sequelize(
-//   `postgres://user:pass@example.com:5432/dbname`, // CONFIGURAR CADA UNO
+//   "postgres://iwukxuix:xou9rxFqT6Web2ZTlntBSzdoP2Rixd7O@suleiman.db.elephantsql.com/iwukxuix", // CONFIGURAR CADA UNO
 //   { logging: false }
 // );
 
