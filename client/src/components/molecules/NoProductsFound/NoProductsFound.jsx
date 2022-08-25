@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./NoProductsFound.module.css"
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
-export default function NoProductsFound () {
+export default function NoProductsFound ({message}) {
     const [pageLoad, setPageLoad] = useState(false)
 
     useEffect(()=> {
@@ -14,7 +14,7 @@ export default function NoProductsFound () {
     <div>
         {pageLoad ? 
             <div className = {styles.container}>
-            There are no products with these properties, im sorry.
+            {message}
             <div><SentimentVeryDissatisfiedIcon className={styles.icon}/></div>
         </div> : null}
         

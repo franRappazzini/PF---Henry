@@ -89,7 +89,7 @@ let Home = () => {
                 :
                 products.map((product) => <Card key={product.id} product={product} />)}
           </div> :
-          <NoProductsFound/>
+          <NoProductsFound message='There are no products with these properties, im sorry.'/>
         }
         
       </section>
