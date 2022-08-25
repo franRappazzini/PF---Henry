@@ -17,12 +17,10 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
 
 export default function Card({product}) {
     let dispatch = useDispatch()
     let { favorites, cartProducts } = useSelector((state) => state.product) 
-    let [amountOpen, setAmountOpen] = useState(false)
     let [open, setOpen] = useState(false)
     let [popUpOpen, setPopUpOpen] = useState(false)
     let [size, setSize] = useState()
@@ -45,7 +43,7 @@ export default function Card({product}) {
         setFav(current => !current)         
     };
 
-    let handleClose = (event, reason) => { //Only snack
+    let handleClose = (event, reason) => {
         if (reason === 'clickaway') {
           return
         }    
@@ -86,7 +84,6 @@ export default function Card({product}) {
     };
 
     let handleAddToCart = () => {
-        console.log('AddToCart', amount, product, size);
         if (amount&&size){
             dispatch(addToCart({
                 id:product.id,
@@ -104,7 +101,7 @@ export default function Card({product}) {
         return handlePopUpClose()
 
     };
-    console.log('prod example',product);
+    
     let selectAmount =  () => {
         let numbers = []
          for (let i = 1; i <= stock; i++) { 
