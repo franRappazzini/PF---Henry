@@ -17,14 +17,21 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 
 export default function Card({product}) {
     let dispatch = useDispatch()
+    let { favorites, cartProducts } = useSelector((state) => state.product) 
+    let [amountOpen, setAmountOpen] = useState(false)
     let [open, setOpen] = useState(false)
     let [popUpOpen, setPopUpOpen] = useState(false)
     let [size, setSize] = useState()
-    let [cart, setCart] = useState(false)    
-    let { favorites, cartProducts } = useSelector((state) => state.product) 
+    let [amount, setAmount] = useState(null)
+    let [stock, setStock] = useState(0)
+    let faved = cartProducts.filter(prod=>prod.id===product.id).length
+    let [cart, setCart] = useState(faved?true:false)    
+    console.log('cart: ', cart);
+    console.log('cartProd: ', cartProducts);
 
     let checkFaved = () => {
        return favorites.filter(fav=>fav.id===product.id).length
@@ -38,7 +45,7 @@ export default function Card({product}) {
         setFav(current => !current)         
     };
 
-    let handleClose = (event, reason) => {
+    let handleClose = (event, reason) => { //Only snack
         if (reason === 'clickaway') {
           return
         }    
@@ -52,22 +59,59 @@ export default function Card({product}) {
     let handlePopUpClose = () => {
         setPopUpOpen(false)
         setCart(current => !current)
+        setSize(null)
+        setAmount(null)
     }; 
 
     let handleSize = (event) => {
         setSize(
           event.target.value,
         )
-    }; 
+        setStock(product.Sizes.filter(prod=>prod.size===event.target.value)[0].Product_Size.stock);
+    };
+    let handleAmount = (event) => {
+        setAmount(
+          event.target.value,
+        )
+    };
 
     let handleClickCart = () => {
-        handleClickOpen()
-        setCart(current => !current)
+        if (cart) {
+            dispatch(removeFromCart(product.id))
+            setCart(current => !current)
+        } else {
+            handleClickOpen() 
+            setCart(current => !current)
+        }
     };
 
     let handleAddToCart = () => {
-        addToCart(product)
+        console.log('AddToCart', amount, product, size);
+        if (amount&&size){
+            dispatch(addToCart({
+                id:product.id,
+                Brand:product.Brand,
+                Categories:product.Categories,
+                image:product.image,
+                name:product.name,
+                price: product.price,
+                choosedSize:size,
+                choosedAmount:amount,
+                Sizes:product.Sizes
+              }))
+              handlePopUpClose()
+        }
+        return handlePopUpClose()
+
     };
+    console.log('prod example',product);
+    let selectAmount =  () => {
+        let numbers = []
+         for (let i = 1; i <= stock; i++) { 
+            numbers.push(<MenuItem value={i}>{i}</MenuItem>) 
+        }
+        return numbers
+    }
         
   return (
         <div className={style.container}>
@@ -100,8 +144,27 @@ export default function Card({product}) {
                                 }}
                         >
                             <MenuItem value='none'>None</MenuItem>
-                            {product.Sizes.map(s=><MenuItem value={s.size}>{s.size}</MenuItem>)}
+                            {product.Sizes.map(s=>{if(s.Product_Size.stock>0) {return <MenuItem value={s.size}>{s.size}</MenuItem>}})}
                         </Select>
+                    </FormControl>
+
+                    <FormControl sx={{ mt: 2, minWidth: 240 }}>
+                    <InputLabel>Amount</InputLabel>
+                        <Select
+                            autoFocus
+                            value={amount}
+                            onChange={handleAmount}
+                            label="amount"
+                            inputProps={{
+                                name: 'amount',
+                                id: 'amount',
+                                }}
+                        >
+                            <MenuItem value='0'>0</MenuItem>
+                            {selectAmount()}
+                        </Select>
+                        
+                    
                     </FormControl>
 
                  </Box>
