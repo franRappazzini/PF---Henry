@@ -51,7 +51,8 @@ router.get("", async (req, res) => {
           name: { [Op.iLike]: `%${name}%` },
         },
       });
-    } else {
+    } 
+    else {
       response = await Product.findAll(options);
     }
 
@@ -83,6 +84,43 @@ router.get("", async (req, res) => {
   //   res.status(200).send(allProducts);
   // }
 });
+
+router.put("/:id",async(req,res,next)=>{
+  const {id}=req.params
+  const { name,image,price,stock,brandId } = req.body
+  try {
+  const options = {}
+   const data = await Product.findByPk(id)
+  console.log(data)
+    if(name){
+      console.log(name)
+       options.name=name
+       console.log(data.name)
+       console.log(data.name)
+    }
+    if(image){
+      console.log(image)
+      options.image=image
+    }
+    if(price){
+      console.log(price)
+      options.price=price
+    }
+    if(stock){
+      console.log(stock)
+      options.stock=stock
+    }
+    if(brandId){
+      console.log(stock)
+      options.brandId=brandId
+    }
+    await data.update(options)
+    res.json(data);
+  }catch (error) {
+    res.status(400).send("Error")
+  }
+})
+
 
 router.get("/:id", async (req, res) => {
   try {
@@ -246,5 +284,7 @@ router.post("", async (req, res) => {
 //   }
 //   res.status(200).send("Product created");
 // });
+
+
 
 module.exports = router;

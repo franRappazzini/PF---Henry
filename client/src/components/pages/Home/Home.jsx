@@ -11,6 +11,7 @@ import Slider from "../../organisms/Carousel/Carousel.jsx";
 import { filter } from "../../../redux/actions/productActions.js";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
+import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound";
 
 const instanceFilter = {
   name: "",
@@ -21,12 +22,19 @@ const instanceFilter = {
 };
 
 let Home = () => {
+
+  const [width, setWidth] = React.useState(window.innerWidth);
   const [filters, setFilters] = useState(instanceFilter);
   let { products } = useSelector((state) => state.product);
   let dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const prodPerPage = 12;
   const totalPage = Math.ceil(products.length / prodPerPage);
+
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+      window.addEventListener("resize", handleResizeWindow);
+    },[])
 
   useEffect(() => {
     dispatch(
@@ -68,23 +76,35 @@ let Home = () => {
           <Filters filters={filters} setFilters={setFilters} />
         </div>
 
-        <div className={style.cardsContainer}>
-          {products.length > 0 &&
+        {
+          products.length ? 
+          <div className={style.cardsContainer}>
+            {width > 600 ? 
             products
-              .slice(
-                (page - 1) * prodPerPage,
-                (page - 1) * prodPerPage + prodPerPage
-              )
-              .map((product) => <Card key={product.id} product={product} />)}
-        </div>
+                .slice(
+                  (page - 1) * prodPerPage,
+                  (page - 1) * prodPerPage + prodPerPage
+                )
+                .map((product) => <Card key={product.id} product={product} />)
+                :
+                products.map((product) => <Card key={product.id} product={product} />)}
+          </div> :
+          <NoProductsFound/>
+        }
+        
       </section>
-      <section className={style.pagination_container}>
+      {
+        window.innerWidth > 600 ?
+        <section className={style.pagination_container}>
         <Pagination
           count={totalPage}
           shape="rounded"
           onChange={(e, value) => setPage(value)}
         />
-      </section>
+        </section>: 
+        null
+      }
+      
     </div>
   );
 };
