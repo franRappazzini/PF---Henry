@@ -27,7 +27,6 @@ const sequelize =
         ssl: true,
       })
     : new Sequelize(
-
         "postgres://iwukxuix:xou9rxFqT6Web2ZTlntBSzdoP2Rixd7O@suleiman.db.elephantsql.com/iwukxuix",
         // `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
 

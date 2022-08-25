@@ -7,27 +7,14 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
-      // id: {
-      //   type: DataTypes.UUID,
-      //   defaultValue: DataTypes.UUIDV4,
-      //   primaryKey: true,
-      // },
-
-      // nickname: {
-      //   type: DataTypes.STRING,
-      //   // allowNull: false,
-      // },
-
-      name: {
+      given_name: {
         type: DataTypes.STRING,
         // allowNull: false,
       },
-
-      lastName: {
+      family_name: {
         type: DataTypes.STRING,
         // allowNull: false,
       },
-
       email: {
         type: DataTypes.STRING,
         // allowNull: false,
@@ -35,7 +22,6 @@ module.exports = (sequelize) => {
           isEmail: true,
         },
       },
-
       password: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -43,7 +29,6 @@ module.exports = (sequelize) => {
         //   this.setDataValue("password", hash(value));
         // },
       },
-
       isAdmin: {
         type: DataTypes.BOOLEAN,
         // allowNull: false,
