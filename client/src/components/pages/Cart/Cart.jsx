@@ -26,7 +26,7 @@ export default function Cart(){
       )
       }else{
         return(
-          <NoProductsFound message='There are no products added to favorites, im sorry.'/>
+          <NoProductsFound message='There are no products added to cart, im sorry.'/>
         )
       }
 }
