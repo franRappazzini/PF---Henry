@@ -8,14 +8,24 @@ import {
   ListItemText,
 } from "@mui/material";
 import { ExpandLess, ExpandMore, Menu } from "@mui/icons-material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
+import { getLogedUser } from "../../../redux/actions/userActions";
 import style from "./DrawerHeader.module.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DrawerHeader() {
   const [burger, setBurger] = useState(false);
   const [open, setOpen] = useState(false);
+  const { isAuthenticated, user } = useAuth0();
+  const { logedUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    isAuthenticated && dispatch(getLogedUser(user));
+  }, [dispatch, isAuthenticated, user]);
 
   function handleClick() {
     setOpen(!open);
@@ -30,15 +40,25 @@ function DrawerHeader() {
         <Box className={style.drawer}>
           <List>
             <ListItemButton>
-              <Link to={"/"} onClick={() => setBurger(false)}>
+              <Link
+                className={style.link}
+                to={"/"}
+                onClick={() => setBurger(false)}
+              >
                 <ListItemText primary="Home" />
               </Link>
             </ListItemButton>
-            <ListItemButton>
-              <Link to={"/create_product"} onClick={() => setBurger(false)}>
-                <ListItemText primary="Create Product" />
-              </Link>
-            </ListItemButton>
+            {logedUser && logedUser.isAdmin && (
+              <ListItemButton>
+                <Link
+                  className={style.link}
+                  to={"/create_product"}
+                  onClick={() => setBurger(false)}
+                >
+                  <ListItemText primary="Create Product" />
+                </Link>
+              </ListItemButton>
+            )}
             <ListItemButton>
               <Link to={"/dashboard"} onClick={() => setBurger(false)}>
                 <ListItemText primary="Dashboard" />

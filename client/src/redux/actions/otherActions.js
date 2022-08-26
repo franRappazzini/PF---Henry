@@ -7,7 +7,7 @@ export const GET_SIZES = "GET_SIZES";
 export function getBrands() {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://localhost:3001/brand");
+      const res = await axios.get("/brand");
       dispatch({ type: GET_BRANDS, payload: res.data });
     } catch (err) {
       console.log(err);
@@ -18,7 +18,7 @@ export function getBrands() {
 export function getCategories() {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://localhost:3001/category");
+      const res = await axios.get("/category");
       dispatch({ type: GET_CATEGORIES, payload: res.data });
     } catch (err) {
       console.log(err);
@@ -29,7 +29,7 @@ export function getCategories() {
 export function getSizes() {
   return async (dispatch) => {
     try {
-      const res = await axios.get("http://localhost:3001/size");
+      const res = await axios.get("/size");
       dispatch({ type: GET_SIZES, payload: res.data });
     } catch (err) {
       console.log(err);
@@ -39,6 +39,6 @@ export function getSizes() {
 
 export const loadCategory = (category) => {
   return async (dispatch) => {
-    axios.post("http://localhost:3001/category", category)
-  }
-}
+    axios.post("/category", category);
+  };
+};

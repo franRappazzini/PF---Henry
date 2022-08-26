@@ -39,9 +39,10 @@ export function productReducer(state = initialState, action) {
           cartProducts: state.cartProducts.concat(action.payload)
         };
         case REMOVE_FROM_CART:
+          
           return {
             ...state,
-            cartProducts: state.cartProducts.filter(prod=> prod.id!==action.payload),
+            cartProducts: state.cartProducts.filter(prod=> prod.cartId!==action.payload)
           };
     case REMOVE_FAVORITES:
       return {
