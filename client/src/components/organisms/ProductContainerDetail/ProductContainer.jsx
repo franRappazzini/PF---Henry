@@ -38,18 +38,18 @@ export default function ProductContainer({productDetail}){
     const [amount, setAmount] = useState(amountInput!==""&&amountInput.value?amountInput.value:1)
     const [selectedSize, setSelectedSize] = useState(0)
     const { favorites, cartProducts } = useSelector(state=> state.product)
-     let checkFaved = () => {
+     const checkFaved = () => {
       return favorites.filter(fav=>fav.id===productDetail.id).length
    }
-   const [fav, setFav] = useState(checkFaved()?true:false)
+   const [fav, setFav] = useState(false)
    const isCart = cartProducts.filter(e=> `${productDetail.name}-${selectedSize}-${amount}`===e.cartId).length
    
-   console.log("is Cart: ",isCart?true:false)
    const [cart, setCart] = useState(false)
    
    useEffect(()=>{
     setCart(isCart?true:false)
-   },[isCart])
+    setFav(checkFaved()?true:false)
+   },[isCart,checkFaved])
    console.log("setCart: ", cart)
 
 

@@ -17,7 +17,7 @@ export default function Cart(){
         <div className={style.cart_container}>
           <h1 className={style.h1_cart}>MY CART</h1>
           <div className={cartProducts.length?style.card_container:style.empty_container}>
-            {cartProducts[0]?cartProducts.map(e=><div><CartCard key={e.id} product={e}/>{/* <span>{e.choosedAmount}</span><span>{e.choosedSize}</span> */}</div>):<span className={style.empty_span}>You havent added products to the cart... yet ;)</span>}
+            {cartProducts[0]?cartProducts.map(e=><div><CartCard key={e.id} product={e}/>{/* <span>{e.choosedAmount}</span><span>{e.choosedSize}</span> */}</div>):<span className={style.empty_span}>You haven't added products to the cart... yet ;)</span>}
           </div>
 
           <button className={style.buy_button}>BUY</button>
