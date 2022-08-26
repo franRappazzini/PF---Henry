@@ -1,0 +1,17 @@
+.globalContainer {
+    display: flex;
+    justify-content: center;                                           
+    width: 100vw;
+    flex-direction: column;
+}
+.searchBarContainer {
+    width: 100%;
+    display: flex;
+    padding-left: 2vw;
+    margin-bottom: 1vw;
+}
+.cardsContainer {
+    display: flex;
+    width: 75vw;
+    flex-wrap: wrap                     ;
+}
