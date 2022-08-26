@@ -40,6 +40,11 @@ function DrawerHeader() {
               </Link>
             </ListItemButton>
             <ListItemButton>
+              <Link to={"/dashboard"} onClick={() => setBurger(false)}>
+                <ListItemText primary="Dashboard" />
+              </Link>
+            </ListItemButton>
+            <ListItemButton>
               <ListItemText primary="Shopping Cart" />
             </ListItemButton>
             <ListItemButton onClick={handleClick}>
