@@ -76,23 +76,21 @@ let Home = () => {
           <Filters filters={filters} setFilters={setFilters} />
         </div>
 
-        {products.length ? (
-          <div className={style.cardsContainer}>
-            {width > 600
-              ? products
-                  .slice(
-                    (page - 1) * prodPerPage,
-                    (page - 1) * prodPerPage + prodPerPage
-                  )
-                  .map((product) => <Card key={product.id} product={product} />)
-              : products.map((product) => (
-                  <Card key={product.id} product={product} />
-                ))}
-          </div>
-        ) : (
-          <NoProductsFound message="There are no products with these properties, im sorry." />
-        )}
+      
+            {width > 600 ? 
+            products
+                .slice(
+                  (page - 1) * prodPerPage,
+                  (page - 1) * prodPerPage + prodPerPage
+                )
+                .map((product) => <Card key={product.id} product={product} />)
+                :
+                products.map((product) => <Card key={product.id} product={product} />)}
+          </div> :
+          <NoProductsFound message='There are no products with these properties, im sorry.'/>
+        }
       </section>
+      
       {window.innerWidth > 600 ? (
         <section className={style.pagination_container}>
           <Pagination
