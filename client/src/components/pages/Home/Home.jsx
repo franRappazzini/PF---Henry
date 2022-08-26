@@ -12,7 +12,6 @@ import Slider from "../../organisms/Carousel/Carousel.jsx";
 import { filter } from "../../../redux/actions/productActions.js";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
-import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound";
 
 const instanceFilter = {
   name: "",
@@ -76,21 +75,23 @@ let Home = () => {
           <Filters filters={filters} setFilters={setFilters} />
         </div>
 
-      
-            {width > 600 ? 
-            products
-                .slice(
-                  (page - 1) * prodPerPage,
-                  (page - 1) * prodPerPage + prodPerPage
-                )
-                .map((product) => <Card key={product.id} product={product} />)
-                :
-                products.map((product) => <Card key={product.id} product={product} />)}
-          </div> :
-          <NoProductsFound message='There are no products with these properties, im sorry.'/>
-        }
+        {products.length ? (
+          <div className={style.cardsContainer}>
+            {width > 600
+              ? products
+                  .slice(
+                    (page - 1) * prodPerPage,
+                    (page - 1) * prodPerPage + prodPerPage
+                  )
+                  .map((product) => <Card key={product.id} product={product} />)
+              : products.map((product) => (
+                  <Card key={product.id} product={product} />
+                ))}
+          </div>
+        ) : (
+          <NoProductsFound message="There are no products with these properties, im sorry." />
+        )}
       </section>
-      
       {window.innerWidth > 600 ? (
         <section className={style.pagination_container}>
           <Pagination
