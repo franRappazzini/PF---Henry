@@ -12,6 +12,7 @@ import Slider from "../../organisms/Carousel/Carousel.jsx";
 import { filter } from "../../../redux/actions/productActions.js";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
+import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound";
 
 const instanceFilter = {
   name: "",
@@ -89,7 +90,7 @@ let Home = () => {
                 ))}
           </div>
         ) : (
-          <NoProductsFound />
+          <NoProductsFound message="There are no products with these properties, im sorry." />
         )}
       </section>
       {window.innerWidth > 600 ? (

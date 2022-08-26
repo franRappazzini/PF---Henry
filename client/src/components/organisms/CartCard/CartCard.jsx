@@ -5,13 +5,14 @@ import { MdOutlineFavoriteBorder as F, MdOutlineAddShoppingCart as SC} from  're
 import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
 import { GrClose } from "react-icons/gr";
 import { IoMdClose } from "react-icons/io"
-import { removeFromCart} from '../../../redux/actions/productActions.js';
+import { removeFromCart } from '../../../redux/actions/productActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 export default function Card({product}) {
     let dispatch = useDispatch()
     let { cartProducts } = useSelector(state=> state.product)
+
         
   return (
         <div className={style.box}>
@@ -22,7 +23,7 @@ export default function Card({product}) {
             <div className={style.br}></div>
             <div className={style.right_container}>
                 <div className={style.top_right}>
-                    <button className={style.close_button}><IoMdClose className={style.close_icon}/></button>
+                    <button onClick={()=>dispatch(removeFromCart(product.id))} className={style.close_button}><IoMdClose className={style.close_icon}/></button>
                 </div>
             <div className={style.info_container}>
                 <h1 className={style.title}>{product.name}</h1>
