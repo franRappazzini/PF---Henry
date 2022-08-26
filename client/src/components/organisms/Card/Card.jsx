@@ -20,6 +20,7 @@ import Select from '@mui/material/Select';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import { AiOutlineEdit } from 'react-icons/ai';
 import ConfirmationPopUp from '../ConfirmationPopUp/ConfirmationPopUp';
+import { deleteProduct } from '../../../redux/actions/productActions.js';
 
 export default function Card({ product, dashboard, handleConfirmationPopUpOpen}) {
     let dispatch = useDispatch()
@@ -111,7 +112,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
     };
 
     let handleRemove = () => {
-        // dispatch(removeProduct(product.id))
+        dispatch(deleteProduct(product.id))
         console.log('PRODUCT REMOVED SUCCESSFULLY:', product.id);
         handleClickCloseConfirmationPopUp()
     };

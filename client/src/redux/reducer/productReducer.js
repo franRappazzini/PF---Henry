@@ -7,6 +7,7 @@ import {
   REMOVE_FAVORITES,
   ADD_TO_CART,
   REMOVE_FROM_CART,
+  DELETE_PRODUCT,
 } from "../../utils/reduxVars.js";
 
 const initialState = {
@@ -26,7 +27,15 @@ export function productReducer(state = initialState, action) {
         // filteredProducts: action.payload,
       };
     case GET_PRODUCT:
-      return { ...state, productDetail: action.payload };
+      return { 
+        ...state, 
+        productDetail: action.payload 
+      };
+    case DELETE_PRODUCT:
+      return { 
+        ...state, 
+        products: state.products.filter(product=>product.id!==action.payload)
+      };
     case ADD_FAVORITES:
       return {
         ...state,

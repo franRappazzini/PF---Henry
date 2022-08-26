@@ -34,7 +34,7 @@ export default function ProductsOption() {
 
   useEffect(() => {
     dispatch(getAllProducts());
-  }, [dispatch]); 
+  }, [products]); 
 
   return (
     <div className={style.globalContainer}>
