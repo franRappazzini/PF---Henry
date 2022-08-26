@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import style from './CartCard.module.css';
 import { Link } from 'react-router-dom'
 import { MdOutlineFavoriteBorder as F, MdOutlineAddShoppingCart as SC} from  'react-icons/md';
@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function Card({product}) {
     let dispatch = useDispatch()
     let { cartProducts } = useSelector(state=> state.product)
-
+    const spanRef = useRef()
     const [amount, setAmount] = useState(product.choosedAmount)
 
     let mySize = product.Sizes.filter(e=>e.size===product.choosedSize)
@@ -30,7 +30,8 @@ export default function Card({product}) {
     }
     const handlePlus = (e)=>{
         e.preventDefault()
-        if(amountSpan.textContent===stock.toString()){
+        console.log("text content: ",spanRef.current.textContent)
+        if(spanRef.current.textContent===stock.toString()){
             return
         }else{
             setAmount(amount+1)
@@ -38,7 +39,9 @@ export default function Card({product}) {
     } 
     const handleMin = (e)=>{
         e.preventDefault()
-        if(amountSpan.textContent==="1"){
+        console.log(amountSpan)
+        console.log("text content: ",spanRef.current.textContent)
+        if(spanRef.current.textContent==="1"){
             return
         }else{
             setAmount(amount-1)
@@ -68,7 +71,7 @@ export default function Card({product}) {
             <div className={style.amount_and_size}>
             <span className={style.size_span}>SIZE: {product.choosedSize}</span>
             <div className={style.plus_min_container}><button onClick={(e)=> handleMin(e)} className={style.plus_min}>-</button><button onClick={(e)=> handlePlus(e)} className={style.plus_min}>+</button></div>
-            <span id="amount" className={style.amount_span}>{amount}</span>
+            <span ref={spanRef} id="amount" className={style.amount_span}>{amount}</span>
             </div>
             </div>
         </div>
