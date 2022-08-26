@@ -9,6 +9,7 @@ import {
   REMOVE_FROM_CART,
 } from "../../utils/reduxVars";
 
+
 import axios from "axios";
 
 export function getAllProducts() {

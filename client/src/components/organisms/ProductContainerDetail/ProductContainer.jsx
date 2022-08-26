@@ -34,14 +34,24 @@ export default function ProductContainer({productDetail}){
 
 
   const dispatch = useDispatch()
-    const [cart, setCart] = useState(false)
+    
     const [amount, setAmount] = useState(amountInput!==""&&amountInput.value?amountInput.value:1)
     const [selectedSize, setSelectedSize] = useState(0)
-    const { favorites } = useSelector(state=> state.product)
+    const { favorites, cartProducts } = useSelector(state=> state.product)
      let checkFaved = () => {
       return favorites.filter(fav=>fav.id===productDetail.id).length
    }
    const [fav, setFav] = useState(checkFaved()?true:false)
+   const isCart = cartProducts.filter(e=> `${productDetail.name}-${selectedSize}-${amount}`===e.cartId).length
+   
+   console.log("is Cart: ",isCart?true:false)
+   const [cart, setCart] = useState(false)
+   
+   useEffect(()=>{
+    setCart(isCart?true:false)
+   },[isCart])
+   console.log("setCart: ", cart)
+
 
 
    console.log("My real amount: ", amount)
@@ -83,8 +93,10 @@ console.log("estado fav: ", fav) */
     const handleCart = (e) => {
       e.preventDefault()
       if(cart){
-        dispatch(removeFromCart(productDetail.id))
+        setCart(false)
+        dispatch(removeFromCart(`${productDetail.name}-${selectedSize}-${amount}`))
         setSelectedSize(0)
+        
         const Toast = Swal.mixin({
           toast: true,
           position: 'bottom',
@@ -106,6 +118,7 @@ console.log("estado fav: ", fav) */
           textAlign: "center"
         })
       }else{
+        setCart(true)
         
         const Toast = Swal.mixin({
           toast: true,
@@ -128,9 +141,10 @@ console.log("estado fav: ", fav) */
           
         })
         
-        console.log("myamount2", amount)
+       
         console.log(productDetail)
         dispatch(addToCart({
+          cartId:`${productDetail.name}-${selectedSize}-${amount}`,
           id:productDetail.id,
           Brand:productDetail.Brand,
           Categories:productDetail.Categories,
@@ -142,12 +156,7 @@ console.log("estado fav: ", fav) */
           Sizes:productDetail.Sizes
         }))
     }
-      if(cart){
-        setCart(false)
-        setSelectedSize(0)
-      }else{
-        setCart(true)
-      }
+      
     }
     
   
@@ -162,9 +171,7 @@ console.log("estado fav: ", fav) */
         icon: false,
       });
     } 
-    /* useEffect(()=>{
-        getProductDetail(params.productId)
-    },[]) */
+    
     if(productDetail){
     return(
       
@@ -189,13 +196,13 @@ console.log("estado fav: ", fav) */
           <div className={style.br2}></div>
           <h2 className={style.available_h2}>AVAILABLE SIZES</h2>
           <div className={style.size_buttons_container}>
-            {filteredSizes.map(e=><button onClick={selectedSize===e?()=>{setSelectedSize(0); setCart(false)}:()=>{setSelectedSize(e); setCart(false)}} className={selectedSize!==e?style.size_button:style.selected_button} key = {e}>{e}</button>)}
+            {filteredSizes.map(e=><button onClick={selectedSize===e?()=>{setSelectedSize(0)}:()=>{setSelectedSize(e)}} className={selectedSize!==e?style.size_button:style.selected_button} key = {e}>{e}</button>)}
             <div className={style.amount_container}>
             {selectedSize!==0?<div><span>AMOUNT: </span><input id="amount" onChange={()=>setAmount(amountInput.value)} max="99" min="1" className={style.amount_input} type="number" defaultValue={1}></input></div>:""}
             </div>
             </div>
             <div className={style.br3}></div>
-            <div className={style.price_container}><span className={style.price}>{productDetail.price}$</span>  <button onClick={selectedSize===0||!amount?(e)=>handleError(e):(e)=>handleCart(e)} className={!cart?style.shopping_button:style.shopping_button2}>{!cart?<FaCartPlus className={style.shopping_icon1}/>:<FaShoppingCart className={style.shopping_icon2}/> }</button></div>
+            <div className={style.price_container}><span className={style.price}>{productDetail.price}$</span>  <button onClick={selectedSize===0||!amount?(e)=>handleError(e):(e)=>{handleCart(e)}} className={!cart?style.shopping_button:style.shopping_button2}>{!cart?<FaCartPlus className={style.shopping_icon1}/>:<FaShoppingCart className={style.shopping_icon2}/> }</button></div>
           </div>
         </div>
     )
