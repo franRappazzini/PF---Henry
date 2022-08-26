@@ -26,5 +26,13 @@ userRouter.get("/:email", async (req, res) => {
     res.status(404).json({ error: err.message });
   }
 });
+userRouter.get("", async (req, res) => {
+  try {
+    const response = await user.findAll();
+    res.json(response);
+  } catch (err) {
+    res.status(404).send('get users error');
+  }
+});
 
 module.exports = userRouter;
