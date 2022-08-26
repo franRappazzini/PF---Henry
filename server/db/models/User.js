@@ -49,6 +49,11 @@ module.exports = (sequelize) => {
         // allowNull: false,
         defaultValue: false,
       },
+      
+      email_verified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }
     },
     {
       timestamps: false,
