@@ -36,3 +36,9 @@ export function getSizes() {
     }
   };
 }
+
+export const loadCategory = (category) => {
+  return async (dispatch) => {
+    axios.post("http://localhost:3001/category", category)
+  }
+}

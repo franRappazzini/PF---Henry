@@ -13,8 +13,8 @@ function Profile() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    isAuthenticated && dispatch(getLogedUser(user.email));
-  }, [dispatch, isAuthenticated, user?.email]);
+    isAuthenticated && dispatch(getLogedUser(user));
+  }, [dispatch, isAuthenticated, user]);
 
   if (isLoading) return <p>Loading...</p>;
 

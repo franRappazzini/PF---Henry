@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../../organisms/Card/Card";
 import DrawerFilter from "../../molecules/DrawerFilter/DrawerFilter.jsx";
 import Filters from "../../organisms/Filters/Filters";
+import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound";
 import Order from "../../organisms/Order/Order";
 import { Pagination } from "@mui/material";
 import SearchBar2 from "../../organisms/SearchBar2/SearchBar2.jsx";
@@ -11,7 +12,6 @@ import Slider from "../../organisms/Carousel/Carousel.jsx";
 import { filter } from "../../../redux/actions/productActions.js";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
-import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound";
 
 const instanceFilter = {
   name: "",
@@ -22,7 +22,6 @@ const instanceFilter = {
 };
 
 let Home = () => {
-
   const [width, setWidth] = React.useState(window.innerWidth);
   const [filters, setFilters] = useState(instanceFilter);
   let { products } = useSelector((state) => state.product);
@@ -33,8 +32,8 @@ let Home = () => {
 
   useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
-      window.addEventListener("resize", handleResizeWindow);
-    },[])
+    window.addEventListener("resize", handleResizeWindow);
+  }, []);
 
   useEffect(() => {
     dispatch(
@@ -47,6 +46,7 @@ let Home = () => {
         filters.order.order
       )
     );
+    setPage(1);
   }, [dispatch, filters]);
 
   useEffect(() => {
@@ -76,35 +76,32 @@ let Home = () => {
           <Filters filters={filters} setFilters={setFilters} />
         </div>
 
-        {
-          products.length ? 
+        {products.length ? (
           <div className={style.cardsContainer}>
-            {width > 600 ? 
-            products
-                .slice(
-                  (page - 1) * prodPerPage,
-                  (page - 1) * prodPerPage + prodPerPage
-                )
-                .map((product) => <Card key={product.id} product={product} />)
-                :
-                products.map((product) => <Card key={product.id} product={product} />)}
-          </div> :
-          <NoProductsFound/>
-        }
-        
+            {width > 600
+              ? products
+                  .slice(
+                    (page - 1) * prodPerPage,
+                    (page - 1) * prodPerPage + prodPerPage
+                  )
+                  .map((product) => <Card key={product.id} product={product} />)
+              : products.map((product) => (
+                  <Card key={product.id} product={product} />
+                ))}
+          </div>
+        ) : (
+          <NoProductsFound message="There are no products with these properties, im sorry." />
+        )}
       </section>
-      {
-        window.innerWidth > 600 ?
+      {window.innerWidth > 600 ? (
         <section className={style.pagination_container}>
-        <Pagination
-          count={totalPage}
-          shape="rounded"
-          onChange={(e, value) => setPage(value)}
-        />
-        </section>: 
-        null
-      }
-      
+          <Pagination
+            count={totalPage}
+            shape="rounded"
+            onChange={(e, value) => setPage(value)}
+          />
+        </section>
+      ) : null}
     </div>
   );
 };
