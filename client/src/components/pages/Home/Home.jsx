@@ -62,7 +62,11 @@ let Home = () => {
       <section className={style.utilsHeader}>
         <div className={style.none}></div>
 
-        <SearchBar2 filters={filters} setFilters={setFilters} label='Search model'/>
+        <SearchBar2
+          filters={filters}
+          setFilters={setFilters}
+          label="Search model"
+        />
 
         <div className={style.order_desktop}>
           <Order filters={filters} setFilters={setFilters} />
@@ -78,18 +82,20 @@ let Home = () => {
 
         {products.length ? (
           <div className={style.cardsContainer}>
-            {width > 600 ? 
-            products
-                .slice(
-                  (page - 1) * prodPerPage,
-                  (page - 1) * prodPerPage + prodPerPage
-                )
-                .map((product) => <Card key={product.id} product={product} />)
-                :
-                products.map((product) => <Card key={product.id} product={product} dashboard={false}/>)}
-          </div> :
-          <NoProductsFound message='There are no products with these properties, im sorry.'/>
-        }
+            {width > 600
+              ? products
+                  .slice(
+                    (page - 1) * prodPerPage,
+                    (page - 1) * prodPerPage + prodPerPage
+                  )
+                  .map((product) => <Card key={product.id} product={product} />)
+              : products.map((product) => (
+                  <Card key={product.id} product={product} dashboard={false} />
+                ))}
+          </div>
+        ) : (
+          <NoProductsFound message="There are no products with these properties, im sorry." />
+        )}
       </section>
       {window.innerWidth > 600 ? (
         <section className={style.pagination_container}>
