@@ -1,0 +1,52 @@
+.globalContainer {
+    padding: .1vw;
+    display: flex;
+    border: 1px solid red;
+    width: 70vw;
+    height: 40vw;
+}
+.statisticsContainer {
+    flex-direction: column;
+    padding: .1vw;
+    display: flex;
+    border: 1px solid black;
+    width: 100%;
+    height: auto;
+}
+.statisticsHeader {
+    display: flex;
+    padding: .2vw;
+    width: auto;
+    height: 5%;
+    border: 1px solid red;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.statistics {
+    align-items: center;
+    text-align: center;
+    justify-content: space-around;
+    border: 1px solid red;
+    height: 10%;
+    display: flex;
+    width: auto;
+}
+.statisticsItem {
+    padding: 1px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    border: 1px solid green;
+}
+.icon {
+    border: 1px solid red;
+    font-size: 1.5vw;
+}
+.itemTitle {
+    margin-left: 1px;
+    height: fit-content;
+    border: 1px solid red;
+}
