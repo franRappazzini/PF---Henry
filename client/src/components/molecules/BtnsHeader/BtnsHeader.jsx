@@ -24,27 +24,6 @@ function BtnsHeader() {
 
   function handleLogIn() {
     loginWithPopup();
-    //   {
-    //   additionalSignUpFields: [
-    //     {
-    //       name: "address",
-    //       placeholder: "enter your address",
-    //       // The following properties are optional
-    //       icon: "https://example.com/assests/address_icon.png",
-    //       prefill: "street 123",
-    //       validator: function (address) {
-    //         return {
-    //           valid: address.length >= 10,
-    //           hint: "Must have 10 or more chars", // optional
-    //         };
-    //       },
-    //     },
-    //     {
-    //       name: "full_name",
-    //       placeholder: "Enter your full name",
-    //     },
-    //   ],
-    // }
     setAnchorEl(null);
   }
 
@@ -66,7 +45,9 @@ function BtnsHeader() {
         {isAuthenticated ? (
           [
             <MenuItem key={0}>
-              <Link to={"/profile"}>Profile</Link>
+              <Link className={style.link} to={"/profile"}>
+                Profile
+              </Link>
             </MenuItem>,
             <MenuItem
               key={1}
@@ -98,9 +79,9 @@ function BtnsHeader() {
         className={style.btn_icon}
       >
         <Link to={"/cart"}>
-        <Badge color="error" variant="dot" invisible={true}>
-          <ShoppingCart />
-        </Badge>
+          <Badge color="error" variant="dot" invisible={true}>
+            <ShoppingCart />
+          </Badge>
         </Link>
       </IconButton>
     </section>

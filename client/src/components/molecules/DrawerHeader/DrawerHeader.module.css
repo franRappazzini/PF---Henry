@@ -11,4 +11,9 @@
   .drawer {
     width: 65vw;
   }
+
+  .link {
+    text-decoration: none;
+    color: black;
+  }
 }
