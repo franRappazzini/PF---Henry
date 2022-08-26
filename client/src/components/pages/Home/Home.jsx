@@ -46,6 +46,7 @@ let Home = () => {
         filters.order.order
       )
     );
+    setPage(1);
   }, [dispatch, filters]);
 
   useEffect(() => {
