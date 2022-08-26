@@ -12,13 +12,15 @@ function NavHeader() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    isAuthenticated && dispatch(getLogedUser(user.email));
-  }, [dispatch, isAuthenticated, user?.email]);
+    isAuthenticated && dispatch(getLogedUser(user));
+    console.log(user);
+    console.log(logedUser);
+  }, [dispatch, isAuthenticated, user]);
 
   return (
     <nav className={style.nav}>
       <ul className={style.ul_nav}>
-        {logedUser?.isAdmin && (
+        {logedUser && logedUser.isAdmin && (
           <li className={style.li_nav}>
             <NavLink
               to={"/create_product"}
