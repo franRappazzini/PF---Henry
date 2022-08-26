@@ -47,7 +47,7 @@ function FormCreateProduct() {
       size: selectedSizes,
     };
 
-    const res = await axios.post("http://localhost:3001/product", newProduct);
+    const res = await axios.post("/product", newProduct);
 
     console.log(res);
 
