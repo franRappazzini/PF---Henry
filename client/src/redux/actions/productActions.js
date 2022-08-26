@@ -7,6 +7,7 @@ import {
   GET_PRODUCT_NAME,
   REMOVE_FAVORITES,
   REMOVE_FROM_CART,
+  DELETE_PRODUCT,
 } from "../../utils/reduxVars";
 
 import axios from "axios";
@@ -28,6 +29,16 @@ export function getProduct(id) {
     try {
       const res = await axios.get(`/product/${id}`);
       dispatch({ type: GET_PRODUCT, payload: res.data });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+export function deleteProduct(id) {
+  return async (dispatch) => {
+    try {
+      const res = await axios.delete(`/product/${id}`);
+      dispatch({ type: DELETE_PRODUCT, payload: res.data });
     } catch (err) {
       console.log(err);
     }
