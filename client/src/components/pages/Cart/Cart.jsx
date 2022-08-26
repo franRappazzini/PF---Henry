@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import CartCard from '../../organisms/CartCard/CartCard.jsx'
 import style from "./Cart.module.css"
 import { useSelector } from 'react-redux';
+import NoProductsFound from '../../molecules/NoProductsFound/NoProductsFound.jsx'
 
 export default function Cart(){
  
@@ -25,7 +26,7 @@ export default function Cart(){
       )
       }else{
         return(
-          <span>No hay productos en el carrito</span>
+          <NoProductsFound message='There are no products added to cart, im sorry.'/>
         )
       }
 }

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Card from '../../organisms/Card/Card';
 import style from './Favorites.module.css';
 import Slider from '../../organisms/Carousel/Carousel.jsx';
+import NoProductsFound from '../../molecules/NoProductsFound/NoProductsFound';
 
 export default function Favorites() {
   let { favorites } = useSelector((state) => state.product)
@@ -16,7 +17,7 @@ export default function Favorites() {
     
     <div className={style.favoritesContainer}>
       {
-        favorites.map(favorite => <Card key={favorite.id} product={favorite}/>)
+        favorites.length?favorites.map(favorite => <Card key={favorite.id} product={favorite}/>):<NoProductsFound message='There are no products added to favorites, im sorry.'/>
       }
     </div>
 
