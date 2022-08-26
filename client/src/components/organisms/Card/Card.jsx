@@ -17,8 +17,11 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { RiCloseCircleLine } from 'react-icons/ri';
+import { AiOutlineEdit } from 'react-icons/ai';
+import ConfirmationPopUp from '../ConfirmationPopUp/ConfirmationPopUp';
 
-export default function Card({product}) {
+export default function Card({ product, dashboard, handleConfirmationPopUpOpen}) {
     let dispatch = useDispatch()
     let { favorites, cartProducts } = useSelector((state) => state.product) 
     let [open, setOpen] = useState(false)
@@ -27,9 +30,8 @@ export default function Card({product}) {
     let [amount, setAmount] = useState(null)
     let [stock, setStock] = useState(0)
     let faved = cartProducts.filter(prod=>prod.id===product.id).length
+    let [confirmationPopUpOpen, setConfirmationPopUpOpen] = useState(false)
     let [cart, setCart] = useState(faved?true:false)    
-    console.log('cart: ', cart);
-    console.log('cartProd: ', cartProducts);
 
     let checkFaved = () => {
        return favorites.filter(fav=>fav.id===product.id).length
@@ -40,7 +42,7 @@ export default function Card({product}) {
     let handleFav = () => {        
         fav ? dispatch(removeFavorites(product.id)) : dispatch(addFavorites(product))
         checkFaved()?setOpen(false):setOpen(true)
-        setFav(current => !current)         
+        setFav(current => !current)           
     };
 
     let handleClose = (event, reason) => {
@@ -99,6 +101,22 @@ export default function Card({product}) {
               handlePopUpClose()
         }
         return handlePopUpClose()
+    };
+
+    let handleClickOpenConfirmationPopUp = () => {
+        setConfirmationPopUpOpen(true)
+    };
+    let handleClickCloseConfirmationPopUp = () => {
+        setConfirmationPopUpOpen(false)
+    };
+
+    let handleRemove = () => {
+        // dispatch(removeProduct(product.id))
+        console.log('PRODUCT REMOVED SUCCESSFULLY:', product.id);
+        handleClickCloseConfirmationPopUp()
+    };
+
+    let handleEdit = (id) => {
 
     };
     
@@ -112,6 +130,7 @@ export default function Card({product}) {
         
   return (
         <div className={style.container}>
+            <ConfirmationPopUp confirmationOpen={confirmationPopUpOpen} handleClose={handleClickCloseConfirmationPopUp} handleOpen={handleClickOpenConfirmationPopUp} setConfirmationOpen={setConfirmationPopUpOpen} handleRemove={handleRemove} message='Remove Product' description='Are you sure you want to remove this product?'/>
             <Dialog
                 open={popUpOpen}
                 onClose={handlePopUpClose}
@@ -187,7 +206,7 @@ export default function Card({product}) {
                 ? <SiNewbalance className={style.brand}/> 
                 : <BiError className={style.brand}/>
                 }
-                <F className={style.iconoutline} onClick={handleFav} style={{color: fav ? '#5f27cd' : '#000'}}/>
+                {dashboard ? <RiCloseCircleLine className={style.iconoutline} onClick={()=>handleClickOpenConfirmationPopUp()}/> : <F className={style.iconoutline} onClick={handleFav} style={{color: fav ? '#5f27cd' : '#000'}}/>}
             </div>            
                 <div className={style.product}>
                     <img src={product.image} alt= 'not found' className={product.Brand.name==='Reebok'? style.img2 : style.img}/>
@@ -200,7 +219,7 @@ export default function Card({product}) {
                             <Link to={`/product/${product.id}`} className={style.linkMore}>
                                 <button className={style.detailsButton}>View More</button>
                             </Link>                       
-                            <button className={style.cartButton}><SC className={style.shoppingCart} onClick={handleClickCart} style={{color: cart ? '#5f27cd' : '#000'}}/></button>                        
+                            <button className={style.cartButton}>{!dashboard?<SC className={style.shoppingCart} onClick={handleClickCart} style={{color: cart ? '#5f27cd' : '#000'}}/>:<AiOutlineEdit className={style.shoppingCart} onClick={()=>handleEdit()}/>}</button>                        
                     </div>
                 
             </div>        

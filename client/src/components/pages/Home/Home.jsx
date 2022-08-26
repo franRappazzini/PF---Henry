@@ -62,7 +62,7 @@ let Home = () => {
       <section className={style.utilsHeader}>
         <div className={style.none}></div>
 
-        <SearchBar2 filters={filters} setFilters={setFilters} />
+        <SearchBar2 filters={filters} setFilters={setFilters} label='Search model'/>
 
         <div className={style.order_desktop}>
           <Order filters={filters} setFilters={setFilters} />
@@ -87,7 +87,7 @@ let Home = () => {
                 )
                 .map((product) => <Card key={product.id} product={product} />)
                 :
-                products.map((product) => <Card key={product.id} product={product} />)}
+                products.map((product) => <Card key={product.id} product={product} dashboard={false}/>)}
           </div> :
           <NoProductsFound message='There are no products with these properties, im sorry.'/>
         }
