@@ -20,8 +20,9 @@ function NavHeader() {
   return (
     <nav className={style.nav}>
       <ul className={style.ul_nav}>
-          <div className={style.adminOptionsContainer}>
-            {logedUser && logedUser.isAdmin && (
+        <div className={style.adminOptionsContainer}>
+          {logedUser && logedUser.isAdmin && (
+            <>
               <li className={style.li_nav}>
                 <NavLink
                   to={"/create_product"}
@@ -32,18 +33,19 @@ function NavHeader() {
                   Create product
                 </NavLink>
               </li>
-            )}
-            <li className={style.li_nav}>
-              <NavLink
-                to={"/dashboard"}
-                className={({ isActive }) =>
-                isActive ? style.a_nav_active : style.a_nav
-                }
+              <li className={style.li_nav}>
+                <NavLink
+                  to={"/dashboard"}
+                  className={({ isActive }) =>
+                    isActive ? style.a_nav_active : style.a_nav
+                  }
                 >
-                Dashboard
-              </NavLink>
-            </li>
-          </div>
+                  Dashboard
+                </NavLink>
+              </li>
+            </>
+          )}
+        </div>
       </ul>
     </nav>
   );
