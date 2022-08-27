@@ -89,6 +89,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
     let handleAddToCart = () => {
         if (amount&&size){
             dispatch(addToCart({
+                cartId:`${product.name}-${size}-${amount}`,
                 id:product.id,
                 Brand:product.Brand,
                 Categories:product.Categories,
