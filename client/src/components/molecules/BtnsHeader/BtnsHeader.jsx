@@ -67,7 +67,7 @@ function BtnsHeader() {
         className={style.btn_icon}
       >
         <Link to={"/favorites"}>
-          <Badge badgeContent={favorites.length} color="error">
+          <Badge badgeContent={JSON.parse(localStorage.getItem('lsFavorites'))?.length} color="error">
             <FavoriteBorder />
           </Badge>
         </Link>
