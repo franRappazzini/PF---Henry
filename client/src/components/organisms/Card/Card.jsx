@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './Card.module.css';
 import { Link } from 'react-router-dom'
 import { MdOutlineFavoriteBorder as F, MdOutlineAddShoppingCart as SC} from  'react-icons/md';
@@ -24,26 +24,39 @@ import { deleteProduct } from '../../../redux/actions/productActions.js';
 
 export default function Card({ product, dashboard, handleConfirmationPopUpOpen}) {
     let dispatch = useDispatch()
-    let { favorites, cartProducts } = useSelector((state) => state.product) 
+    let { cartProducts } = useSelector((state) => state.product) 
     let [open, setOpen] = useState(false)
     let [popUpOpen, setPopUpOpen] = useState(false)
     let [size, setSize] = useState()
     let [amount, setAmount] = useState(null)
     let [stock, setStock] = useState(0)
-    let faved = cartProducts.filter(prod=>prod.id===product.id).length
+    let onCart = cartProducts.filter(prod=>prod.id===product.id).length
     let [confirmationPopUpOpen, setConfirmationPopUpOpen] = useState(false)
-    let [cart, setCart] = useState(faved?true:false)    
+    let [cart, setCart] = useState(onCart?true:false)  
+    let ls = JSON.parse(localStorage.getItem('lsFavorites')) || []
 
     let checkFaved = () => {
-       return favorites.filter(fav=>fav.id===product.id).length
+       return ls.filter(fav=>fav.id===product.id).length
     };
     
     let [fav, setFav] = useState(checkFaved()?true:false)
+    useEffect(()=>{
+    },[fav])
 
-    let handleFav = () => {        
-        fav ? dispatch(removeFavorites(product.id)) : dispatch(addFavorites(product))
-        checkFaved()?setOpen(false):setOpen(true)
-        setFav(current => !current)           
+    let handleFav = () => {
+        if (fav) {
+            dispatch(removeFavorites(product.id))
+            ls=ls.filter(prod=>prod.id!==product.id)
+            localStorage.setItem('lsFavorites', JSON.stringify(ls))
+            setFav(current => !current)
+            checkFaved()?setOpen(false):setOpen(true)                                                        
+        } else {
+            dispatch(addFavorites(product))
+            ls.push(product)
+            localStorage.setItem('lsFavorites', JSON.stringify(ls))
+            setFav(current => !current)
+            checkFaved()?setOpen(false):setOpen(true)  
+        }       
     };
 
     let handleClose = (event, reason) => {
@@ -86,9 +99,10 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
         }
     };
 
-    let handleAddToCart = () => {
+    let handleAddToCart = async () => {
         if (amount&&size){
-            dispatch(addToCart({
+            let prodToCart= {
+                cartId:`${product.name}-${size}-${amount}`,
                 id:product.id,
                 Brand:product.Brand,
                 Categories:product.Categories,
@@ -98,8 +112,10 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
                 choosedSize:size,
                 choosedAmount:amount,
                 Sizes:product.Sizes
-              }))
-              handlePopUpClose()
+              }
+            await dispatch(addToCart(prodToCart))
+            // localStorage.setItem(`lsCartProducts`, JSON.stringify(cartProducts))
+            handlePopUpClose()
         }
         return handlePopUpClose()
     };

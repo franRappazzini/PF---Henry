@@ -22,7 +22,7 @@ export default function DashboardMenu({setOption}) {
   };
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: '#f9fafb' }}>
+    <Box sx={{ width: '100%', maxWidth: 360, bgcolor: '#f6f7f9' }}>
       <List component="nav">
         <ListItemButton
           className={style.optionButton}

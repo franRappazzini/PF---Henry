@@ -23,7 +23,6 @@ export default function Card({product}) {
      let amountSpan = document.getElementById("amount")
     
     
-    console.log(amountSpan.value);
     const handleClose= (e)=>{
         e.preventDefault()
         dispatch(removeFromCart(`${product.name}-${product.choosedSize}-${product.choosedAmount}`))
