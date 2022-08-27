@@ -45,19 +45,25 @@ export default function UsersOption({users}) {
       
       const rows = users.map(user=> {return {id:user.id, firstName:user.given_name,email: user.email ,lastName:user.family_name, type:user.isAdmin?'Admin':'User', status: 'Active'}})
     return (
-        <div className={style.globalContainer} >
-          <div className={style.searchBarContainer}>
-            <SearchBar2 className={style.searchBar} label='Search user'/> 
-          </div>                 
-          <div className={style.gridContainer}>
-            <DataGrid
-              className={style.grid}
-              rows={rows}
-              columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-              checkboxSelection
-            />
+        <div className={style.usersOptionContainer}>
+          <div className={style.usersHeader}>
+            Users
+          </div>
+          <div className={style.globalContainer} >
+
+            <div className={style.searchBarContainer}>
+              <SearchBar2 className={style.searchBar} label='Search user'/> 
+            </div>                 
+            <div className={style.gridContainer}>
+              <DataGrid
+                className={style.grid}
+                rows={rows}
+                columns={columns}
+                pageSize={5}
+                rowsPerPageOptions={[5]}
+                checkboxSelection
+              />
+            </div>
           </div>
         </div>
       );

@@ -1,36 +1,42 @@
 .globalContainer {
-    padding: .1vw;
     display: flex;
-    border: 1px solid red;
-    width: 70vw;
-    height: 40vw;
+    width: 75vw;
+    height: auto;
 }
 .statisticsContainer {
     flex-direction: column;
-    padding: .1vw;
     display: flex;
-    border: 1px solid black;
     width: 100%;
     height: auto;
 }
 .statisticsHeader {
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    align-self: center;
     display: flex;
-    padding: .2vw;
-    width: auto;
-    height: 5%;
-    border: 1px solid red;
-    font-size: 20px;
+    width: 65vw;
+    height: 3vw;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    font-size: 1.042vw;
     font-weight: 600;
-    margin-bottom: 2px;
+    margin-top: 1vw;
+    margin-bottom: .3vw;
+    box-shadow: 3px 3px 21px 0px rgba(0,0,0,0.1);
+    border-radius: .4vw;
+    background-color: #ffffff;
 }
 .statistics {
+    box-shadow: 3px 3px 20px 0px rgba(0,0,0,0.1);
+    align-self: center;
     align-items: center;
     text-align: center;
+    background-color: #ffffff;
     justify-content: space-around;
-    border: 1px solid red;
-    height: 10%;
+    border-radius: .4vw;
+    height: 8vw;
     display: flex;
-    width: auto;
+    width: 65vw;
 }
 .statisticsItem {
     padding: 1px;
@@ -39,14 +45,46 @@
     display: flex;
     flex-direction: row;
     height: fit-content;
-    border: 1px solid green;
 }
 .icon {
-    border: 1px solid red;
-    font-size: 1.5vw;
+    border-radius: 50%;
+    padding: 0.625vw;
+    font-size: 1.7vw;
+    box-shadow: 2px 2px 7px rgba(0,0,0,0.3);
 }
 .itemTitle {
-    margin-left: 1px;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    color: #24252a;
+    font-weight: 600;
     height: fit-content;
-    border: 1px solid red;
+    width: fit-content;
+    font-size: 0.833vw;
+    margin-bottom: 4px;
+}
+.statisticNumber {
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    font-weight: 700;
+    display: flex;
+    font-size: 1.302vw;
+    color: #161724;  
+    padding: 0;
+}
+.statisticTitleNumberContainer {
+    margin-left: .8vw;
+    flex-direction: column;
+    display: flex;
+}
+.graphsContainer {
+    justify-content: center;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    text-align: center;
+    background-color: #ffffff;
+    margin-top: 1vw;
+    width: 65vw;
+    height: 20vw;
+    box-shadow: 3px 3px 20px 0px rgba(0,0,0,0.1);
+    border-radius: .4vw;
+    margin-top: 1vw;
 }

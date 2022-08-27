@@ -38,10 +38,14 @@ export default function ProductsOption() {
 
   return (
     <div className={style.globalContainer}>
+      <div className={style.productsHeader}>
+        Products
+      </div>
+
+      <div className={style.cardsContainer}>
       <div className={style.searchBarContainer}>
         <SearchBar2 filters={filters} setFilters={setFilters} label='Search product'/>
       </div>
-      <div className={style.cardsContainer}>
         {
           products.map(product=> <Card key={product.id} product={product} dashboard={true} />)
         }
