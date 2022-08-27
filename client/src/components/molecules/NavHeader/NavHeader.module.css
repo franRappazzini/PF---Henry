@@ -7,9 +7,6 @@
 .adminOptionsContainer {
   display: flex;
 }
-.adminNavLinks {
-  display: flex;
-}
 
 .li_nav {
   padding: 0 0.5rem;

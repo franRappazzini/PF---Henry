@@ -12,10 +12,10 @@ const {
 } = require("../../db/db");
 
 router.get("", async (req, res) => {
-  const { name, category, brand, size, by, order } = req.query;
+  const { category, brand, size, by, order } = req.query;
 
   try {
-    let response = [];
+    // let response = [];
     const options = {
       where: { [Op.and]: [] },
       include: [
@@ -43,17 +43,17 @@ router.get("", async (req, res) => {
     }
     if (by && order) options.order = [[by, order]];
 
-    if (name) {
-      response = await Product.findAll({
-        ...options,
-        where: {
-          [Op.and]: [...options.where[Op.and]],
-          name: { [Op.iLike]: `%${name}%` },
-        },
-      });
-    } else {
-      response = await Product.findAll(options);
-    }
+    // if (name) {
+    //   response = await Product.findAll({
+    //     ...options,
+    //     where: {
+    //       [Op.and]: [...options.where[Op.and]],
+    //       name: { [Op.iLike]: `%${name}%` },
+    //     },
+    //   });
+    // } else {
+    const response = await Product.findAll(options);
+    // }
 
     res.json(response);
   } catch (err) {

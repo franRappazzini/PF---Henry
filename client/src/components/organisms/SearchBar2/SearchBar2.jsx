@@ -2,9 +2,16 @@ import React from "react";
 import { TextField } from "@mui/material";
 import style from "./SearchBar2.module.css";
 
-export default function SearchBar2({ filters, setFilters, label }) {
+export default function SearchBar2({
+  filters,
+  setFilters,
+  label,
+  prodSearched,
+  setProdSearched,
+}) {
   function handleFilter(e) {
-    setFilters({ ...filters, name: e.target.value });
+    // setFilters({ ...filters, name: e.target.value });
+    setProdSearched(e.target.value);
   }
 
   return (
@@ -13,7 +20,7 @@ export default function SearchBar2({ filters, setFilters, label }) {
         label={label}
         variant="outlined"
         onChange={handleFilter}
-        value={filters?.name?filters.name:null}
+        value={prodSearched}
         autoComplete="off"
         size="small"
       />

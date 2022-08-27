@@ -1,13 +1,13 @@
 import {
   ADD_FAVORITES,
   ADD_TO_CART,
+  DELETE_PRODUCT,
   FILTERS,
   GET_ALL_PRODUCTS,
   GET_PRODUCT,
   GET_PRODUCT_NAME,
   REMOVE_FAVORITES,
   REMOVE_FROM_CART,
-  DELETE_PRODUCT,
 } from "../../utils/reduxVars";
 
 import axios from "axios";
@@ -106,8 +106,9 @@ export function searchProduct(name) {
   };
 }
 
-export function filter(name, brand, category, size, by, order) {
-  const queries = `?name=${name}&brand=${brand}&category=${category}&size=${size}&by=${by}&order=${order}`;
+export function filter(brand, category, size, by, order) {
+  // const queries = `?name=${name}&brand=${brand}&category=${category}&size=${size}&by=${by}&order=${order}`;
+  const queries = `?brand=${brand}&category=${category}&size=${size}&by=${by}&order=${order}`;
 
   return async (dispatch) => {
     try {
