@@ -9,7 +9,12 @@ import Favorites from "./components/pages/Favorites/Favorites";
 import Header from "./components/organisms/Header/Header";
 import Home from "./components/pages/Home/Home.jsx";
 import Profile from "./components/pages/Profile/Profile";
+
+
+
+
 import Dashboard from "./components/pages/Dashboard/Dashboard";
+import Update from "./components/pages/Update/Update";
 import NotFound from "./components/pages/NotFound/NotFound"
 import ProtectedRoute from "./components/middleware/ProtectedRoute/ProtectedRoute";
 
@@ -34,6 +39,7 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
 
         <Route path="/cart" element={<Cart />} />
+        <Route path="/update/:productId" element={<Update/>}/>
 
         <Route path="*" element={<NotFound/>}/>
       </Routes>
