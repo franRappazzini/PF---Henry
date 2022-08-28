@@ -13,7 +13,6 @@ import {
 import axios from "axios";
 
 export function getAllProducts() {
-  console.log("getAllProducts ACTION");
   return async (dispatch) => {
     try {
       const res = await axios.get("/product");
@@ -45,7 +44,7 @@ export function deleteProduct(id) {
   };
 }
 export function addFavorites(product) {
-  console.log("Product from addFavorites:", product);
+
   return (dispatch) => {
     try {
       dispatch({ type: ADD_FAVORITES, payload: product });
@@ -55,7 +54,6 @@ export function addFavorites(product) {
   };
 }
 export function addToCart(prod) {
-  console.log("id and size from actions :", prod);
   return (dispatch) => {
     try {
       dispatch({ type: ADD_TO_CART, payload: prod });
@@ -74,7 +72,6 @@ export function removeFromCart(id) {
   };
 }
 export function removeFavorites(id) {
-  console.log("id from removeFavorites", id);
   return (dispatch) => {
     try {
       dispatch({ type: REMOVE_FAVORITES, payload: id });

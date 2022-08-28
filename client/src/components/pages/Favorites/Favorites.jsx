@@ -10,7 +10,8 @@ export default function Favorites() {
   let { favorites } = useSelector(state=> state.product)
 
   useEffect(() => {
-  }, [favorites]);
+
+  }, [lsFavorites]);
 
 
   return (

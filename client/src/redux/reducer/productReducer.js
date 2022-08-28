@@ -42,7 +42,6 @@ export function productReducer(state = initialState, action) {
         favorites: state.favorites.concat(action.payload),
       };
       case ADD_TO_CART:
-        console.log('product from reducer: ', action.payload);
         return {
           ...state,
           cartProducts: state.cartProducts.concat(action.payload)

@@ -14,6 +14,7 @@ export default function Card({product}) {
     let { cartProducts } = useSelector(state=> state.product)
     const spanRef = useRef()
     const [amount, setAmount] = useState(product.choosedAmount)
+    let lsCart = JSON.parse(localStorage.getItem('lsCartProducts')) || []
 
     let mySize = product.Sizes.filter(e=>e.size===product.choosedSize)
     const stock = mySize[0].Product_Size.stock
@@ -26,6 +27,8 @@ export default function Card({product}) {
     const handleClose= (e)=>{
         e.preventDefault()
         dispatch(removeFromCart(`${product.name}-${product.choosedSize}-${product.choosedAmount}`))
+        lsCart = lsCart.filter(prod=>prod.id!==product.id)
+        localStorage.setItem('lsCartProducts', JSON.stringify(lsCart))
     }
     const handlePlus = (e)=>{
         e.preventDefault()

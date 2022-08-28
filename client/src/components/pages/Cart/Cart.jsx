@@ -6,18 +6,16 @@ import { useSelector } from 'react-redux';
 import NoProductsFound from '../../molecules/NoProductsFound/NoProductsFound.jsx'
 
 export default function Cart(){
+  let lsCartProducts = JSON.parse(localStorage.getItem('lsCartProducts')) || []
  
     let { cartProducts } = useSelector((state) => state.product) 
 
-    console.log("mis productos del carrito: ", cartProducts)
-    console.log(cartProducts[0])
-
-      
+    console.log("lsCartProducts from Cart: ", lsCartProducts)      
       return(
         <div className={style.cart_container}>
           <h1 className={style.h1_cart}>MY CART</h1>
           <div className={cartProducts.length?style.card_container:style.empty_container}>
-            {cartProducts[0]?cartProducts.map(e=><div><CartCard key={e.id} product={e}/>{/* <span>{e.choosedAmount}</span><span>{e.choosedSize}</span> */}</div>):<span className={style.empty_span}>You haven't added products to the cart... yet ;)</span>}
+            {lsCartProducts.length?lsCartProducts.map(e=><div><CartCard key={e.id} product={e}/>{/* <span>{e.choosedAmount}</span><span>{e.choosedSize}</span> */}</div>):<NoProductsFound message="You haven't added products to the cart... yet ;)"/>}
           </div>
 
           <button className={style.buy_button}>BUY</button>

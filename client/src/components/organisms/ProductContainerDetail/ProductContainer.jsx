@@ -45,20 +45,22 @@ export default function ProductContainer({productDetail}){
    }
    const [fav, setFav] = useState(false)
    const isCart = cartProducts.filter(e=> `${productDetail.name}-${selectedSize}-${amount}`===e.cartId).length
-   
    const [cart, setCart] = useState(false)
+   let ls = JSON.parse(localStorage.getItem('lsFavorites')) || []
+  
+   let lsCart = JSON.parse(localStorage.getItem('lsCartProducts')) || []
+   console.log('ls details START!!!!!!!!!!!', lsCart);
    
    useEffect(()=>{
     setCart(isCart?true:false)
     setFav(checkFaved()?true:false)
    },[isCart,checkFaved])
-   console.log("setCart: ", cart)
+  //  console.log("setCart: ", cart)
 
 
 
-   console.log("My real amount: ", amount)
-   console.log("My real size: ", selectedSize)
-console.log(productDetail)
+  //  console.log("My real amount: ", amount)
+  //  console.log("My real size: ", selectedSize)
    let mySize = ""
     selectedSize!==0?mySize = productDetail.Sizes.filter(e=>e.size===selectedSize):mySize="" 
    let stock = 0
@@ -91,17 +93,35 @@ console.log(productDetail)
       e.preventDefault()
       if(fav){
         dispatch(removeFavorites(productDetail.id))
+        ls=ls.filter(prod=>prod.id!==productDetail.id)
+        localStorage.setItem('lsFavorites', JSON.stringify(ls))
         setFav(false)
       }else{
         dispatch(addFavorites(productDetail))
+        ls.push(productDetail)
+        localStorage.setItem('lsFavorites', JSON.stringify(ls))
         setFav(true)
       }
     }
     const handleCart = (e) => {
+      let prodToCart = {
+        cartId:`${productDetail.name}-${selectedSize}-${amount}`,
+        id:productDetail.id,
+        Brand:productDetail.Brand,
+        Categories:productDetail.Categories,
+        image:productDetail.image,
+        name:productDetail.name,
+        price: productDetail.price,
+        choosedSize:selectedSize,
+        choosedAmount:amount,
+        Sizes:productDetail.Sizes
+      }
       e.preventDefault()
       if(cart){
         setCart(false)
         dispatch(removeFromCart(`${productDetail.name}-${selectedSize}-${amount}`))
+        lsCart = lsCart.filter(prod=>prod.id!==productDetail.id)
+        localStorage.setItem('lsCartProducts', JSON.stringify(lsCart))
         setSelectedSize(0)
         
         const Toast = Swal.mixin({
@@ -149,19 +169,15 @@ console.log(productDetail)
         })
         
        
-        console.log(productDetail)
-        dispatch(addToCart({
-          cartId:`${productDetail.name}-${selectedSize}-${amount}`,
-          id:productDetail.id,
-          Brand:productDetail.Brand,
-          Categories:productDetail.Categories,
-          image:productDetail.image,
-          name:productDetail.name,
-          price: productDetail.price,
-          choosedSize:selectedSize,
-          choosedAmount:amount,
-          Sizes:productDetail.Sizes
-        }))
+        console.log('prodDetails from details',productDetail)
+
+        dispatch(addToCart(prodToCart))        
+        lsCart.push(prodToCart)
+        console.log('localStorage from details:', lsCart);
+        localStorage.setItem('lsCartProducts',JSON.stringify(lsCart))
+        console.log('localStorage from details after set:', lsCart);
+        
+        
     }
       
     }

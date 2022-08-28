@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux"
 import { getAllProducts } from "../../../redux/actions/productActions"
 
 export default function CarouselContainer({productDetail, products}){
-    console.log(products)
     const dispatch = useDispatch()
     useEffect(()=>{
         dispatch(getAllProducts())

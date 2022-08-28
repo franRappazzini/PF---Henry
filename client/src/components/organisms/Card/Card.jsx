@@ -34,6 +34,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
     let [confirmationPopUpOpen, setConfirmationPopUpOpen] = useState(false)
     let [cart, setCart] = useState(onCart?true:false)  
     let ls = JSON.parse(localStorage.getItem('lsFavorites')) || []
+    let lsCart = JSON.parse(localStorage.getItem('lsCartProducts')) || []
 
     let checkFaved = () => {
        return ls.filter(fav=>fav.id===product.id).length
@@ -78,19 +79,17 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
     }; 
 
     let handleSize = (event) => {
-        setSize(
-          event.target.value,
-        )
+        setSize(event.target.value)
         setStock(product.Sizes.filter(prod=>prod.size===event.target.value)[0].Product_Size.stock);
     };
     let handleAmount = (event) => {
-        setAmount(
-          event.target.value,
-        )
+        setAmount(event.target.value)
     };
 
     let handleClickCart = () => {
         if (cart) {
+            lsCart = lsCart.filter(prod=>prod.id!==product.id)
+            localStorage.setItem(`lsCartProducts`, JSON.stringify(lsCart))
             dispatch(removeFromCart(product.id))
             setCart(current => !current)
         } else {
@@ -99,8 +98,8 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
         }
     };
 
-    let handleAddToCart = async () => {
-        if (amount&&size){
+    let handleAddToCart =  () => {
+        if (amount>0&&size){
             let prodToCart= {
                 cartId:`${product.name}-${size}-${amount}`,
                 id:product.id,
@@ -113,8 +112,9 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
                 choosedAmount:amount,
                 Sizes:product.Sizes
               }
-            await dispatch(addToCart(prodToCart))
-            // localStorage.setItem(`lsCartProducts`, JSON.stringify(cartProducts))
+            dispatch(addToCart(prodToCart))
+            lsCart.push(prodToCart)
+            localStorage.setItem(`lsCartProducts`, JSON.stringify(lsCart))
             handlePopUpClose()
         }
         return handlePopUpClose()
