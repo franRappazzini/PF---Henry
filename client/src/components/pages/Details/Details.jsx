@@ -8,6 +8,7 @@ import {useEffect} from "react"
 import {useParams, useState} from "react-router-dom"
 import {getProduct } from "../../../redux/actions/productActions.js";
 import CarouselTitle from "../../molecules/CarouselTitleDetails/CarouselTitle";
+import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound";
 
 
 
@@ -20,7 +21,6 @@ export default function Detail(){
   
   
     useEffect(()=>{
-      console.log("en el use")
         dispatch(getProduct(productId))
     },[dispatch, productId])
 
@@ -44,7 +44,7 @@ export default function Detail(){
     )
   }else{
     return(
-      <span>theres no product Detail</span>
+      <NoProductsFound message='theres no product Detail'/>
     )
   }
 }
