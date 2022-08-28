@@ -13,11 +13,11 @@
   width: 230px;
   border-radius: 30px;
   padding: 0px 0.52vw;
-  box-shadow: 0.1vw 1vw 1vw rgba(0, 0, 0, 0.3), 0.1vw 0px 2.6vw rgba(0, 0, 0, 0.3);
-  transition: all .4s ease-in-out;    
+  box-shadow: 3px 3px 20px 0px rgba(0,0,0,0.4);
+  transition: all .42s ease-in-out;    
 }
 .card:hover {
-  box-shadow: 0.15vw 1.146vw 1.146vw rgba(0, 0, 0, 0.3), 0.15vw 0px 2.865vw rgba(0, 0, 0, 0.4);
+  box-shadow: 3px 3px 25px 0px rgba(0,0,0,0.6);
   transform: scale(1.03);
 }
 .card:hover .img {

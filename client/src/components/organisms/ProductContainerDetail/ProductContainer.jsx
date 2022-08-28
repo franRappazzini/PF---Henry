@@ -13,6 +13,8 @@ import { BiError } from 'react-icons/bi'
 import { FaHeart } from "react-icons/fa"
 import { FaCartPlus } from "react-icons/fa"
 import { FaShoppingCart } from 'react-icons/fa';
+import { IoMdArrowDropleft } from "react-icons/io";
+import { IoMdArrowDropright } from "react-icons/io";
 
 import { Rating } from "@mui/material"
 import { useState } from "react";
@@ -35,30 +37,35 @@ export default function ProductContainer({productDetail}){
 
   const dispatch = useDispatch()
     
-    const [amount, setAmount] = useState(amountInput!==""&&amountInput.value?amountInput.value:1)
+    const [amount, setAmount] = useState(amountInput!==""&&amountInput.textContent?amountInput.textContent:1)
     const [selectedSize, setSelectedSize] = useState(0)
     const { favorites, cartProducts } = useSelector(state=> state.product)
-     let checkFaved = () => {
+     const checkFaved = () => {
       return favorites.filter(fav=>fav.id===productDetail.id).length
    }
-   const [fav, setFav] = useState(checkFaved()?true:false)
+   const [fav, setFav] = useState(false)
    const isCart = cartProducts.filter(e=> `${productDetail.name}-${selectedSize}-${amount}`===e.cartId).length
    
-   console.log("is Cart: ",isCart?true:false)
    const [cart, setCart] = useState(false)
    
    useEffect(()=>{
     setCart(isCart?true:false)
-   },[isCart])
+    setFav(checkFaved()?true:false)
+   },[isCart,checkFaved])
    console.log("setCart: ", cart)
 
 
 
    console.log("My real amount: ", amount)
    console.log("My real size: ", selectedSize)
+console.log(productDetail)
+   let mySize = ""
+    selectedSize!==0?mySize = productDetail.Sizes.filter(e=>e.size===selectedSize):mySize="" 
+   let stock = 0
+   mySize[0]?stock = mySize[0].Product_Size.stock:stock=0
+   /* console.log(productDetail.Sizes.filter(e=>e.size===39))
+   console.log("my stock: ",stock) */
 
-/* console.log("mis favs",favorites)
-console.log("estado fav: ", fav) */
     const sizes = productDetail.Sizes.map(e=>e.size)
 
     // PRUEBA DE RAITING
@@ -198,7 +205,7 @@ console.log("estado fav: ", fav) */
           <div className={style.size_buttons_container}>
             {filteredSizes.map(e=><button onClick={selectedSize===e?()=>{setSelectedSize(0)}:()=>{setSelectedSize(e)}} className={selectedSize!==e?style.size_button:style.selected_button} key = {e}>{e}</button>)}
             <div className={style.amount_container}>
-            {selectedSize!==0?<div><span>AMOUNT: </span><input id="amount" onChange={()=>setAmount(amountInput.value)} max="99" min="1" className={style.amount_input} type="number" defaultValue={1}></input></div>:""}
+            {selectedSize!==0?<div className={style.amount_box}><span>AMOUNT: </span><div className={style.input_container}><button onClick={()=>{amount===1?setAmount(1):setAmount(amount-1)}} className={style.in_dec_button}><IoMdArrowDropleft className={style.in_dec_icon}/></button><span id="amount" className={style.amount_span}>{amount}</span><button onClick={()=>{stock===amount?setAmount(stock):setAmount(amount+1)}} className={style.in_dec_button}><IoMdArrowDropright className={style.in_dec_icon}/></button></div></div>:""}
             </div>
             </div>
             <div className={style.br3}></div>

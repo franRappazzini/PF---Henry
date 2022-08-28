@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { Button } from "@mui/material";
 import DialogSizesCreate from "../../molecules/DialogSizesCreate/DialogSizesCreate";
 import InputsFormCreate from "../../molecules/InputsFormCreate/InputsFormCreate";
+import { LoadingButton } from "@mui/lab";
 import SelectCategoryCreate from "../../molecules/SelectCategoryCreate/SelectCategoryCreate";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -17,6 +17,7 @@ function FormCreateProduct() {
   const [image, setImage] = useState("");
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
   const swal = withReactContent(Swal);
   const navigate = useNavigate();
 
@@ -27,6 +28,7 @@ function FormCreateProduct() {
       swal.fire("Error..", validations(), "error");
       return;
     }
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("file", image);
@@ -47,7 +49,7 @@ function FormCreateProduct() {
       size: selectedSizes,
     };
 
-    const res = await axios.post("http://localhost:3001/product", newProduct);
+    const res = await axios.post("/product", newProduct);
 
     console.log(res);
 
@@ -69,13 +71,12 @@ function FormCreateProduct() {
         denyButtonColor: "grey",
       })
       .then((result) => {
-        if (result.isConfirmed) {
-          navigate(`/product/${res.data.id}`);
-        }
+        if (result.isConfirmed) navigate(`/product/${res.data.id}`);
       });
     setProduct({ name: "", brand: "", price: "" });
     setSelectedCategories([]);
     setSelectedSizes([]);
+    setLoading(false);
   }
 
   function validations() {
@@ -110,9 +111,9 @@ function FormCreateProduct() {
         />
       </section>
 
-      <Button type="submit" variant="outlined">
+      <LoadingButton loading={loading} type="submit" variant="outlined">
         Submit
-      </Button>
+      </LoadingButton>
     </form>
   );
 }

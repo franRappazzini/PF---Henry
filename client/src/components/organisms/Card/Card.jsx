@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './Card.module.css';
 import { Link } from 'react-router-dom'
 import { MdOutlineFavoriteBorder as F, MdOutlineAddShoppingCart as SC} from  'react-icons/md';
@@ -17,30 +17,46 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { RiCloseCircleLine } from 'react-icons/ri';
+import { AiOutlineEdit } from 'react-icons/ai';
+import ConfirmationPopUp from '../ConfirmationPopUp/ConfirmationPopUp';
+import { deleteProduct } from '../../../redux/actions/productActions.js';
 
-export default function Card({product}) {
+export default function Card({ product, dashboard, handleConfirmationPopUpOpen}) {
     let dispatch = useDispatch()
-    let { favorites, cartProducts } = useSelector((state) => state.product) 
+    let { cartProducts } = useSelector((state) => state.product) 
     let [open, setOpen] = useState(false)
     let [popUpOpen, setPopUpOpen] = useState(false)
     let [size, setSize] = useState()
     let [amount, setAmount] = useState(null)
     let [stock, setStock] = useState(0)
-    let faved = cartProducts.filter(prod=>prod.id===product.id).length
-    let [cart, setCart] = useState(faved?true:false)    
-    console.log('cart: ', cart);
-    console.log('cartProd: ', cartProducts);
+    let onCart = cartProducts.filter(prod=>prod.id===product.id).length
+    let [confirmationPopUpOpen, setConfirmationPopUpOpen] = useState(false)
+    let [cart, setCart] = useState(onCart?true:false)  
+    let ls = JSON.parse(localStorage.getItem('lsFavorites')) || []
 
     let checkFaved = () => {
-       return favorites.filter(fav=>fav.id===product.id).length
+       return ls.filter(fav=>fav.id===product.id).length
     };
     
     let [fav, setFav] = useState(checkFaved()?true:false)
+    useEffect(()=>{
+    },[fav])
 
-    let handleFav = () => {        
-        fav ? dispatch(removeFavorites(product.id)) : dispatch(addFavorites(product))
-        checkFaved()?setOpen(false):setOpen(true)
-        setFav(current => !current)         
+    let handleFav = () => {
+        if (fav) {
+            dispatch(removeFavorites(product.id))
+            ls=ls.filter(prod=>prod.id!==product.id)
+            localStorage.setItem('lsFavorites', JSON.stringify(ls))
+            setFav(current => !current)
+            checkFaved()?setOpen(false):setOpen(true)                                                        
+        } else {
+            dispatch(addFavorites(product))
+            ls.push(product)
+            localStorage.setItem('lsFavorites', JSON.stringify(ls))
+            setFav(current => !current)
+            checkFaved()?setOpen(false):setOpen(true)  
+        }       
     };
 
     let handleClose = (event, reason) => {
@@ -83,9 +99,10 @@ export default function Card({product}) {
         }
     };
 
-    let handleAddToCart = () => {
+    let handleAddToCart = async () => {
         if (amount&&size){
-            dispatch(addToCart({
+            let prodToCart= {
+                cartId:`${product.name}-${size}-${amount}`,
                 id:product.id,
                 Brand:product.Brand,
                 Categories:product.Categories,
@@ -95,10 +112,28 @@ export default function Card({product}) {
                 choosedSize:size,
                 choosedAmount:amount,
                 Sizes:product.Sizes
-              }))
-              handlePopUpClose()
+              }
+            await dispatch(addToCart(prodToCart))
+            // localStorage.setItem(`lsCartProducts`, JSON.stringify(cartProducts))
+            handlePopUpClose()
         }
         return handlePopUpClose()
+    };
+
+    let handleClickOpenConfirmationPopUp = () => {
+        setConfirmationPopUpOpen(true)
+    };
+    let handleClickCloseConfirmationPopUp = () => {
+        setConfirmationPopUpOpen(false)
+    };
+
+    let handleRemove = () => {
+        dispatch(deleteProduct(product.id))
+        console.log('PRODUCT REMOVED SUCCESSFULLY:', product.id);
+        handleClickCloseConfirmationPopUp()
+    };
+
+    let handleEdit = (id) => {
 
     };
     
@@ -112,6 +147,7 @@ export default function Card({product}) {
         
   return (
         <div className={style.container}>
+            <ConfirmationPopUp confirmationOpen={confirmationPopUpOpen} handleClose={handleClickCloseConfirmationPopUp} handleOpen={handleClickOpenConfirmationPopUp} setConfirmationOpen={setConfirmationPopUpOpen} handleRemove={handleRemove} message='Remove Product' description='Are you sure you want to remove this product?'/>
             <Dialog
                 open={popUpOpen}
                 onClose={handlePopUpClose}
@@ -187,7 +223,7 @@ export default function Card({product}) {
                 ? <SiNewbalance className={style.brand}/> 
                 : <BiError className={style.brand}/>
                 }
-                <F className={style.iconoutline} onClick={handleFav} style={{color: fav ? '#5f27cd' : '#000'}}/>
+                {dashboard ? <RiCloseCircleLine className={style.iconoutline} onClick={()=>handleClickOpenConfirmationPopUp()}/> : <F className={style.iconoutline} onClick={handleFav} style={{color: fav ? '#5f27cd' : '#000'}}/>}
             </div>            
                 <div className={style.product}>
                     <img src={product.image} alt= 'not found' className={product.Brand.name==='Reebok'? style.img2 : style.img}/>
@@ -200,7 +236,7 @@ export default function Card({product}) {
                             <Link to={`/product/${product.id}`} className={style.linkMore}>
                                 <button className={style.detailsButton}>View More</button>
                             </Link>                       
-                            <button className={style.cartButton}><SC className={style.shoppingCart} onClick={handleClickCart} style={{color: cart ? '#5f27cd' : '#000'}}/></button>                        
+                            <button className={style.cartButton}>{!dashboard?<SC className={style.shoppingCart} onClick={handleClickCart} style={{color: cart ? '#5f27cd' : '#000'}}/>:<AiOutlineEdit className={style.shoppingCart} onClick={()=>handleEdit()}/>}</button>                        
                     </div>
                 
             </div>        
