@@ -35,6 +35,7 @@ import { RiCloseCircleLine } from "react-icons/ri";
 import Select from "@mui/material/Select";
 import SuccessSnackbar from "../SnackBar/SnackBar.jsx";
 import { deleteProduct } from "../../../redux/actions/productActions.js";
+import { getAllProducts } from "../../../redux/actions/productActions";
 import style from "./Card.module.css";
 
 export default function Card({
@@ -149,9 +150,10 @@ export default function Card({
     setConfirmationPopUpOpen(false);
   };
 
-  let handleRemove = () => {
+  let handleRemove = async () => {
     dispatch(deleteProduct(product.id));
     console.log("PRODUCT REMOVED SUCCESSFULLY:", product.id);
+    dispatch(getAllProducts());
     handleClickCloseConfirmationPopUp();
   };
 
