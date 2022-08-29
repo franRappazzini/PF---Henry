@@ -220,13 +220,15 @@ export default function ProductContainer({ productDetail }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let updateProduct = {};
 
     if (validations()) {
       swal.fire("Error..", validations(), "error");
       return;
     }
     setLoading(true);
-    if (product.newImage) {
+
+    if (product.newImage !== "") {
       const formData = new FormData();
       formData.append("file", product.newImage);
       formData.append("upload_preset", "mo6d6qav");
@@ -238,13 +240,11 @@ export default function ProductContainer({ productDetail }) {
         setLoading(false);
         return swal.fire("Error..", imgRes.message, "error");
       }
-      setProduct({
-        ...product,
-        image: imgRes.data.url,
-      });
+
+      updateProduct = { ...product, image: imgRes.data.url };
     }
 
-    const res = await axios.put("/product/" + productDetail.id, product);
+    const res = await axios.put("/product/" + productDetail.id, updateProduct);
 
     if (res.response?.status === 400) {
       setLoading(false);
@@ -328,7 +328,7 @@ export default function ProductContainer({ productDetail }) {
                 label="Image"
                 variant="standard"
                 autoComplete="off"
-                name="image"
+                // name="image"
                 type="file"
                 color="secondary"
                 onChange={handleImageChange}
