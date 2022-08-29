@@ -1,4 +1,5 @@
-import { GET_LOGED_USER, GET_ALL_USERS } from "../../utils/reduxVars";
+import { GET_ALL_USERS, GET_LOGED_USER } from "../../utils/reduxVars";
+
 import axios from "axios";
 
 export function getLogedUser(user) {
@@ -11,6 +12,7 @@ export function getLogedUser(user) {
     }
   };
 }
+
 export function getAllUsers() {
   return async (dispatch) => {
     try {
@@ -20,5 +22,12 @@ export function getAllUsers() {
       console.log(err);
     }
   };
+}
 
+export async function updateUser(user) {
+  try {
+    await axios.put(`/user/${user.currentEmail}`, user);
+  } catch (err) {
+    return err;
+  }
 }
