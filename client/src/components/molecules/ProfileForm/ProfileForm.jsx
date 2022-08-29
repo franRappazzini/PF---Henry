@@ -1,4 +1,10 @@
-import { Button, Card, CardContent, TextField } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 
 import { LoadingButton } from "@mui/lab";
@@ -8,15 +14,14 @@ import style from "./ProfileForm.module.css";
 import { updateUser } from "../../../redux/actions/userActions";
 import withReactContent from "sweetalert2-react-content";
 
-const instanceForm = {
-  picture: "",
-  given_name: "",
-  family_name: "",
-  email: "",
-  password: "",
-};
-
 function ProfileForm({ logedUser, setEdit }) {
+  const instanceForm = {
+    picture: "",
+    given_name: logedUser.given_name || "",
+    family_name: logedUser.family_name || "",
+    email: logedUser.email || "",
+    password: "",
+  };
   const [form, setForm] = useState(instanceForm);
   const [loading, setLoading] = useState(false);
   const swal = withReactContent(Swal);
@@ -125,6 +130,10 @@ function ProfileForm({ logedUser, setEdit }) {
             required
           />
 
+          <Typography fontSize={14} sx={{ marginTop: "1rem", width: 275 }}>
+            *To change the password you must select 'Don't remember your
+            password?' in Log In
+          </Typography>
           {/* <TextField
           type="password"
           label="Password"

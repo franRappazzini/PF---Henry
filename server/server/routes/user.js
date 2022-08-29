@@ -47,13 +47,15 @@ userRouter.get("", async (req, res) => {
 
 userRouter.put("/:currentEmail", async (req, res) => {
   const { currentEmail } = req.params;
-  const { given_name, email, family_name, password, picture } = req.body;
+  const { given_name, email, family_name, picture, isAdmin } = req.body;
   console.log(req.body);
 
   try {
     const response = await user.findOne({ where: { email: currentEmail } });
     console.log(response);
-    await response.update({ given_name, family_name, email, picture });
+
+    if (isAdmin?.option) await response.update({ isAdmin });
+    else await response.update({ given_name, family_name, email, picture });
     res.status(200).json({ success: "User update!" });
   } catch (err) {
     console.log(err);
