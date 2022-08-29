@@ -17,14 +17,16 @@ const userRouter = Router();
 
 userRouter.post("/:email", async (req, res) => {
   const { email } = req.params;
-  const { given_name, family_name } = req.body;
+  const { given_name, family_name, picture, sub } = req.body;
 
   try {
+    const isSocial = sub ? true : false;
     const options = {
       where: { email },
       include: [{ model: Bougth }, { model: Rating }],
-      defaults: { given_name, family_name, email },
+      defaults: { given_name, family_name, email, picture, isSocial },
     };
+
     const [response, created] = await user.findOrCreate(options);
     console.log(created);
     console.log(response);
@@ -33,12 +35,29 @@ userRouter.post("/:email", async (req, res) => {
     res.status(404).json({ error: err.message });
   }
 });
+
 userRouter.get("", async (req, res) => {
   try {
     const response = await user.findAll();
     res.json(response);
   } catch (err) {
-    res.status(404).send('get users error');
+    res.status(404).send("get users error");
+  }
+});
+
+userRouter.put("/:currentEmail", async (req, res) => {
+  const { currentEmail } = req.params;
+  const { given_name, email, family_name, password, picture } = req.body;
+  console.log(req.body);
+
+  try {
+    const response = await user.findOne({ where: { email: currentEmail } });
+    console.log(response);
+    await response.update({ given_name, family_name, email, picture });
+    res.status(200).json({ success: "User update!" });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: err.message });
   }
 });
 
