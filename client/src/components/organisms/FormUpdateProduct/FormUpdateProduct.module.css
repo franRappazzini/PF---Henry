@@ -145,6 +145,11 @@
     margin: 4px 8px;
     font-family: Roboto;
 }
+
+.delete_button {
+    position: absolute;
+    justify-content: end;
+}
 .selected_button{
     color: #ffffff;
     border: none;
@@ -283,11 +288,17 @@ input[type=number]::-webkit-inner-spin-button {
 
 
 
-  @media (max-width: 600px) {
+  @media (max-width: 950px) {
     .product_container{
         flex-direction: column;
         width: 100vw;
     }
+    .form {
+        margin: 0 auto;
+        margin-top: 25%;
+        
+    }
+
     .left_side{
         width: 70%;
         height: 50%;
