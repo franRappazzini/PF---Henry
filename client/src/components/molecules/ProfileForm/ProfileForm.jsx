@@ -8,15 +8,15 @@ import style from "./ProfileForm.module.css";
 import { updateUser } from "../../../redux/actions/userActions";
 import withReactContent from "sweetalert2-react-content";
 
-const instanceForm = {
-  picture: "",
-  given_name: "",
-  family_name: "",
-  email: "",
-  password: "",
-};
-
 function ProfileForm({ logedUser, setEdit }) {
+  const instanceForm = {
+    picture: "",
+    given_name: logedUser.given_name || "",
+    family_name: logedUser.family_name || "",
+    email: logedUser.email || "",
+    password: "",
+  };
+
   const [form, setForm] = useState(instanceForm);
   const [loading, setLoading] = useState(false);
   const swal = withReactContent(Swal);
