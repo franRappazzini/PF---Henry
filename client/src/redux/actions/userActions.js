@@ -16,7 +16,7 @@ export function getLogedUser(user) {
 export function getAllUsers() {
   return async (dispatch) => {
     try {
-      const res = await axios.get(`http://localhost:3001/user`);
+      const res = await axios.get(`/user`);
       dispatch({ type: GET_ALL_USERS, payload: res.data });
     } catch (err) {
       console.log(err);
