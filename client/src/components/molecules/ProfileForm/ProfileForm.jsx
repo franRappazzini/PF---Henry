@@ -1,4 +1,10 @@
-import { Button, Card, CardContent, TextField } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 
 import { LoadingButton } from "@mui/lab";
@@ -16,7 +22,6 @@ function ProfileForm({ logedUser, setEdit }) {
     email: logedUser.email || "",
     password: "",
   };
-
   const [form, setForm] = useState(instanceForm);
   const [loading, setLoading] = useState(false);
   const swal = withReactContent(Swal);
@@ -125,6 +130,10 @@ function ProfileForm({ logedUser, setEdit }) {
             required
           />
 
+          <Typography fontSize={14} sx={{ marginTop: "1rem", width: 275 }}>
+            *To change the password you must select 'Don't remember your
+            password?' in Log In
+          </Typography>
           {/* <TextField
           type="password"
           label="Password"
