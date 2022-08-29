@@ -50,13 +50,13 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
             ls=ls.filter(prod=>prod.id!==product.id)
             localStorage.setItem('lsFavorites', JSON.stringify(ls))
             setFav(current => !current)
-            checkFaved()?setOpen(false):setOpen(true)                                                        
+            checkFaved()?setOpen(true):setOpen(false)                                                        
         } else {
             dispatch(addFavorites(product))
             ls.push(product)
             localStorage.setItem('lsFavorites', JSON.stringify(ls))
             setFav(current => !current)
-            checkFaved()?setOpen(false):setOpen(true)  
+            checkFaved()?setOpen(true):setOpen(false)  
         }       
     };
 
