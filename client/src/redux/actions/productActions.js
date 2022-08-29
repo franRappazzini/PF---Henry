@@ -8,6 +8,7 @@ import {
   GET_PRODUCT_NAME,
   REMOVE_FAVORITES,
   REMOVE_FROM_CART,
+  PUT_PRODUCT
 } from "../../utils/reduxVars";
 
 import axios from "axios";
@@ -115,4 +116,15 @@ export function filter(brand, category, size, by, order) {
       console.log(err.message);
     }
   };
+}
+
+export function putProduct(product, id) {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(product, "/product/" + id)
+      dispatch({type: PUT_PRODUCT, payload: res.data})
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
