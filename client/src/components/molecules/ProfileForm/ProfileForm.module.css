@@ -1,0 +1,13 @@
+.form_profile {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 0.5rem;
+}
+
+.btns_container {
+  margin-top: 1rem;
+}
+
+.btns_container:first-child {
+  margin-right: 0.5rem;
+}
