@@ -1,26 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import style from './Card.module.css';
-import { Link } from 'react-router-dom'
-import { MdOutlineFavoriteBorder as F, MdOutlineAddShoppingCart as SC} from  'react-icons/md';
-import { SiNike, SiAdidas, SiPuma, SiNewbalance, SiReebok } from 'react-icons/si';
-import { BiError } from 'react-icons/bi';
-import { addFavorites, removeFavorites, removeFromCart, addToCart} from '../../../redux/actions/productActions.js';
-import { useDispatch, useSelector } from 'react-redux';
-import SuccessSnackbar from '../SnackBar/SnackBar.jsx'
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { RiCloseCircleLine } from 'react-icons/ri';
-import { AiOutlineEdit } from 'react-icons/ai';
-import ConfirmationPopUp from '../ConfirmationPopUp/ConfirmationPopUp';
-import { deleteProduct } from '../../../redux/actions/productActions.js';
+import {
+    MdOutlineFavoriteBorder as F,
+    MdOutlineAddShoppingCart as SC,
+  } from "react-icons/md";
+  import { Link } from "react-router-dom";
+  import React, { useEffect, useState } from "react";
+  import {
+    SiAdidas,
+    SiNewbalance,
+    SiNike,
+    SiPuma,
+    SiReebok,
+  } from "react-icons/si";
+  import {
+    addFavorites,
+    addToCart,
+    removeFavorites,
+    removeFromCart,
+  } from "../../../redux/actions/productActions.js";
+  import { useDispatch, useSelector } from "react-redux";
+  
+  import { AiOutlineEdit } from "react-icons/ai";
+  import { BiError } from "react-icons/bi";
+  import Box from "@mui/material/Box";
+  import Button from "@mui/material/Button";
+  import ConfirmationPopUp from "../ConfirmationPopUp/ConfirmationPopUp";
+  import Dialog from "@mui/material/Dialog";
+  import DialogActions from "@mui/material/DialogActions";
+  import DialogContent from "@mui/material/DialogContent";
+  import DialogTitle from "@mui/material/DialogTitle";
+  import FormControl from "@mui/material/FormControl";
+  import InputLabel from "@mui/material/InputLabel";
+  import MenuItem from "@mui/material/MenuItem";
+  import { RiCloseCircleLine } from "react-icons/ri";
+  import Select from "@mui/material/Select";
+  import SuccessSnackbar from "../SnackBar/SnackBar.jsx";
+  import { deleteProduct } from "../../../redux/actions/productActions.js";
+  import { getAllProducts } from "../../../redux/actions/productActions";
+  import style from "./Card.module.css";
 
 export default function Card({ product, dashboard, handleConfirmationPopUpOpen}) {
     let dispatch = useDispatch()
@@ -127,9 +143,9 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen})
         setConfirmationPopUpOpen(false)
     };
 
-    let handleRemove = () => {
+    let handleRemove = async () => {
         dispatch(deleteProduct(product.id))
-        console.log('PRODUCT REMOVED SUCCESSFULLY:', product.id);
+        dispatch(getAllProducts())
         handleClickCloseConfirmationPopUp()
     };
 
