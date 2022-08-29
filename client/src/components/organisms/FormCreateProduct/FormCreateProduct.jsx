@@ -39,6 +39,7 @@ function FormCreateProduct() {
     );
     if (imgRes.response?.data.error) {
       swal.fire("Error..", imgRes.message, "error");
+
       return;
     }
 

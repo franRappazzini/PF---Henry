@@ -29,16 +29,21 @@ module.exports = (sequelize) => {
         //   this.setDataValue("password", hash(value));
         // },
       },
+      picture: {
+        type: DataTypes.STRING,
+      },
       isAdmin: {
         type: DataTypes.BOOLEAN,
         // allowNull: false,
         defaultValue: false,
       },
-      
+      isSocial: {
+        type: DataTypes.BOOLEAN,
+      },
       email_verified: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
-      }
+        defaultValue: false,
+      },
     },
     {
       timestamps: false,
