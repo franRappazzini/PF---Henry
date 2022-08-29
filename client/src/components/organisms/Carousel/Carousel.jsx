@@ -3,6 +3,9 @@ import { Carousel } from 'react-carousel-minimal';
 
 export default function Slider() {
     const data = [
+      {
+        image: "https://res.cloudinary.com/df7ja4fel/image/upload/v1661737717/SNEAKERS_zhhglh.png",
+      },
         {
           image: "https://res.cloudinary.com/dyqkwf3z6/image/upload/v1661014329/carouselimages/puma2_ymf5xp.jpg",
         },
@@ -12,8 +15,12 @@ export default function Slider() {
         {
           image: "https://res.cloudinary.com/dyqkwf3z6/image/upload/v1660940583/carouselimages/nb5_qpbanf.jpg",
         },
+        
         {
           image: "https://res.cloudinary.com/dyqkwf3z6/image/upload/v1660940584/carouselimages/nb4_ad3sgd.jpg",
+        },
+        {
+          image: "https://res.cloudinary.com/df7ja4fel/image/upload/v1661737717/SNEAKERS_zhhglh.png",
         },
         {
             image: "https://res.cloudinary.com/dyqkwf3z6/image/upload/c_crop,g_face,h_450,w_1900/v1660940582/carouselimages/adidas4_ampk0d.jpg",
