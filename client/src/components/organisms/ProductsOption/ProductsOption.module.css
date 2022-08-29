@@ -41,3 +41,13 @@
     width: 63vw;
     flex-wrap: wrap                     ;
 }
+.pagination_container {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+.paginationCardsContainer {
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}
