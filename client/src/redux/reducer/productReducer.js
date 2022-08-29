@@ -8,6 +8,7 @@ import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
   DELETE_PRODUCT,
+  PUT_PRODUCT,
 } from "../../utils/reduxVars.js";
 
 const initialState = {
@@ -62,6 +63,8 @@ export function productReducer(state = initialState, action) {
       return { ...state, products: action.payload };
     case FILTERS:
       return { ...state, products: action.payload };
+    case PUT_PRODUCT: 
+      return {...state}
     default:
       return state;
   }

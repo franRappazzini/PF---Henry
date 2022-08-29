@@ -15,11 +15,12 @@ import { Box, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormC
 import { Button } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import InputsUpdate from "../../molecules/InputsUpdate/InputsUpdate";
 
 import { useState } from "react";
-import { addFavorites, removeFavorites, addToCart, removeFromCart } from "../../../redux/actions/productActions"
-import { getBrands,getCategories } from "../../../redux/actions/otherActions";
+import { putProduct } from "../../../redux/actions/productActions"
+import { getBrands,getCategories, loadCategory } from "../../../redux/actions/otherActions";
+import { sizeWidth } from "@mui/system"
+import axios from "axios"
 
 // import {useEffect} from "react"
 // import {useParams/* , useState */} from "react-router-dom"
@@ -28,59 +29,208 @@ import { getBrands,getCategories } from "../../../redux/actions/otherActions";
 
 export default function ProductContainer({ productDetail }) {
   const dispatch = useDispatch()
-  const [selectedSize, setSelectedSize] = useState(0)
-  const { favorites, cartProducts } = useSelector(state => state.product)
-  let checkFaved = () => {
-    return favorites.filter(fav => fav.id === productDetail.id).length
-  }
-  const [fav, setFav] = useState(checkFaved() ? true : false)
+  const swal = withReactContent(Swal);
 
-  const instanceProduct = { name: productDetail.name, brand: productDetail.Brand.name, price: productDetail.price,categories:productDetail.Categories,sizes:productDetail.Sizes };
+  const instanceProduct = { name: productDetail.name, brand: productDetail.Brand.name, image: productDetail.image, price: productDetail.price, categories:productDetail.Categories, sizes:productDetail.Sizes, newSizes: [], newCategories: [], newImage: ""};
   const [product, setProduct] = useState(instanceProduct);
-  const [category,setCategory] = useState(productDetail.Categories)
+  const [sizeAdded, setSizeAdded] = useState({size: 0, stock: 0})
+  const [dialog, setDialog] = useState(false)
+  const [dialogCat, setDialogCat] = useState(false)
+  const [category, setCategory] = useState("")
 
   const { brands } = useSelector((state) => state.other);
   const { categories } = useSelector((state) => state.other);
-  const { sizes } = useSelector((state) => state.other);
+  
+
    useEffect(() => {
     dispatch(getBrands());
     dispatch(getCategories());
   }, [dispatch]);
 
-
-  const handleFav = (e) => {
-    e.preventDefault()
-    if (fav) {
-      dispatch(removeFavorites(productDetail.id))
-      setFav(false)
-    } else {
-      dispatch(addFavorites(productDetail))
-      setFav(true)
-    }
+  function validations() {
+    if (!product.name.length) return "Put a name.";
+    if (product.brand === "") return "You must choose a brand.";
+    if (product.price <= 0) return "Price must be greater than $0";
+    if (!product.categories.length && !product.newCategories.length)
+      return "You must choose at least one category.";
   }
-  console.log(productDetail)
 
   const handleChange= (e)=>{
     setProduct({ ...product, [e.target.name]: e.target.value });
   }
 
+  //Categories
   const handleCategory= (e)=>{
-    let auxCat=product.categories.map(e=>e.name)
+    let auxCat = product.categories.map(e=>e.name)
     e.preventDefault()
-    if(product.categories.includes(e.target.value.name) || auxCat.includes(e.target.value.name)){
+    if(product.newCategories.includes(e.target.value.name) || product.categories.includes(e.target.value.name) || auxCat.includes(e.target.value.name)){
       alert("The product has this category")
     }else{
       setProduct({
         ...product,
-        categories:[...product.categories,e.target.value]
+        newCategories:[...product.newCategories, e.target.value.name]
       })
-
     }
-   
   }
 
- 
+  const handleDeleteCategories = (e) => {
+    if(product.newCategories.includes(e)){
+      setProduct({
+        ...product,
+        newCategories: product.newCategories.filter(cat=> cat !== e)
+      })
+    }else{
+      setProduct({
+        ...product,
+        categories: product.categories.filter(cat=> cat.name !== e)
+      })
+    }
+  }
 
+  const handleCatOpen = () => {
+    setDialogCat(true)
+  }
+
+  const handleCatClose = () => {
+    setDialogCat(false)
+  }
+
+  const handleCatOk = () => {
+    if(category.length > 0){
+      dispatch(loadCategory({category}))
+      setCategory("")
+      handleCatClose()
+    }else{
+      alert("Add a category!")
+    }
+  }
+
+  const handleChangeInput = (e) => {
+    setCategory(e.target.value)
+  }
+
+  // Image
+  const handleImageChange = async (e) => {
+
+    if(e.target.files[0]) {
+      const image = URL.createObjectURL(e.target.files[0])
+
+      setProduct({
+        ...product,
+          image: image,
+          newImage: e.target.files[0]
+      })
+    } else {
+      setProduct({
+        ...product,
+          image: productDetail.image,
+          newImage: ""
+      })
+    }
+  }
+
+  const handleDeleteImage = () => {
+    setProduct({
+      ...product,
+        image: productDetail.image,
+        newImage: ""
+    })
+  }
+
+  //Sizes
+  function handleClose() {
+    setDialog(false);
+  }
+
+  function handleOpen() {
+    setDialog(true);
+  }
+
+
+  const handleChangeSize = (e) => {
+    const sizeAux = product.sizes
+
+    let index = sizeAux.findIndex(obj => {
+      return obj.size == e.target.name
+    })
+    
+    sizeAux[index].Product_Size.stock = e.target.value
+    
+    setProduct({
+      ...product,
+      sizes: sizeAux
+    })
+  }
+
+  const handleChangeNewSize = (e) => {
+    const sizeAux = product.newSizes
+
+    let index = sizeAux.findIndex(obj => {
+      return obj.size == e.target.name
+    })
+
+    sizeAux[index].stock = e.target.value
+    
+    setProduct({
+      ...product,
+      newSizes: sizeAux
+    })
+  }
+
+  const handleChangeAddedSize = (e) => {
+    setSizeAdded({...sizeAdded, [e.target.name]: Number(e.target.value)})
+  }
+
+  const handleOk = () => {
+    let sizesNumber = product.sizes.map(s => s.size)
+    product.newSizes.map(s=>sizesNumber.push(s.size))
+    let productSizes = product.newSizes
+
+    if(sizesNumber.includes(Number(sizeAdded.size))){
+      return alert("Ese talle ya existe")
+    }else {
+      productSizes.push(sizeAdded)
+      setProduct({...product, newSizes: productSizes})
+      handleClose()
+    }
+  }
+
+  // SUBMIT
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (validations()) {
+      swal.fire("Error..", validations(), "error");
+      return;
+    }
+    if(product.newImage) {
+      const formData = new FormData();
+      formData.append("file", product.newImage);
+      formData.append("upload_preset", "mo6d6qav");
+      const imgRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/ddtxgnllz/upload",
+        formData
+      );
+      if (imgRes.response?.data.error) {
+        swal.fire("Error..", imgRes.message, "error");
+        return;
+      }
+      setProduct({
+        ...product,
+        image: imgRes.data.url
+      })
+    }
+    
+
+    const res = await axios.put("/product/" + productDetail.id, product)
+
+    if (res.response?.status === 400) {
+      swal.fire("Error..", res.message, "error");
+      return;
+    }
+
+  }
 
 
   if (productDetail) {
@@ -88,10 +238,9 @@ export default function ProductContainer({ productDetail }) {
       <div className={style.product_container}>
         <div className={style.left_side}>
           <div className={style.top_left_container}>
-            {productDetail.Brand.name === 'Nike' ? <SiNike className={style.brand_icon} size={40} /> : productDetail.Brand.name === 'Adidas' ? <SiAdidas className={style.brand_icon} size={40} /> : productDetail.Brand.name === 'Puma' ? <SiPuma className={style.brand_icon} size={40} /> : productDetail.Brand.name === 'Reebok' ? <SiReebok className={style.brand_icon} size={40} /> : productDetail.Brand.name === 'New Balance' ? <SiNewbalance className={style.brand_icon} size={40} /> : <BiError className={style.brand_icon} size={40} />}
-            <button onClick={(e) => { handleFav(e) }} className={style.heart_button}><FaHeart className={!fav ? style.heart_icon1 : style.heart_icon2} /></button>
+            {product.brand === 'Nike' ? <SiNike className={style.brand_icon} size={40} /> : product.brand === 'Adidas' ? <SiAdidas className={style.brand_icon} size={40} /> : product.brand === 'Puma' ? <SiPuma className={style.brand_icon} size={40} /> : product.brand === 'Reebok' ? <SiReebok className={style.brand_icon} size={40} /> : product.brand === 'New Balance' ? <SiNewbalance className={style.brand_icon} size={40} /> : <BiError className={style.brand_icon} size={40} />}
           </div>
-          <img className={style.product_img} src={productDetail.image} alt="" />
+          <img className={style.product_img} src={product.image} alt="" />
         </div>
 
         <div className={style.right_side}>
@@ -122,9 +271,7 @@ export default function ProductContainer({ productDetail }) {
               value={product.brand}
               required
             >
-              <MenuItem value="">
-                <em>{productDetail.Brand.name}</em>
-              </MenuItem>
+              
               {brands.length > 0 &&
                 brands.map((brand) => (
                   <MenuItem key={brand.name} value={brand.name}>
@@ -148,16 +295,21 @@ export default function ProductContainer({ productDetail }) {
             />
 
             {/* Imagen */}
-            <TextField
-              label="Image"
-              variant="standard"
-              autoComplete="off"
-              name="image"
-              type="file"
-              color="secondary"
-              // onChange={handleChangeImage}
-              required
-            />
+            <div>  
+              <TextField
+                label="Image"
+                variant="standard"
+                autoComplete="off"
+                name="image"
+                type="file"
+                color="secondary"
+                onChange={handleImageChange}
+                style={{width: 500}}
+                required
+              />
+              {product.newImage ? <IconButton onClick={handleDeleteImage} className={style.delete_button}><DeleteIcon fontSize="inherit"/></IconButton> : null}
+              
+            </div>
 
             {/* Categorias */}
             <div className={style.categories}>
@@ -169,12 +321,9 @@ export default function ProductContainer({ productDetail }) {
                 sx={{ minWidth: 100 }}
                 name="category"
                 onChange={handleCategory}
-                value={product.categories}
+                value={product.newCategories}
                 required
-              >
-                {/* <MenuItem >
-                  <em>None</em>
-                </MenuItem> */}
+              > 
                 {categories.length > 0 &&
                   categories.map((category) => (
                     <MenuItem key={category.name} value={category} >
@@ -183,12 +332,50 @@ export default function ProductContainer({ productDetail }) {
                   ))}
               </TextField>
 
+              {/* ADD CATEGORY */}
+              <Button onClick={handleCatOpen}>Add category</Button>
+                <Dialog open={dialogCat} onClose={handleCatClose}>
+                  <DialogContent>
+                    <Box
+                      component="form"
+                      sx={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        alignItems: "center",
+                      }}
+                    >
+                      <TextField
+                      label="Category"
+                      variant="standard"
+                      autoComplete="off"
+                      name="category"
+                      type="text"
+                      color="secondary"
+                      onChange={handleChangeInput}
+                    />
+                    </Box>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCatClose}>Cancel</Button>
+                    <Button onClick={handleCatOk}>Add</Button>
+                </DialogActions>
+                </Dialog>
+
               
                 <div className={style.mapCat}>   
+                {/* OLD CAT */}
                 {product.categories.map((categorys) => (
                   
-                  <p className={style.pCat}>{categorys.name}<IconButton aria-label="delete" size="small">
-                    <DeleteIcon fontSize="inherit" />
+                  <p className={style.pCat}>{categorys.name}<IconButton aria-label="delete" size="small" onClick={() => handleDeleteCategories(categorys.name)} >
+                    <DeleteIcon fontSize="inherit"/>
+                  </IconButton></p>
+                  
+                ))}
+                {/* NEW CAT */}
+                {product.newCategories.map((categorys) => (
+                  
+                  <p className={style.pCat}>{categorys}<IconButton aria-label="delete" size="small" onClick={() => handleDeleteCategories(categorys)} >
+                    <DeleteIcon fontSize="inherit"/>
                   </IconButton></p>
                   
                 ))}
@@ -197,11 +384,11 @@ export default function ProductContainer({ productDetail }) {
             </div>
 
 
-            {/* Sizes */}
-            <Button sx={{ marginTop: "1rem" }}>
-              Select Size
+            {/* Sizes add*/}
+            <Button sx={{ marginTop: "1rem" }} onClick={handleOpen}>
+              Add extra size
             </Button>
-            <Dialog disableEscapeKeyDown >
+            <Dialog disableEscapeKeyDown open={dialog} onClose={handleClose}>
               <DialogTitle>Select Size</DialogTitle>
               <DialogContent>
                 <Box
@@ -216,21 +403,15 @@ export default function ProductContainer({ productDetail }) {
                     <InputLabel id="demo-dialog-select-label" variant="standard">
                       Size
                     </InputLabel>
-                    <Select
+                    <TextField
                       variant="standard"
                       labelId="demo-dialog-select-label"
                       id="demo-dialog-select"
+                      type="number"
                       name="size"
-                      // onChange={handleChange}
-                      value=""
-                    >
-                      {sizes.length > 0 &&
-                        sizes.map((size) => (
-                          <MenuItem key={size.size} value={size.size}>
-                            {size.size}
-                          </MenuItem>
-                        ))}
-                    </Select>
+                      onChange={handleChangeAddedSize}
+                    />
+                      
                   </FormControl>
 
                   <TextField
@@ -240,27 +421,57 @@ export default function ProductContainer({ productDetail }) {
                     name="stock"
                     type="number"
                     color="secondary"
-                    // onChange={handleChange}
-                    value=""
+                    onChange={handleChangeAddedSize}
                   />
                 </Box>
               </DialogContent>
               <DialogActions>
-                <Button >Cancel</Button>
-                <Button>Ok</Button>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleOk}>Ok</Button>
               </DialogActions>
             </Dialog>
+
+            {/* Sizes change */}
             <div className={style.sizes}>
-              {productDetail.Sizes.map((size) => (
+              {instanceProduct.sizes.map((size) => (
+                <div className={style.sizesDiv} key={size.size}>
+                  <p>Size: {size.size}</p>
+                  <TextField
+                    label="Stock"
+                    variant="standard"
+                    name={size.size}
+                    type="number"
+                    color="secondary"
+                    sx={{  
+                      maxWidth: 40,
+                    }}
+                    onChange={handleChangeSize}
+                    value= {size.Product_Size.stock}
+                  />
+                </div>
+
+              ))}
+              {product.newSizes.map((size) => (
                 <div className={style.sizesDiv}>
-                  <p>Size:{size.size}</p>
-                  <p>Stock:{size.Product_Size.stock}</p>
+                  <p>Size: {size.size}</p>
+                  <TextField
+                    label="Stock"
+                    variant="standard"
+                    name={size.size}
+                    type="number"
+                    color="secondary"
+                    sx={{  
+                      maxWidth: 40,
+                    }}
+                    onChange={handleChangeNewSize}
+                    value= {size.stock}
+                  />
                 </div>
 
               ))}
             </div>
 
-            <Button variant="contained">Save</Button>
+            <Button variant="contained" onClick={handleSubmit}>Save</Button>
 
             </form>
         

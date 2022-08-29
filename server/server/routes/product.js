@@ -86,34 +86,49 @@ router.get("", async (req, res) => {
 
 router.put("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const { name, image, price, stock, brandId } = req.body;
+  const { name, image, price, stock, brand, sizes, newSizes, newCategories, categories } = req.body;
 
   try {
     const options = {};
     const data = await Product.findByPk(id);
-    console.log(data);
     if (name) {
-      console.log(name);
       options.name = name;
-      console.log(data.name);
-      console.log(data.name);
     }
     if (image) {
-      console.log(image);
       options.image = image;
     }
     if (price) {
-      console.log(price);
       options.price = price;
     }
-    if (stock) {
-      console.log(stock);
-      options.stock = stock;
+    if (sizes) {
+      options.sizes = sizes;
     }
-    if (brandId) {
-      console.log(stock);
-      options.brandId = brandId;
+    if (brand) {
+      options.brand = brand;
     }
+    if(categories) {
+      options.categories = categories
+    }
+
+    if(newCategories) {
+    newCategories.map(async c => {
+      let aux = await Category.findOrCreate({where: {name: c}})
+      if(aux) {
+        await data.addCategories(aux[0].dataValues.id)
+      }
+    })
+    }
+
+    if(newSizes) {
+      newSizes.map(async s => {
+        let aux = await Size.findOrCreate({where: {size: s.size}})
+        let stock = s.stock
+        if(aux) {
+          await data.addSize(aux[0].dataValues.id, {through: {stock}})
+        }
+      })
+    }
+
     await data.update(options);
     res.json(data);
   } catch (error) {

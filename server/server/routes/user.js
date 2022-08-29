@@ -26,8 +26,6 @@ userRouter.post("/:email", async (req, res) => {
       defaults: { given_name, family_name, email },
     };
     const [response, created] = await user.findOrCreate(options);
-    console.log(created);
-    console.log(response);
     res.json(response);
   } catch (err) {
     res.status(404).json({ error: err.message });
