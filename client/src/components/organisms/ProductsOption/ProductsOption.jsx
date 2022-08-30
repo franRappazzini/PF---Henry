@@ -22,7 +22,7 @@ export default function ProductsOption() {
     const handleResizeWindow = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResizeWindow);
     setPage(1);
-  }, [dispatch]);
+  }, [dispatch, products]);
 
   function filterProds() {
     if (products.length) {
