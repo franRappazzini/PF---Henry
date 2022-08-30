@@ -170,24 +170,25 @@ export default function ProductContainer({ productDetail }) {
 
   const handleChangeSize = (e) => {
     const sizeAux = product.sizes;
-
+    
     let index = sizeAux.findIndex((obj) => {
-      return obj.size === e.target.name;
+      return obj.size == e.target.name;
     });
 
     sizeAux[index].Product_Size.stock = e.target.value;
-
+    console.log(sizeAux[index].Product_Size)
+    console.log(e.target.value)
     setProduct({
       ...product,
-      sizes: sizeAux,
+      sizes: sizeAux
     });
   };
 
   const handleChangeNewSize = (e) => {
     const sizeAux = product.newSizes;
 
-    let index = sizeAux.findIndex((obj) => {
-      return obj.size === e.target.name;
+    let index = sizeAux.findIndex( obj => {
+      return obj.size == e.target.name;
     });
 
     sizeAux[index].stock = e.target.value;
@@ -476,7 +477,7 @@ export default function ProductContainer({ productDetail }) {
 
             {/* Sizes change */}
             <div className={style.sizes}>
-              {instanceProduct.sizes.map((size) => (
+              {product.sizes.map((size) => (
                 <div className={style.sizesDiv} key={size.size}>
                   <p>Size: {size.size}</p>
                   <TextField
@@ -490,6 +491,7 @@ export default function ProductContainer({ productDetail }) {
                     }}
                     onChange={handleChangeSize}
                     value={size.Product_Size.stock}
+                    required
                   />
                 </div>
               ))}
@@ -507,6 +509,7 @@ export default function ProductContainer({ productDetail }) {
                     }}
                     onChange={handleChangeNewSize}
                     value={size.stock}
+                    required
                   />
                 </div>
               ))}
