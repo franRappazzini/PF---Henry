@@ -1,7 +1,6 @@
 const {Order} = require("../db.js");
 const server = require('express').Router();
 
-const mecadopago = require('mercadopago');
 const mercadopago = require("mercadopago");
 
 const {ACCESS_TOKEN }=process.env
@@ -39,7 +38,7 @@ server.get("/", (req,res,next)=>{
             installments:3  //cantidad max de cuotas
         },
         back_urls:{
-            succes:'http://localhost:3001/mercadopago/pagos',
+            success:'http://localhost:3001/mercadopago/pagos',
             failure:'http://localhost:3001/mercadopago/pagos',
             pending:'http://localhost:3001/mercadopago/pagos',
         },
@@ -48,13 +47,12 @@ server.get("/", (req,res,next)=>{
     mercadopago.preferences.create(preference)
     .then(function(response){
         global.id=response.body.id
+        console.log(response.body)
         res.json({id:global.id})
+    })
+    .catch(function(error){
+        console.log(error)
     })
 })
 
 
-const items_ml = carrito.map(i =>({
-    title:i.title,
-    unit_proce:i.price,
-    quantity:i.quantity
-}))
