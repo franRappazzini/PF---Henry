@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         defaultValue:""
     },
     merchant_order_id:{
-        type:DataType.BIGINT,
+        type:DataTypes.BIGINT,
         defaultValue:0
     }
     })
