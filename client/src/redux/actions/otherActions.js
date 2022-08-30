@@ -36,9 +36,3 @@ export function getSizes() {
     }
   };
 }
-
-export const loadCategory = (category) => {
-  return async (dispatch) => {
-    axios.post("/category", category);
-  };
-};
