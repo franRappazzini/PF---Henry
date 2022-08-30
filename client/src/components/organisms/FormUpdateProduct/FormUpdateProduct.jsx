@@ -12,11 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import {
-  getBrands,
-  getCategories,
-  loadCategory,
-} from "../../../redux/actions/otherActions";
+import { getBrands, getCategories } from "../../../redux/actions/otherActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import { BiError } from "react-icons/bi";
@@ -57,6 +53,7 @@ export default function ProductContainer({ productDetail }) {
   const [dialog, setDialog] = useState(false);
   const [dialogCat, setDialogCat] = useState(false);
   const [category, setCategory] = useState("");
+  const [newCategories, setNewCategories] = useState([]);
 
   const { brands } = useSelector((state) => state.other);
   const { categories } = useSelector((state) => state.other);
@@ -91,7 +88,10 @@ export default function ProductContainer({ productDetail }) {
     } else {
       setProduct({
         ...product,
-        newCategories: [...product.newCategories, e.target.value.name],
+        newCategories: [
+          ...product.newCategories,
+          e.target.value.name || e.target.value,
+        ],
       });
     }
   };
@@ -120,7 +120,7 @@ export default function ProductContainer({ productDetail }) {
 
   const handleCatOk = () => {
     if (category.length > 0) {
-      dispatch(loadCategory({ category }));
+      setNewCategories([...newCategories, category]);
       setCategory("");
       handleCatClose();
     } else {
@@ -170,25 +170,24 @@ export default function ProductContainer({ productDetail }) {
 
   const handleChangeSize = (e) => {
     const sizeAux = product.sizes;
-    
+
     let index = sizeAux.findIndex((obj) => {
-      return obj.size == e.target.name;
+      return obj.size === e.target.name;
     });
 
     sizeAux[index].Product_Size.stock = e.target.value;
-    console.log(sizeAux[index].Product_Size)
-    console.log(e.target.value)
+
     setProduct({
       ...product,
-      sizes: sizeAux
+      sizes: sizeAux,
     });
   };
 
   const handleChangeNewSize = (e) => {
     const sizeAux = product.newSizes;
 
-    let index = sizeAux.findIndex( obj => {
-      return obj.size == e.target.name;
+    let index = sizeAux.findIndex((obj) => {
+      return obj.size === e.target.name;
     });
 
     sizeAux[index].stock = e.target.value;
@@ -223,11 +222,11 @@ export default function ProductContainer({ productDetail }) {
     e.preventDefault();
     let updateProduct = {};
 
-    if (validations()) {
-      swal.fire("Error..", validations(), "error");
-      return;
-    }
+    if (validations()) return swal.fire("Error..", validations(), "error");
+
     setLoading(true);
+
+    updateProduct = { ...product };
 
     if (product.newImage !== "") {
       const formData = new FormData();
@@ -242,7 +241,7 @@ export default function ProductContainer({ productDetail }) {
         return swal.fire("Error..", imgRes.message, "error");
       }
 
-      updateProduct = { ...product, image: imgRes.data.url };
+      updateProduct.image = imgRes.data.url;
     }
 
     const res = await axios.put("/product/" + productDetail.id, updateProduct);
@@ -365,6 +364,12 @@ export default function ProductContainer({ productDetail }) {
                       {category.name}
                     </MenuItem>
                   ))}
+                {newCategories.length > 0 &&
+                  newCategories.map((cat) => (
+                    <MenuItem key={cat} value={{ name: cat }}>
+                      {cat}
+                    </MenuItem>
+                  ))}
               </TextField>
 
               {/* ADD CATEGORY */}
@@ -398,26 +403,26 @@ export default function ProductContainer({ productDetail }) {
 
               <div className={style.mapCat}>
                 {/* OLD CAT */}
-                {product.categories.map((categorys) => (
+                {product.categories.map((cat) => (
                   <p className={style.pCat}>
-                    {categorys.name}
+                    {cat.name}
                     <IconButton
                       aria-label="delete"
                       size="small"
-                      onClick={() => handleDeleteCategories(categorys.name)}
+                      onClick={() => handleDeleteCategories(cat.name)}
                     >
                       <DeleteIcon fontSize="inherit" />
                     </IconButton>
                   </p>
                 ))}
                 {/* NEW CAT */}
-                {product.newCategories.map((categorys) => (
+                {product.newCategories.map((cat) => (
                   <p className={style.pCat}>
-                    {categorys}
+                    {cat}
                     <IconButton
                       aria-label="delete"
                       size="small"
-                      onClick={() => handleDeleteCategories(categorys)}
+                      onClick={() => handleDeleteCategories(cat)}
                     >
                       <DeleteIcon fontSize="inherit" />
                     </IconButton>
