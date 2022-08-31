@@ -10,21 +10,12 @@ mercadopago.configure({
     access_token:ACCESS_TOKEN
 })
 
-async function createPayment() {
+async function createPayment(productosCart) {
     const url = "https://api.mercadopago.com/checkout/preferences";
 
-    const body = {
+    const preferences = {
       payer_email: "test_user_45077573@testuser.com",
-      items: [
-        {
-          title: "AUTO 0KM",
-          description: "AUTO 0KM",
-          picture_url: "http://www.myapp.com/myimage.jpg",
-          category_id: "category123",
-          quantity: 1,
-          unit_price: 10
-        }
-      ],
+      items: productosCart,
       back_urls: {
         failure: "/failure",
         pending: "/pending",
@@ -32,7 +23,7 @@ async function createPayment() {
       }
     };
 
-    const payment = await axios.post(url, body, {
+    const payment = await axios.post(url, preferences, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
@@ -42,11 +33,33 @@ async function createPayment() {
     return payment.data;
   }
 
-server.get("/payment", async (req,res,next)=>{
-     try {
-      const payment = await createPayment();
+server.post("/payment", async (req,res,next)=>{
+    const {lsCartProducts} =req.body
+    let productosCart =[]
 
-      return res.json(payment);
+    for (let index = 0; index < lsCartProducts.length; index++) {
+      // {
+      //   title: "Dummy Title",
+      //   description: "Dummy description",
+      //   picture_url: "http://www.myapp.com/myimage.jpg",
+      //   category_id: "category123",
+      //   quantity: 1,
+      //   unit_price: 10
+      // }
+        let product={
+          title:lsCartProducts[index].name,
+          picture_url:lsCartProducts[index].image,
+          category_id:lsCartProducts[index].Brand.name,
+          quantity:lsCartProducts[index].choosedAmount,
+          unit_price:lsCartProducts[index].price
+        }
+        productosCart.push(product)
+    }
+    
+    console.log(productosCart)
+     try {
+      const payment = await createPayment(productosCart);
+      return res.json(payment.init_point);
     } catch (error) {
       console.log(error);
 
