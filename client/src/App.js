@@ -13,6 +13,7 @@ import NotFound from "./components/pages/NotFound/NotFound";
 import Profile from "./components/pages/Profile/Profile";
 import ProtectedRoute from "./components/middleware/ProtectedRoute/ProtectedRoute";
 import Update from "./components/pages/Update/Update";
+import PurchaseHistory from "./components/pages/PurchaseHistory/PurchaseHistory";
 
 function App() {
   return (
@@ -35,8 +36,8 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
 
         <Route path="/cart" element={<Cart />} />
-
         
+        <Route path="/purchases" element={<PurchaseHistory />} />  
 
         <Route path="*" element={<NotFound />} />
       </Routes>
