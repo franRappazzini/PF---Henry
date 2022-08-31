@@ -7,6 +7,7 @@ const category = require("./routes/category");
 const server = express();
 const product = require("./routes/product");
 const user = require("./routes/user");
+const bought = require("./routes/bought")
 
 server.use(cors());
 server.use(express.json());
@@ -15,6 +16,7 @@ server.use("/category", category);
 server.use("/brand", brand);
 server.use("/size", size);
 server.use("/user", user);
+server.use("/bought", bought)
 
 const port = process.env.PORT || 3001;
 
