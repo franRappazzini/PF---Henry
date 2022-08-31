@@ -61,6 +61,22 @@ userRouter.put("/:currentEmail", async (req, res) => {
   }
 });
 
+userRouter.put("/", async (req, res) => {
+  const { id } = req.query;
+  const { isAdmin } = req.body;
+
+  console.log("PUT", id);
+
+  try {
+    const response = await user.findByPk(id);
+    response.isAdmin = isAdmin;
+    await response.save();
+    res.status(200).json({ success: `Role update for user:${response.email}` });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 // userRouter.get("/:email", async (req, res) => {
 //   const { email } = req.params;
 
