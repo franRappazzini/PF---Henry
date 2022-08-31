@@ -23,8 +23,8 @@ userRouter.post("/:email", async (req, res) => {
     const isSocial = sub ? true : false;
     const options = {
       where: { email },
-      include: [{ model: Bougth }, { model: Rating }],
       defaults: { given_name, family_name, email, picture, isSocial },
+      // include: [{ model: Bougth }, { model: Rating }],
     };
 
     const [response, created] = await user.findOrCreate(options);
