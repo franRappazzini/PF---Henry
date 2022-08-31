@@ -54,7 +54,7 @@ fs.readdirSync(path.join(__dirname, "/models"))
 modelDefiners.forEach((model) => model(sequelize));
 
 //Los importamos
-const { Product, Rating, Size, user, Bougth, Product_Size, Brand, Category } =
+const { Product, Rating, Size, user, Bought, Product_Size, Brand, Category } =
   sequelize.models;
 
 //Hacemos las relaciones
@@ -67,11 +67,11 @@ Rating.belongsTo(Product);
 Product.belongsToMany(Size, { through: Product_Size });
 Size.belongsToMany(Product, { through: Product_Size });
 
-Bougth.belongsTo(user);
-user.hasMany(Bougth);
+Bought.belongsTo(user);
+user.hasMany(Bought);
 
-Product.belongsToMany(Bougth, { through: "Product_bougth" });
-Bougth.belongsToMany(Product, { through: "Product_bougth" });
+Product_Size.belongsToMany(Bought, { through: "Product_bought" });
+Bought.belongsToMany(Product_Size, { through: "Product_bought" });
 
 Product.belongsTo(Brand);
 Brand.hasMany(Product);

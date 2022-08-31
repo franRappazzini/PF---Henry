@@ -131,7 +131,7 @@ export default function Card({
         image: product.image,
         name: product.name,
         price: product.price,
-        choosedSize: size,
+        choosedSize: product.Sizes.find((s) => s.size === size),
         choosedAmount: amount,
         Sizes: product.Sizes,
       };

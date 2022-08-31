@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 // const {Order} = require("../db.js");
+=======
+
+>>>>>>> development
 const server = require('express').Router();
 const axios = require('axios');
 const mercadopago = require("mercadopago");
-
+const axios = require('axios');
 const {ACCESS_TOKEN }=process.env
 
 
@@ -14,7 +18,11 @@ async function createPayment() {
     const url = "https://api.mercadopago.com/checkout/preferences";
 
     const body = {
+<<<<<<< HEAD
       payer_email: "test_user_1744018@testuser.com",
+=======
+      payer_email: "test_user_45077573@testuser.com",
+>>>>>>> development
       items: [
         {
           title: "AUTO 0KM",
@@ -54,6 +62,7 @@ server.get("/payment", async (req,res,next)=>{
         .status(500)
         .json({ error: true, msg: "Failed to create payment" });
     }
+<<<<<<< HEAD
 
  
 })
@@ -61,3 +70,8 @@ server.get("/payment", async (req,res,next)=>{
 module.exports = server;
 
 
+=======
+})
+
+module.exports=server;
+>>>>>>> development

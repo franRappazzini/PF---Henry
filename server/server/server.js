@@ -12,6 +12,11 @@ const mercadopago1 = require("./routes/mercadopago");
 
 dotenv.config();
 
+const mercadopago1 = require("./routes/mercadopago");
+
+const bought = require("./routes/bought")
+
+
 server.use(cors());
 server.use(express.json());
 server.use("/product", product);
@@ -21,6 +26,10 @@ server.use("/size", size);
 server.use("/user", user);
 server.use("/mercadopago", mercadopago1);
 
+
+server.use("/mercadopago", mercadopago1);
+
+server.use("/bought", bought)
 
 const port = process.env.PORT || 3001;
 
