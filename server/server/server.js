@@ -7,6 +7,10 @@ const category = require("./routes/category");
 const server = express();
 const product = require("./routes/product");
 const user = require("./routes/user");
+const dotenv= require("dotenv");
+const mercadopago1 = require("./routes/mercadopago");
+
+dotenv.config();
 
 server.use(cors());
 server.use(express.json());
@@ -15,6 +19,8 @@ server.use("/category", category);
 server.use("/brand", brand);
 server.use("/size", size);
 server.use("/user", user);
+server.use("/mercadopago", mercadopago1);
+
 
 const port = process.env.PORT || 3001;
 

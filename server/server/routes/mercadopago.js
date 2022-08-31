@@ -1,6 +1,6 @@
-const {Order} = require("../db.js");
+// const {Order} = require("../db.js");
 const server = require('express').Router();
-
+const axios = require('axios');
 const mercadopago = require("mercadopago");
 
 const {ACCESS_TOKEN }=process.env
@@ -10,49 +10,54 @@ mercadopago.configure({
     access_token:ACCESS_TOKEN
 })
 
-server.get("/", (req,res,next)=>{
-    const id_orden=1
+async function createPayment() {
+    const url = "https://api.mercadopago.com/checkout/preferences";
 
-    const carrito = [
-        {title: "Producto 1", quantity:5,price:10.52},
-        {title:"Producto 2",quantity:15,price:100.52},
-        {title:"Producto 3", quantity:6, price:200}
-    ]
+    const body = {
+      payer_email: "test_user_1744018@testuser.com",
+      items: [
+        {
+          title: "AUTO 0KM",
+          description: "AUTO 0KM",
+          picture_url: "http://www.myapp.com/myimage.jpg",
+          category_id: "category123",
+          quantity: 1,
+          unit_price: 10
+        }
+      ],
+      back_urls: {
+        failure: "/failure",
+        pending: "/pending",
+        success: "/success"
+      }
+    };
 
-    const items_ml = carrito.map (i =>({
-        //Respetar este formato
-        title: i.title,
-        unit_price:i.price,
-        quantity:i.quantity,
-    }))
+    const payment = await axios.post(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
+      }
+    });
 
-    let preference={
-        items:items_ml, //todos los items q vamo a vender
-        external_reference: `${id_orden}`, // De referencia usamos un id
-        payment_methods:{
-            excluded_payment_types:[    
-                {
-                    id:"atm" // cajero automatico
-                }
-            ],
-            installments:3  //cantidad max de cuotas
-        },
-        back_urls:{
-            success:'http://localhost:3001/mercadopago/pagos',
-            failure:'http://localhost:3001/mercadopago/pagos',
-            pending:'http://localhost:3001/mercadopago/pagos',
-        },
+    return payment.data;
+  }
+
+server.get("/payment", async (req,res,next)=>{
+     try {
+      const payment = await createPayment();
+
+      return res.json(payment);
+    } catch (error) {
+      console.log(error);
+
+      return res
+        .status(500)
+        .json({ error: true, msg: "Failed to create payment" });
     }
 
-    mercadopago.preferences.create(preference)
-    .then(function(response){
-        global.id=response.body.id
-        console.log(response.body)
-        res.json({id:global.id})
-    })
-    .catch(function(error){
-        console.log(error)
-    })
+ 
 })
+
+module.exports = server;
 
 
