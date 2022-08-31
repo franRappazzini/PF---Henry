@@ -15,11 +15,12 @@ import { FaCartPlus } from "react-icons/fa"
 import { FaShoppingCart } from 'react-icons/fa';
 import { IoMdArrowDropleft } from "react-icons/io";
 import { IoMdArrowDropright } from "react-icons/io";
+import { AiOutlineEdit } from "react-icons/ai";
 
 import { Rating } from "@mui/material"
 import { useState } from "react";
 import { addFavorites, removeFavorites, addToCart, removeFromCart } from "../../../redux/actions/productActions"
-
+import { Link, useNavigate } from "react-router-dom";
 
 // import {useEffect} from "react"
 // import {useParams/* , useState */} from "react-router-dom"
@@ -35,11 +36,12 @@ export default function ProductContainer({productDetail}){
   }
 
 
-  const dispatch = useDispatch()
-    
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [amount, setAmount] = useState(amountInput!==""&&amountInput.textContent?amountInput.textContent:1)
     const [selectedSize, setSelectedSize] = useState(0)
     const { favorites, cartProducts } = useSelector(state=> state.product)
+    const {logedUser} = useSelector(state=> state.user)
      const checkFaved = () => {
       return favorites.filter(fav=>fav.id===productDetail.id).length
    }
@@ -112,7 +114,7 @@ export default function ProductContainer({productDetail}){
         image:productDetail.image,
         name:productDetail.name,
         price: productDetail.price,
-        choosedSize:selectedSize,
+        choosedSize:productDetail.Sizes.find((s) => s.size === selectedSize),
         choosedAmount:amount,
         Sizes:productDetail.Sizes
       }
@@ -204,6 +206,13 @@ export default function ProductContainer({productDetail}){
             <div className={style.top_left_container}>
             {productDetail.Brand.name==='Nike' ? <SiNike className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Adidas' ? <SiAdidas className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Puma' ? <SiPuma className={style.brand_icon} size={40}/> : productDetail.Brand.name==='Reebok' ? <SiReebok className={style.brand_icon} size={40}/> : productDetail.Brand.name==='New Balance' ? <SiNewbalance className={style.brand_icon} size={40}/> : <BiError className={style.brand_icon} size={40}/>}
               <button onClick={(e)=>{handleFav(e)}} className={style.heart_button}><FaHeart className={!fav?style.heart_icon1:style.heart_icon2} /></button>
+              {logedUser.isAdmin ?
+              <Link to={`../../update/${productDetail.id}`}>
+                <AiOutlineEdit 
+                className={style.heart_icon1}
+                />
+              </Link>
+               : null}
             </div>
             
             <img className={style.product_img} src={productDetail.image} alt="" />

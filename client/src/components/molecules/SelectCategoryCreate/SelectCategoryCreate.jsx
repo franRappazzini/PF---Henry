@@ -1,16 +1,29 @@
-import { Button, Checkbox, Dialog, DialogTitle, DialogContent, DialogActions, InputLabel, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  InputLabel,
+  TextField,
+} from "@mui/material";
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { Box } from "@mui/system";
-
-import { getCategories, loadCategory } from "../../../redux/actions/otherActions";
+import { getCategories } from "../../../redux/actions/otherActions";
 import style from "./SelectCategoryCreate.module.css";
+import { useState } from "react";
 
-function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
+function SelectCategoryCreate({
+  setSelectedCategories,
+  selectedCategories,
+  setNewCategories,
+  newCategories,
+}) {
   const { categories } = useSelector((state) => state.other);
-  const [dialog, setDialog] = useState(false)
-  const [category, setCategory] = useState("")
+  const [dialog, setDialog] = useState(false);
+  const [category, setCategory] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,9 +40,8 @@ function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
   }
 
   function handleChangeInput(e) {
-    setCategory(e.target.value)
+    setCategory(e.target.value);
   }
-
 
   const handleClickOpen = () => {
     setDialog(true);
@@ -40,14 +52,12 @@ function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
   };
 
   const handleOk = () => {
-    if(category.length > 0){
-      dispatch(loadCategory({category}))
-      setCategory("")
-      handleClose()
-    }else{
-      alert("Add a category!")
+    if (category.length > 0) {
+      setNewCategories([...newCategories, category]);
+      setCategory("");
+      handleClose();
     }
-  }
+  };
 
   return (
     <section className={style.checkbox_container}>
@@ -69,7 +79,24 @@ function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
               </Box>
             </li>
           ))}
+        {newCategories.length > 0 &&
+          newCategories.map((cat) => (
+            <li key={cat}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Checkbox
+                  id={cat}
+                  value={cat}
+                  color="secondary"
+                  onChange={handleChange}
+                />
+                <InputLabel htmlFor={cat} variant="standard">
+                  {cat}
+                </InputLabel>
+              </Box>
+            </li>
+          ))}
         <Button onClick={handleClickOpen}>Add category</Button>
+
         <Dialog open={dialog} onClose={handleClose}>
           <DialogContent>
             <Box
@@ -81,20 +108,21 @@ function SelectCategoryCreate({ setSelectedCategories, selectedCategories }) {
               }}
             >
               <TextField
-              label="Category"
-              variant="standard"
-              autoComplete="off"
-              name="category"
-              type="text"
-              color="secondary"
-              onChange={handleChangeInput}
-            />
+                label="Category"
+                variant="standard"
+                autoComplete="off"
+                name="category"
+                type="text"
+                color="secondary"
+                onChange={handleChangeInput}
+                autoFocus
+              />
             </Box>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button onClick={handleOk}>Add</Button>
-        </DialogActions>
+          </DialogActions>
         </Dialog>
       </ul>
     </section>

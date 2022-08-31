@@ -17,6 +17,7 @@ function FormCreateProduct() {
   const [image, setImage] = useState("");
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [newCategories, setNewCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const swal = withReactContent(Swal);
   const navigate = useNavigate();
@@ -38,9 +39,7 @@ function FormCreateProduct() {
       formData
     );
     if (imgRes.response?.data.error) {
-      swal.fire("Error..", imgRes.message, "error");
-
-      return;
+      return swal.fire("Error..", imgRes.message, "error");
     }
 
     const newProduct = {
@@ -53,12 +52,9 @@ function FormCreateProduct() {
     const res = await axios.post("/product", newProduct);
 
     console.log(res);
-
-    // TODO corergir esto que no esta bien el .status
-    console.log(res.response?.status);
-    if (res.response?.status === 400) {
-      swal.fire("Error..", res.message, "error");
-      return;
+    if (res.response) {
+      setLoading(false);
+      return swal.fire("Error..", res.message, "error");
     }
 
     swal
@@ -104,6 +100,8 @@ function FormCreateProduct() {
         <SelectCategoryCreate
           selectedCategories={selectedCategories}
           setSelectedCategories={setSelectedCategories}
+          newCategories={newCategories}
+          setNewCategories={setNewCategories}
         />
 
         <DialogSizesCreate
