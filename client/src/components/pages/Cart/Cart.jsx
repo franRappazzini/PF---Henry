@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom'
 import mercadopago from '../../organisms/MercadoPago/mercadoPago.jsx'
 
 import NoProductsFound from '../../molecules/NoProductsFound/NoProductsFound.jsx'
+import { Button } from '@mui/material';
 
 
 export default function Cart(){
@@ -52,8 +53,8 @@ export default function Cart(){
           </div>
           
               
-         
-          <a href={datos}>Comprar</a>
+         <button className={style.buy_button}><a href={datos} className={style.a}>BUY</a> </button>
+          
         </div>
       );
 

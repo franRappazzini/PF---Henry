@@ -34,6 +34,7 @@
     width: 85%;
     height: auto;
     border: 2px solid #b1b1b1;
+    margin: 2vh;
 }
 .buy_button{
     color: white;
@@ -45,7 +46,7 @@
     font-family: Roboto;
     font-size: 25px;
     height: 40px;
-    width: 100px;
+    width: 120px;
     border-radius: 20px;
     font-weight: 600;
     letter-spacing: 3px;
@@ -55,4 +56,9 @@
     cursor: pointer;
     transform: scale(1.2);
     filter: drop-shadow(0px 0px 3px rgb(22, 12, 27));
+}
+
+.a{
+    text-decoration: none;
+    color:black
 }
