@@ -1,0 +1,53 @@
+.itemContainer {
+    margin-top: .5vw;
+    padding: .3vw;
+    display: flex;
+    border-radius: .4vw;
+    flex-direction: row;
+    background-color: #f6f7f9;
+    box-shadow: 3px 3px 20px 0px rgba(0,0,0,0.1);
+}
+.imageContainer {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    border-radius: .3vw;
+    border: 1px solid #bababa;
+    align-self: center;
+}
+.image {
+    height: 100px;
+}
+.infoContainer {
+    margin-left: 1vw;
+    display: flex;
+    flex-direction: column;
+}
+.status {
+    display: flex;
+    color: #17ae60;
+    font-weight: 700;
+}
+.shipInfo {
+    margin-top: .1vw;
+    display: flex;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: .4vw;
+}
+.name {
+    display: flex;
+    font-size: 14px; 
+    color: #bababa;
+}
+.units {
+    display: flex;
+    font-size: 14px; 
+    color: #bababa;
+}
+.buttonContainer {
+    margin-left: auto;
+    margin-right: 0;
+    align-self: center;
+    padding-right: 1vw;
+}
