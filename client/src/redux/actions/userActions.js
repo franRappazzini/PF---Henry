@@ -31,3 +31,11 @@ export async function updateUser(user) {
     return err;
   }
 }
+
+export async function changeRole(user, isAdmin) {
+  try {
+    await axios.put(`/user?id=${user.id}`, { isAdmin });
+  } catch (err) {
+    return err;
+  }
+}

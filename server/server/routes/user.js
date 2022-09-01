@@ -23,8 +23,8 @@ userRouter.post("/:email", async (req, res) => {
     const isSocial = sub ? true : false;
     const options = {
       where: { email },
-      include: [{ model: Bougth }, { model: Rating }],
       defaults: { given_name, family_name, email, picture, isSocial },
+      // include: [{ model: Bougth }, { model: Rating }],
     };
 
     const [response, created] = await user.findOrCreate(options);
@@ -57,6 +57,22 @@ userRouter.put("/:currentEmail", async (req, res) => {
     res.status(200).json({ success: "User update!" });
   } catch (err) {
     console.log(err);
+    res.status(400).json({ error: err.message });
+  }
+});
+
+userRouter.put("/", async (req, res) => {
+  const { id } = req.query;
+  const { isAdmin } = req.body;
+
+  console.log("PUT", id);
+
+  try {
+    const response = await user.findByPk(id);
+    response.isAdmin = isAdmin;
+    await response.save();
+    res.status(200).json({ success: `Role update for user:${response.email}` });
+  } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
