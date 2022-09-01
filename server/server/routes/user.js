@@ -63,15 +63,14 @@ userRouter.put("/:currentEmail", async (req, res) => {
 
 userRouter.put("/", async (req, res) => {
   const { id } = req.query;
-  const { isAdmin } = req.body;
-
-  console.log("PUT", id);
+  const { isAdmin, isBanned } = req.body;
 
   try {
     const response = await user.findByPk(id);
-    response.isAdmin = isAdmin;
+    if (isAdmin || isAdmin === false) response.isAdmin = isAdmin;
+    if (isBanned || isBanned === false) response.isBanned = isBanned;
     await response.save();
-    res.status(200).json({ success: `Role update for user:${response.email}` });
+    res.status(200).json({ success: `User ${response.email} update!` });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

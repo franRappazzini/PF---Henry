@@ -1,5 +1,4 @@
 const { DataTypes } = require("sequelize");
-const { hash } = require("../../utils/functions");
 
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {
@@ -41,6 +40,10 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
       },
       email_verified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      isBanned: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },

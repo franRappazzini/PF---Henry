@@ -39,3 +39,11 @@ export async function changeRole(user, isAdmin) {
     return err;
   }
 }
+
+export async function banUser(user, isBanned) {
+  try {
+    await axios.put(`/user?id=${user.id}`, { isBanned });
+  } catch (err) {
+    return err;
+  }
+}
