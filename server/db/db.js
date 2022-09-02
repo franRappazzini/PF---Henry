@@ -28,8 +28,8 @@ const sequelize =
       })
     : new Sequelize(
         // "postgres://ppahdjqtzybfaj:5ce7f5f093976f97cdf0853ca284237ded3ef0b6fd9d7919b01a2aefc55dc72a@ec2-54-159-175-38.compute-1.amazonaws.com:5432/d1h8d8a1rn576h", // heroku
-        "postgres://iwukxuix:xou9rxFqT6Web2ZTlntBSzdoP2Rixd7O@suleiman.db.elephantsql.com/iwukxuix", // elephant
-        // `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+        // "postgres://iwukxuix:xou9rxFqT6Web2ZTlntBSzdoP2Rixd7O@suleiman.db.elephantsql.com/iwukxuix", // elephant
+        `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
 
         {
           logging: false,

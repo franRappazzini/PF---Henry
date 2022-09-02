@@ -1,4 +1,4 @@
-import { GET_ALL_USERS, GET_LOGED_USER } from "../../utils/reduxVars";
+import { GET_ALL_USERS, GET_LOGED_USER, SAVE_ORDER_HISTORY } from "../../utils/reduxVars";
 
 import axios from "axios";
 
@@ -37,5 +37,16 @@ export async function changeRole(user, isAdmin) {
     await axios.put(`/user?id=${user.id}`, { isAdmin });
   } catch (err) {
     return err;
+  }
+}
+
+export  function saveOrderHistory(bought){
+  return async(dispatch)=>{
+    try {
+      const res = await axios.post(`/bought`+ bought )
+      dispatch({type:SAVE_ORDER_HISTORY,payload:res})
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
