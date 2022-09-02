@@ -9,18 +9,21 @@ import style from './ProgressBar.module.css'
 
 const steps = ['Pending', 'In Progress', 'Completed'];
 
-export default function ProgressBar({status}) {
+export default function ProgressBar({status, order, rows}) {
   const [activeStep, setActiveStep] = React.useState(status==='Pending'?0:status==='In Progress'?1:2);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    activeStep===1?status='In Progress':status='Completed'
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);    
   };
 
   const handleBack = () => {
+    activeStep===2?status='In Progress':status='Pending'
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleReset = () => {
+    status='Pending'
     setActiveStep(0);
   };
 
