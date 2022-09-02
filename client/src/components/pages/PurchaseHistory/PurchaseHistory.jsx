@@ -5,27 +5,47 @@ import style from './PurchaseHistory.module.css'
 import {useLocation} from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect} from 'react';
-import { saveOrderHistory } from '../../../redux/actions/userActions';
+import { getBoughts, getLogedUser, saveOrderHistory } from '../../../redux/actions/userActions';
 
 import { Dispatch } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 export default function PurchaseHistory() {
     const search = useLocation().search;
     const status = new URLSearchParams(search).get('status');
-    const paymentId=new URLSearchParams(search).get('paymentId');
+    const payment_id=new URLSearchParams(search).get('payment_id');
     const  payment_type=new URLSearchParams(search).get('payment_type');
     const merchant_order_id=new URLSearchParams(search).get('merchant_order_id');
     const preference_id=new URLSearchParams(search).get('preference_id');
     const dispatch = useDispatch();
 
+
+    //Estos son los datos que me llegan x query despues de cada compra
     const order={
         status:status,
-        paymentId:paymentId,
+        payment_id:payment_id,
         payment_type:payment_type,
         merchant_order_id:merchant_order_id,
         preference_id:preference_id
     }
+
+    const { isAuthenticated, user } = useAuth0();
+  const { logedUser } = useSelector((state) => state.user);
+ 
+  useEffect(() => {
+    if(isAuthenticated){
+         dispatch(getBoughts(user.email))
+    }
+ 
+    isAuthenticated && dispatch(getLogedUser(user));
+    // console.log(user);
+    // console.log(logedUser);
+  }, [dispatch, isAuthenticated, user]);
+
+  const {boughts}=useSelector((state)=>state.user)
+  console.log("BOUGHTS")
+  console.log(boughts)
 
     let lsCartProducts = JSON.parse(localStorage.getItem('lsCartProducts')) || []
     // const {savePurchase} = useSelector(state=>state.other)
@@ -35,11 +55,17 @@ export default function PurchaseHistory() {
     //Sino simplemente mostrar el historal de compra
     //Quizas deberiamos tocar el model User
     //Un user tiene muchas compras, esas compras tienen un detalle y varios items
-    let bought = [lsCartProducts,order]
+    // let bought = [lsCartProducts,order,user]
+    
+    
 
-    //  useEffect(()=>{
-    //     if(status){dispatch(saveOrderHistory(bought))}
-    // })
+     useEffect(()=>{
+        if(isAuthenticated && status){
+            let bought = {lsCartProducts,order,user}
+            console.log("en el if del use")
+            console.log(bought)
+            saveOrderHistory(bought)}
+    },[isAuthenticated])
 
     // console.log(status)
 
@@ -59,6 +85,9 @@ export default function PurchaseHistory() {
             </div>
             <div className={style.purchasesContainer}>
                 {lsCartProducts.length && lsCartProducts.map(product=><PurchaseItem product={product}/>)}
+            </div>
+            <div className={style.orderContainer}>
+                <span>{order.payment_type}</span>
             </div>
         </div>
     </div>

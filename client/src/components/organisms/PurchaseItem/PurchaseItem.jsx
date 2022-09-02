@@ -27,13 +27,13 @@ export default function PurchaseItem({ product }) {
                     Delivered {date}
                 </div>
                 <div className={style.name}>
-                   {product.name} (Size: {product.choosedSize})
+                   {product.name} (Size: {product.choosedSize.size})
                 </div>
                 <div className={style.name}>
                    {product.price}$
                 </div>
                 <div className={style.units}>
-                    {product.choosedAmount}u.
+                    Amount: {product.choosedAmount}
                 </div>
             </div>
     

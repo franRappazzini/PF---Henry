@@ -11,3 +11,4 @@ export const GET_LOGED_USER = "GET_LOGED_USER";
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const PUT_PRODUCT = 'PUT_PRODUCT'
 export const SAVE_ORDER_HISTORY = "SAVE_ORDER_HISTORY"
+export const GET_BOUGHTS='GET_BOUGTHS'
