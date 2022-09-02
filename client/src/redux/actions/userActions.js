@@ -51,7 +51,6 @@ export  function saveOrderHistory(bought){
     }
   }
 }
-=======
 export async function banUser(user, isBanned) {
   try {
     await axios.put(`/user?id=${user.id}`, { isBanned });
