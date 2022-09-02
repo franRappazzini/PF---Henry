@@ -33,6 +33,6 @@ rating.get("/", async (req, res) => {
     } catch (err) {
       res.status(400).json({ error: err.message });
     }
-  });
+  })
 
 module.exports = rating;

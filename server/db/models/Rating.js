@@ -18,6 +18,10 @@ module.exports = (sequelize) => {
         stars: {
             type: DataTypes.FLOAT,
             allowNull: false
+        },
+        username: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     })
 }
