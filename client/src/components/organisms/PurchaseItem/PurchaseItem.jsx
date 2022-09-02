@@ -1,16 +1,14 @@
-import React from 'react'
-import style from './PurchaseItem.module.css'
+import React from 'react';
+import style from './PurchaseItem.module.css';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
-
-
-
 export default function PurchaseItem({ product }) {
-    
+
     let date = new Date().toDateString()
 
     product.status='In Progress'  
+
   return (
     
         <div >
@@ -18,13 +16,10 @@ export default function PurchaseItem({ product }) {
             <div className={style.itemContainer}>
 
             <div className={style.imageContainer}>
-                <img src={product.image} alt="not found" className={style.image}/>
+                <img src={product.image} alt='not found' className={style.image}/>
             </div>
     
             <div className={style.infoContainer}>
-                {/* <div className={style.status}>
-                        {product.status}               
-                    </div> */}
                 <div className={product.status==='Delivered'?style.status:style.status2}> {/*Provisory status*/}
                     {product.status}              
                 </div>
@@ -44,10 +39,9 @@ export default function PurchaseItem({ product }) {
     
             <div className={style.buttonContainer}>
                 <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
-                    <Button variant="contained">Purchase Again</Button>
+                    <Button variant='contained'>Purchase Again</Button>
                 </Link>
-            </div>
-    
+            </div>    
         </div>
             :<h1>Loading</h1>
         }

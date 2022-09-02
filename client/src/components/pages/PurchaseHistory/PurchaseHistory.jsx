@@ -26,12 +26,6 @@ export default function PurchaseHistory() {
         merchant_order_id:merchant_order_id,
         preference_id:preference_id
     }
-    console.log(order.status)
-    console.log(order.paymentId)
-    console.log(order.payment_type)
-    console.log(order.merchant_order_id)
-    console.log(order.preference_id)
-
 
     let lsCartProducts = JSON.parse(localStorage.getItem('lsCartProducts')) || []
     // const {savePurchase} = useSelector(state=>state.other)
@@ -48,8 +42,6 @@ export default function PurchaseHistory() {
     // })
 
     // console.log(status)
-    console.log("save:")
-    console.log('lsCartProducts: ', lsCartProducts)
 
   return (
     <div className={style.globalContainer}>
@@ -66,7 +58,7 @@ export default function PurchaseHistory() {
                 </div>
             </div>
             <div className={style.purchasesContainer}>
-                {lsCartProducts.length>0 && lsCartProducts.map(product=><PurchaseItem product={lsCartProducts[0]}/>)}
+                {lsCartProducts.length && lsCartProducts.map(product=><PurchaseItem product={product}/>)}
             </div>
         </div>
     </div>
