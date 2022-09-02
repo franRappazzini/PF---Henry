@@ -51,7 +51,6 @@ export default function ProductContainer({productDetail}){
    let ls = JSON.parse(localStorage.getItem('lsFavorites')) || []
   
    let lsCart = JSON.parse(localStorage.getItem('lsCartProducts')) || []
-   console.log('ls details START!!!!!!!!!!!', lsCart);
    
    useEffect(()=>{
     setCart(isCart?true:false)
@@ -171,17 +170,13 @@ export default function ProductContainer({productDetail}){
         })
         
        
-        console.log('prodDetails from details',productDetail)
 
         dispatch(addToCart(prodToCart))        
         lsCart.push(prodToCart)
         console.log('localStorage from details:', lsCart);
         localStorage.setItem('lsCartProducts',JSON.stringify(lsCart))
         console.log('localStorage from details after set:', lsCart);
-        
-        
     }
-      
     }
     
   
@@ -195,12 +190,12 @@ export default function ProductContainer({productDetail}){
   `,
         icon: false,
       });
-    } 
+    }
     
     if(productDetail){
     return(
       
-        <div className={style.product_container}> 
+        <div className={style.product_container}>
         
           <div className={style.left_side}>  
             <div className={style.top_left_container}>
