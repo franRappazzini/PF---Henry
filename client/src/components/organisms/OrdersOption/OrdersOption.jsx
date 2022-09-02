@@ -9,6 +9,54 @@ export default function OrdersOption() {
     let [order, setOrder] = useState()
     let [status, setStatus] = useState()
 
+      let rows = [
+        {
+            date: 'Aug 30, 2022',
+            adress: 'xxxxxxx',
+            email: 'xxxxxxx@gmail.com',
+            method: 'xxxxx',
+            amount: 'xxxxx$',
+            status: 'Pending',
+            order: 4321
+        },
+        {
+            date: 'Aug 5, 2022',
+            adress: 'xxxxxxx',
+            email: 'xxxxxxx@gmail.com',
+            method: 'xxxxx',
+            amount: 'xxxxx$',
+            status: 'In Progress',
+            order: 8741
+        },
+        {
+            date: 'June 12, 2022',
+            adress: 'xxxxxxx',
+            email: 'xxxxxxx@gmail.com',
+            method: 'xxxxx',
+            amount: 'xxxxx$',
+            status: 'Completed',
+            order: 7411
+        },
+        {
+            date: 'July 2, 2022',
+            adress: 'xxxxxxx',
+            email: 'xxxxxxx@gmail.com',
+            method: 'xxxxx',
+            amount: 'xxxxx$',
+            status: 'Completed',
+            order: 9312
+        },
+        {
+            date: 'April 22, 2022',
+            adress: 'xxxxxxx',
+            email: 'xxxxxxx@gmail.com',
+            method: 'xxxxx',
+            amount: 'xxxxx$',
+            status: 'Pending',
+            order: 2931
+        }
+      ]
+
   return (
     <div className={style.globalContainer}>
         <div className={style.ordersContainer}>
@@ -21,7 +69,7 @@ export default function OrdersOption() {
                 selected==='orders'
                 ? (
                     <div className={style.ordersTable}>
-                        <OrdersTable selected={selected} setSelected={setSelected} setOrder={setOrder} setStatus={setStatus}/>
+                        <OrdersTable selected={selected} setSelected={setSelected} setOrder={setOrder} setStatus={setStatus} rows={rows}/>
                     </div>
                   )
                 : (           
@@ -33,7 +81,7 @@ export default function OrdersOption() {
                                { `Order N° ${order}` }
                             </div>
                         </div>                        
-                        <ProgressBar status={status}/>
+                        <ProgressBar status={status} rows={rows} order={order}/>/   
                     </div>
                   )
             }

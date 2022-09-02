@@ -16,7 +16,7 @@ export default function Card({product}) {
     const [amount, setAmount] = useState(product.choosedAmount)
     let lsCart = JSON.parse(localStorage.getItem('lsCartProducts')) || []
 
-    let mySize = product.Sizes.filter(e=>e.size===product.choosedSize)
+    let mySize = product.Sizes.filter(e=>e.size===product.choosedSize.size)
     const stock = mySize[0].Product_Size.stock
     console.log(stock)
 
@@ -26,7 +26,7 @@ export default function Card({product}) {
     
     const handleClose= (e)=>{
         e.preventDefault()
-        dispatch(removeFromCart(`${product.name}-${product.choosedSize}-${product.choosedAmount}`))
+        dispatch(removeFromCart(`${product.name}-${product.choosedSize.size}-${product.choosedAmount}`))
         lsCart = lsCart.filter(prod=>prod.id!==product.id)
         localStorage.setItem('lsCartProducts', JSON.stringify(lsCart))
     }
@@ -71,7 +71,7 @@ export default function Card({product}) {
                 <span className={style.categories}>{product.Categories?product.Categories.map(e=>e.name).join(", "):""}</span>
             </div>
             <div className={style.amount_and_size}>
-            <span className={style.size_span}>SIZE: {product.choosedSize}</span>
+            <span className={style.size_span}>SIZE: {product.choosedSize.size}</span>
             <div className={style.plus_min_container}><button onClick={(e)=> handleMin(e)} className={style.plus_min}>-</button><button onClick={(e)=> handlePlus(e)} className={style.plus_min}>+</button></div>
             <span ref={spanRef} id="amount" className={style.amount_span}>{amount}</span>
             </div>
