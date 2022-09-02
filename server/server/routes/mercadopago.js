@@ -17,9 +17,9 @@ async function createPayment(productosCart) {
       payer_email: "test_user_45077573@testuser.com",
       items: productosCart,
       back_urls: {
-        failure: "/failure",
-        pending: "/pending",
-        success: "http://localhost:3001/mercadopago/success"
+        failure: "http://localhost:3000/purchases",
+        pending: "http://localhost:3000/purchases",
+        success: "http://localhost:3000/purchases"
       }
     };
 
@@ -100,9 +100,11 @@ async function savePayment(){
 }
 
 
-server.get("/success", async (req,res)=>{
+server.post("/success", async (req,res)=>{
   console.log(req.query)
   const order = req.query
+  const user = req.body
+  //Deberiamos relacionar la orden al usuario y guardarla en boguths
   try {
     savePayment(order)
   } catch (error) {
