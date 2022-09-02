@@ -40,6 +40,7 @@ export async function changeRole(user, isAdmin) {
   }
 }
 
+
 export  function saveOrderHistory(bought){
   return async(dispatch)=>{
     try {
@@ -50,3 +51,12 @@ export  function saveOrderHistory(bought){
     }
   }
 }
+=======
+export async function banUser(user, isBanned) {
+  try {
+    await axios.put(`/user?id=${user.id}`, { isBanned });
+  } catch (err) {
+    return err;
+  }
+}
+
