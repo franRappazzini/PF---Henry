@@ -6,49 +6,44 @@ import { Link } from 'react-router-dom';
 
 
 
-export default function PurchaseItem(items) {
-    // name,image,price,choosedAmount,brand,choosedSize
+export default function PurchaseItem({ product }) {
+    
     let date = new Date().toDateString()
 
-    console.log("item")
-    console.log(items.items[0].choosedSize)
-  
+    product.status='In Progress'  
   return (
     
         <div >
-            {items?
+            {product?
             <div className={style.itemContainer}>
 
             <div className={style.imageContainer}>
-                <img src={items.items[0].image} alt="not found" className={style.image}/>
+                <img src={product.image} alt="not found" className={style.image}/>
             </div>
     
             <div className={style.infoContainer}>
                 {/* <div className={style.status}>
-                    {order.status}               
-                </div> */}
+                        {product.status}               
+                    </div> */}
+                <div className={product.status==='Delivered'?style.status:style.status2}> {/*Provisory status*/}
+                    {product.status}              
+                </div>
                 <div className={style.shipInfo}>
                     Delivered {date}
                 </div>
                 <div className={style.name}>
-                   {items.items[0].name}
+                   {product.name} (Size: {product.choosedSize})
+                </div>
+                <div className={style.name}>
+                   {product.price}$
                 </div>
                 <div className={style.units}>
-                    {items.items[0].choosedAmount}
+                    {product.choosedAmount}u.
                 </div>
-                  <div className={style.name}>
-                   {items.items[0].Brand.name}
-                </div> 
-                <div className={style.name}>
-                   {items.items[0].price}
-                </div>
-                <div className={style.name}>
-                   {items.items[0].choosedSize.size}
-                </div>  
             </div>
     
             <div className={style.buttonContainer}>
-                <Link to='/product/a3b27646-5e6d-471b-812e-b6fb0c74cc8e' style={{ textDecoration: 'none' }}>
+                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
                     <Button variant="contained">Purchase Again</Button>
                 </Link>
             </div>

@@ -45,12 +45,11 @@ export default function PurchaseHistory() {
 
     //  useEffect(()=>{
     //     if(status){dispatch(saveOrderHistory(bought))}
-
     // })
 
     // console.log(status)
     console.log("save:")
-    console.log(lsCartProducts)
+    console.log('lsCartProducts: ', lsCartProducts)
 
   return (
     <div className={style.globalContainer}>
@@ -63,43 +62,11 @@ export default function PurchaseHistory() {
                     <SearchBar2 label='Search'/>
                 </div>
                 <div className={style.number}>
-                    5 Purchases
+                   {lsCartProducts.length} Purchases
                 </div>
             </div>
             <div className={style.purchasesContainer}>
-                {/* {purchases.map(purchase=><PurchaseItem purchase={purchase}/>)} */}
-                {/* <PurchaseItem/>
-                <PurchaseItem/>
-                <PurchaseItem/>
-                <PurchaseItem/>
-                <PurchaseItem/> */}
-                {/* <div> Holalalala</div> */}
-                {/* name={e.name} image={e.image} price={e.price} choosedAmount={e.choosedAmount} 
-                    brand={e.Brand.name} choosedSize={e.choosedSize.size} */}
-                {lsCartProducts.length>0 && lsCartProducts.map((e)=>{
-                    return(
-                        <div>
-                        <div>
-                            <PurchaseItem items={lsCartProducts}/>
-                        {/* <p>{status}</p>
-                        <p>{payment_type}</p>
-                        <p>{merchant_order_id}</p>
-                        <p>{preference_id}</p>
-                        <p>{e.name}</p>
-                        <p>{e.price}</p>
-                        <p>{e.choosedAmount}</p>
-                        <img src={e.image}></img>
-                        <p>{e.Brand.name}</p> */}
-                       </div>
-                       <div>
-                       <p>{status}</p>
-                        <p>{payment_type}</p>
-                        <p>{merchant_order_id}</p>
-                        <p>{preference_id}</p>
-                       </div>
-                       </div>
-                    )
-                })}
+                {lsCartProducts.length>0 && lsCartProducts.map(product=><PurchaseItem product={lsCartProducts[0]}/>)}
             </div>
         </div>
     </div>
