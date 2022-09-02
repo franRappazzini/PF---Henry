@@ -9,12 +9,19 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 
-import LoadingBtn from "../../atoms/LoadingBtn";
+import BanBtn from "../../atoms/BanBtn/BanBtn";
+import LoadingBtn from "../../atoms/LoadingBtn/LoadingBtn";
 import SearchBar2 from "../SearchBar2/SearchBar2";
+import { getAllUsers } from "../../../redux/actions/userActions";
 import style from "./UsersOption.module.css";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 export default function UsersOption({ users }) {
   let [searchedUser, setSearchedUser] = useState("");
+  const dispatch = useDispatch();
+
+  useEffect(() => dispatch(getAllUsers()), [dispatch]);
 
   function filteredUsers() {
     if (users.length) {
@@ -56,6 +63,7 @@ export default function UsersOption({ users }) {
                   <TableCell align="left">Email</TableCell>
                   <TableCell align="left">Role</TableCell>
                   <TableCell align="left">Status</TableCell>
+                  <TableCell align="left">Ban</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -74,6 +82,9 @@ export default function UsersOption({ users }) {
                       <LoadingBtn user={user} />
                     </TableCell>
                     <TableCell align="left">status?</TableCell>
+                    <TableCell align="left">
+                      <BanBtn user={user} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

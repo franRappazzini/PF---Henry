@@ -8,19 +8,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Chip } from '@mui/material';
 
-function createData(date, adress, email, method, amount, status, order) {
-  return { date, adress, email, method, amount, status, order};
-}
 
-const rows = [
-  createData('Aug 30, 2022', 'xxxxxxx', 'xxxxxxx@gmail.com', 'xxxxx', 'xxxxx$', 'Pending', 4321),
-  createData('Aug 5, 2022', 'xxxxxxx', 'xxxxxxx@gmail.com', 'xxxxx', 'xxxxx$', 'In Progress', 8741),
-  createData('June 12, 2022', 'xxxxxxx', 'xxxxxxx@gmail.com', 'xxxxx', 'xxxxx$', 'Completed', 7411),
-  createData('July 2, 2022', 'xxxxxxx', 'xxxxxxx@gmail.com', 'xxxxx', 'xxxxx$', 'Completed', 9312),
-  createData('April 22, 2022', 'xxxxxxx', 'xxxxxxx@gmail.com', 'xxxxx', 'xxxxx$', 'Pending', 2931),
-];
 
-export default function OrdersTable({ setSelected, setOrder, setStatus }) {
+export default function OrdersTable({ setSelected, setOrder, setStatus, rows}) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

@@ -16,9 +16,9 @@ async function createPayment(productosCart) {
       payer_email: "test_user_45077573@testuser.com",
       items: productosCart,
       back_urls: {
-        failure: "/failure",
-        pending: "/pending",
-        success: "/success"
+        failure: "http://localhost:3000/purchases",
+        pending: "http://localhost:3000/purchases",
+        success: "http://localhost:3000/purchases"
       }
     };
 
@@ -45,6 +45,29 @@ server.post("/payment", async (req,res,next)=>{
       //   quantity: 1,
       //   unit_price: 10
       // }
+
+      // var payer = {
+      //   name: "Charles",
+      //   surname: "Luevano",
+      //   email: "charles@hotmail.com",
+      //   date_created: "2015-06-02T12:58:41.425-04:00",
+      //   phone: {
+      //     area_code: "",
+      //     number: "949 128 866"
+      //   },
+         
+      //   identification: {
+      //     type: "DNI",
+      //     number: "12345678"
+      //   },
+        
+      //   address: {
+      //     street_name: "Cuesta Miguel Armendáriz",
+      //     street_number: "1004",
+      //     zip_code: "11020"
+      //   }
+      // }  
+
         let product={
           title:lsCartProducts[index].name,
           picture_url:lsCartProducts[index].image,
@@ -55,7 +78,7 @@ server.post("/payment", async (req,res,next)=>{
         productosCart.push(product)
     }
     
-    console.log(productosCart)
+ 
      try {
       const payment = await createPayment(productosCart);
       return res.json(payment.init_point);
@@ -66,6 +89,27 @@ server.post("/payment", async (req,res,next)=>{
         .status(500)
         .json({ error: true, msg: "Failed to create payment" });
     }
+})
+
+
+
+async function savePayment(){
+
+
+}
+
+
+server.post("/success", async (req,res)=>{
+  console.log(req.query)
+  const order = req.query
+  const user = req.body
+  //Deberiamos relacionar la orden al usuario y guardarla en boguths
+  try {
+    savePayment(order)
+  } catch (error) {
+    
+  }
+    
 })
 
 module.exports=server;
