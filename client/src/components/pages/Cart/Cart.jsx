@@ -11,8 +11,10 @@ import { Redirect } from "react-router-dom";
 import mercadopago from '../../organisms/MercadoPago/mercadoPago.jsx'
 
 import NoProductsFound from '../../molecules/NoProductsFound/NoProductsFound.jsx'
+import { useAuth0 } from '@auth0/auth0-react';
+import { getLogedUser } from '../../../redux/actions/userActions.js';
 
-
+//Preguntar si x query llega un status failed y mostrar un toast
 
 export default function Cart(){
 
@@ -21,7 +23,14 @@ export default function Cart(){
   
   
   let lsCartProducts = JSON.parse(localStorage.getItem('lsCartProducts')) || []
+  
+
+  
+
+
+
   const [datos,setDatos]= useState("")
+ 
     useEffect(()=>{
       axios
       .post("/mercadopago/payment",{lsCartProducts})
