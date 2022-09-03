@@ -205,7 +205,11 @@ export default function Card({
                 <MenuItem value="none">None</MenuItem>
                 {product.Sizes.map((s) => {
                   if (s.Product_Size.stock > 0) {
-                    return <MenuItem value={s.size}>{s.size}</MenuItem>;
+                    return (
+                      <MenuItem key={s.size} value={s.size}>
+                        {s.size}
+                      </MenuItem>
+                    );
                   }
                 })}
               </Select>

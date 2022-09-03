@@ -25,10 +25,7 @@ function ProfileCard({ user, logedUser, setEdit }) {
         ) : (
           <p>Complete last name</p>
         )}
-        <p>
-          {logedUser.email} /{" "}
-          {logedUser.email_verified ? "Verified" : "Not verified"}
-        </p>
+        <p>{logedUser.email}</p>
       </CardContent>
       {!logedUser.isSocial && (
         <CardActions>
