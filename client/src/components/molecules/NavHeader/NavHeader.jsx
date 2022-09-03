@@ -45,6 +45,16 @@ function NavHeader() {
               </li>
             </>
           )}
+              <li className={style.li_nav}>
+                <NavLink
+                  to={"/purchases"}
+                  className={({ isActive }) =>
+                    isActive ? style.a_nav_active : style.a_nav
+                  }
+                >
+                  Purchase History
+                </NavLink>
+              </li>
         </div>
       </ul>
     </nav>

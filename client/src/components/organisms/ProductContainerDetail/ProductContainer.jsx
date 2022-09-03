@@ -113,7 +113,7 @@ export default function ProductContainer({productDetail}){
         image:productDetail.image,
         name:productDetail.name,
         price: productDetail.price,
-        choosedSize:selectedSize,
+        choosedSize:productDetail.Sizes.find((s) => s.size === selectedSize),
         choosedAmount:amount,
         Sizes:productDetail.Sizes
       }

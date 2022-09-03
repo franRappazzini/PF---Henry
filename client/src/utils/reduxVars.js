@@ -8,6 +8,12 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
 export const GET_LOGED_USER = "GET_LOGED_USER";
+<<<<<<< HEAD
 export const GET_ALL_USERS = 'GET_ALL_USERS'
 export const PUT_PRODUCT = 'PUT_PRODUCT'
 export const DELETE_REVIEW = 'DELETE_REVIEW'
+=======
+export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const PUT_PRODUCT = 'PUT_PRODUCT'
+export const SAVE_ORDER_HISTORY = "SAVE_ORDER_HISTORY"
+>>>>>>> 41829c333d2fe9e8434542ab29148baaf9559b13
