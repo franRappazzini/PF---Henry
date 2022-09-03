@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_BRANDS = "GET_BRANDS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_SIZES = "GET_SIZES";
+export const SAVE_PURCHASE="SAVE_PURCHASE";
 
 export function getBrands() {
   return async (dispatch) => {
@@ -36,3 +37,31 @@ export function getSizes() {
     }
   };
 }
+
+
+export function savePurchase(lsCartProducts){
+  
+  return (dispatch)=>{
+    console.log("EN EL SAVE PURCHASEEEEEEEEEEEE")
+    console.log(lsCartProducts)
+    try {
+      return dispatch({
+        type: SAVE_PURCHASE,
+        payload: lsCartProducts,
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
+// export async function saveOrder(order){
+//     return async (dispatch)=>{
+//       try {
+        
+//       } catch (error) {
+        
+//       }
+//     }
+// }

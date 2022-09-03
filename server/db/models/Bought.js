@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
         finalPrice: {
             type: DataTypes.INTEGER
         },
+        payment_id:{
+            type:DataTypes.STRING
+        }
         
     })
 }
