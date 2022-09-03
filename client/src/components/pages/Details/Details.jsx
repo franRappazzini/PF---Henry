@@ -37,7 +37,7 @@ export default function Detail(){
         <CarouselContainer productDetail={productDetail} products={products}/>
 
 
-        <ReviewContainer />
+        <ReviewContainer productDetail={productDetail} />
 
 
         </div>
