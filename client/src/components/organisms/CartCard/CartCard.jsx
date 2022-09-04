@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 import { IoMdClose } from "react-icons/io";
 import { removeFromCart } from "../../../redux/actions/productActions.js";
@@ -8,7 +8,6 @@ import { useEffect } from "react";
 
 export default function Card({ product }) {
   let dispatch = useDispatch();
-  const spanRef = useRef();
   const [amount, setAmount] = useState(product.choosedAmount);
   let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
   let mySize = product.Sizes.filter((e) => e.size === product.choosedSize.size);
@@ -88,7 +87,7 @@ export default function Card({ product }) {
               +
             </button>
           </div>
-          <span ref={spanRef} id="amount" className={style.amount_span}>
+          <span id="amount" className={style.amount_span}>
             {amount}
           </span>
         </div>
