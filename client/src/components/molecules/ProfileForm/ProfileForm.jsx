@@ -33,28 +33,24 @@ function ProfileForm({ logedUser, setEdit }) {
 
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("file", form.picture);
-    formData.append("upload_preset", "gsx0rfx1");
-    const imgRes = await axios.post(
-      "https://api.cloudinary.com/v1_1/dnwamkq58/upload",
-      formData
-    );
+    try {
+      const formData = new FormData();
+      formData.append("file", form.picture);
+      formData.append("upload_preset", "gsx0rfx1");
+      const imgRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/dnwamkq58/upload",
+        formData
+      );
 
-    if (imgRes.response?.data.error) {
+      const user = {
+        ...form,
+        picture: imgRes.data.url,
+        currentEmail: logedUser.email,
+      };
+      await updateUser(user);
+    } catch (err) {
       setLoading(false);
-      return swal.fire("Error..", imgRes.message, "error");
-    }
-
-    const user = {
-      ...form,
-      picture: imgRes.data.url,
-      currentEmail: logedUser.email,
-    };
-    const res = await updateUser(user);
-    if (res) {
-      setLoading(false);
-      return swal.fire("Error..", res.message, "error");
+      return swal.fire("Error..", err.message, "error");
     }
 
     swal.fire("Success!", "User update!", "success");
@@ -90,7 +86,6 @@ function ProfileForm({ logedUser, setEdit }) {
             autoComplete="off"
             name="image"
             onChange={handleChangeImage}
-            // value={form.image}
             required
           />
 
@@ -134,14 +129,6 @@ function ProfileForm({ logedUser, setEdit }) {
             *To change the password you must select 'Don't remember your
             password?' in Log In
           </Typography>
-          {/* <TextField
-          type="password"
-          label="Password"
-          variant="standard"
-          name="password"
-          onChange={handleChange}
-          value={form.password}
-        /> */}
 
           <div className={style.btns_container}>
             <LoadingButton loading={loading} type="submit" variant="outlined">

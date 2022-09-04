@@ -25,51 +25,48 @@ function FormCreateProduct() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (validations()) {
-      swal.fire("Error..", validations(), "error");
-      return;
-    }
+    if (validations()) return swal.fire("Error..", validations(), "error");
+
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("upload_preset", "gsx0rfx1");
-    const imgRes = await axios.post(
-      "https://api.cloudinary.com/v1_1/dnwamkq58/upload",
-      formData
-    );
-    if (imgRes.response?.data.error) {
-      return swal.fire("Error..", imgRes.message, "error");
-    }
+    try {
+      // subo imagen a cloudinary
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("upload_preset", "gsx0rfx1");
+      const imgRes = await axios.post(
+        "https://api.cloudinary.com/v1_1/dnwamkq58/upload",
+        formData
+      );
 
-    const newProduct = {
-      ...product,
-      image: imgRes.data.url,
-      category: selectedCategories,
-      size: selectedSizes,
-    };
+      const newProduct = {
+        ...product,
+        image: imgRes.data.url,
+        category: selectedCategories,
+        size: selectedSizes,
+      };
 
-    const res = await axios.post("/product", newProduct);
+      // creo el producto
+      const res = await axios.post("/product", newProduct);
 
-    console.log(res);
-    if (res.response) {
+      swal
+        .fire({
+          icon: "success",
+          title: "Producto creado",
+          html: "Deseas ver el producto creado? O quieres seguir creando mas?",
+          showDenyButton: true,
+          confirmButtonText: "Ver producto",
+          denyButtonText: `Seguir creando`,
+          denyButtonColor: "grey",
+        })
+        .then((result) => {
+          if (result.isConfirmed) navigate(`/product/${res.data.id}`);
+        });
+    } catch (err) {
       setLoading(false);
-      return swal.fire("Error..", res.message, "error");
+      return swal.fire("Error..", err.message, "error");
     }
 
-    swal
-      .fire({
-        icon: "success",
-        title: "Producto creado",
-        html: "Deseas ver el producto creado? O quieres seguir creando mas?",
-        showDenyButton: true,
-        confirmButtonText: "Ver producto",
-        denyButtonText: `Seguir creando`,
-        denyButtonColor: "grey",
-      })
-      .then((result) => {
-        if (result.isConfirmed) navigate(`/product/${res.data.id}`);
-      });
     setProduct({ name: "", brand: "", price: "" });
     setSelectedCategories([]);
     setSelectedSizes([]);
@@ -77,7 +74,7 @@ function FormCreateProduct() {
   }
 
   function validations() {
-    const imageRegex = /^.+\.(jpe?g|gif|png)$/i;
+    // const imageRegex = /^.+\.(jpe?g|gif|png)$/i;
     if (!product.name.length) return "error name";
     if (product.brand === "") return "You must choose a brand";
     if (product.price <= 0) return "Price must be greater than $0";
