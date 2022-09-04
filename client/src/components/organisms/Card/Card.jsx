@@ -134,6 +134,9 @@ export default function Card({
         choosedSize: product.Sizes.find((s) => s.size === size),
         choosedAmount: amount,
         Sizes: product.Sizes,
+        idRemove: `${product.name}-${
+          product.Sizes.find((s) => s.size === size).size
+        }-${amount}`,
       };
       dispatch(addToCart(prodToCart));
       lsCart.push(prodToCart);

@@ -4,17 +4,18 @@ import CartCard from "../../organisms/CartCard/CartCard.jsx";
 import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound.jsx";
 import axios from "axios";
 import style from "./Cart.module.css";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 //Preguntar si x query llega un status failed y mostrar un toast
 
 export default function Cart() {
+  const [lsCartProducts, setLsCartProducts] = useState([]);
+  const [datos, setDatos] = useState("");
   let { cartProducts } = useSelector((state) => state.product);
 
-  let lsCartProducts = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
-
-  const [datos, setDatos] = useState("");
+  useEffect(() => {
+    setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
+  }, []);
 
   useEffect(() => {
     axios
@@ -24,8 +25,6 @@ export default function Cart() {
       })
       .catch((err) => console.error(err));
   }, []);
-
-  console.log("lsCartProducts from Cart: ", lsCartProducts);
 
   return (
     <div className={style.cart_container}>
@@ -37,9 +36,13 @@ export default function Cart() {
         }
       >
         {lsCartProducts.length ? (
-          lsCartProducts.map((e) => (
-            <div key={e.id}>
-              <CartCard product={e} />
+          lsCartProducts.map((e, i) => (
+            <div key={i}>
+              <CartCard
+                product={e}
+                lsCartProducts={lsCartProducts}
+                setLsCartProducts={setLsCartProducts}
+              />
               {/* <span>{e.choosedAmount}</span><span>{e.choosedSize}</span> */}
             </div>
           ))

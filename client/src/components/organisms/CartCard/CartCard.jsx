@@ -1,37 +1,35 @@
 import React, { useState } from "react";
 
 import { IoMdClose } from "react-icons/io";
-import { removeFromCart } from "../../../redux/actions/productActions.js";
 import style from "./CartCard.module.css";
-import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-export default function Card({ product }) {
-  let dispatch = useDispatch();
+export default function Card({ product, lsCartProducts, setLsCartProducts }) {
   const [amount, setAmount] = useState(product.choosedAmount);
-  let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
   let mySize = product.Sizes.filter((e) => e.size === product.choosedSize.size);
   const stock = mySize[0].Product_Size.stock;
 
   useEffect(() => {
-    const prodFind = lsCart.find((prod) => prod.id === product.id);
-    const cartFilter = lsCart.filter((prod) => prod.id !== product.id);
+    // para actualizar el choisedAmount
+    const prodFind = lsCartProducts.find(
+      (prod) => prod.idRemove === product.idRemove
+    );
+    const cartFilter = lsCartProducts.filter(
+      (prod) => prod.idRemove !== product.idRemove
+    );
     prodFind.choosedAmount = amount;
     localStorage.setItem(
       "lsCartProducts",
       JSON.stringify([...cartFilter, prodFind])
     );
-  }, [amount, product.id]);
+  }, [amount, product.idRemove, lsCartProducts]);
 
-  const handleClose = (e) => {
-    e.preventDefault();
-    dispatch(
-      removeFromCart(
-        `${product.name}-${product.choosedSize.size}-${product.choosedAmount}`
-      )
+  const handleClose = () => {
+    const newCart = lsCartProducts.filter(
+      (prod) => prod.idRemove !== product.idRemove
     );
-    lsCart = lsCart.filter((prod) => prod.id !== product.id);
-    localStorage.setItem("lsCartProducts", JSON.stringify(lsCart));
+    localStorage.setItem("lsCartProducts", JSON.stringify(newCart));
+    setLsCartProducts(newCart);
   };
 
   const handlePlus = () => {
@@ -60,10 +58,7 @@ export default function Card({ product }) {
       <div className={style.br}></div>
       <div className={style.right_container}>
         <div className={style.top_right}>
-          <button
-            onClick={(e) => handleClose(e)}
-            className={style.close_button}
-          >
+          <button onClick={handleClose} className={style.close_button}>
             <IoMdClose className={style.close_icon} />
           </button>
         </div>
