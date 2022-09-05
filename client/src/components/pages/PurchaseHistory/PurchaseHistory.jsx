@@ -80,11 +80,11 @@ export default function PurchaseHistory() {
                     <SearchBar2 label='Search'/>
                 </div>
                 <div className={style.number}>
-                   {lsCartProducts.length} Purchases
+                   {boughts.length} Purchases
                 </div>
             </div>
             <div className={style.purchasesContainer}>
-                {lsCartProducts.length && lsCartProducts.map(product=><PurchaseItem product={product}/>)}
+                {boughts.length && boughts.map(product=><PurchaseItem product={product}/>)}
             </div>
             <div className={style.orderContainer}>
                 <span>{order.payment_type}</span>

@@ -63,7 +63,8 @@ export async function banUser(user, isBanned) {
 export  function getBoughts(email){
     return async (dispatch)=>{
       try{
-          const res = axios('/bought/'+email)
+          const res = await axios('/bought/'+email)
+          console.log(res)
           dispatch({
             type:GET_BOUGHTS,
             payload:res.data

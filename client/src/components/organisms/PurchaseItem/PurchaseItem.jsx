@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 export default function PurchaseItem({ product }) {
 
     let date = new Date().toDateString()
-
+    console.log(product)
+    const itemInfo = product.Product_Sizes[0]
     product.status='In Progress'  
 
   return (
@@ -16,7 +17,7 @@ export default function PurchaseItem({ product }) {
             <div className={style.itemContainer}>
 
             <div className={style.imageContainer}>
-                <img src={product.image} alt='not found' className={style.image}/>
+                <img src={itemInfo.productData.image} alt='not found' className={style.image}/>
             </div>
     
             <div className={style.infoContainer}>
@@ -27,18 +28,18 @@ export default function PurchaseItem({ product }) {
                     Delivered {date}
                 </div>
                 <div className={style.name}>
-                   {product.name} (Size: {product.choosedSize.size})
+                   {itemInfo.productData.name} (Size: {itemInfo.SizeId.size})
                 </div>
                 <div className={style.name}>
-                   {product.price}$
+                   {itemInfo.productData.price}$
                 </div>
                 <div className={style.units}>
-                    Amount: {product.choosedAmount}
+                    Amount: {itemInfo.Product_Bought.amount}
                 </div>
             </div>
     
             <div className={style.buttonContainer}>
-                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/product/${itemInfo.productData.id}`} style={{ textDecoration: 'none' }}>
                     <Button variant='contained'>Purchase Again</Button>
                 </Link>
             </div>    
