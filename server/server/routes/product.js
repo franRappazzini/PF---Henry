@@ -83,7 +83,26 @@ router.get("", async (req, res) => {
   //   res.status(200).send(allProducts);
   // }
 });
-
+router.put("/disable/:id", async (req, res) => {
+  let { id } = req.params
+  try {
+    let data = await Product.findByPk(id);
+    data.update({isDisabled:true})
+    res.json(data)
+  } catch(err) {
+    res.status(400).send("Error from /disable put route");
+  }
+})
+router.put("/enable/:id", async (req, res) => {
+  let { id } = req.params
+  try {
+    let data = await Product.findByPk(id);
+    data.update({isDisabled:false})
+    res.json(data)
+  } catch(err) {
+    res.status(400).send("Error from /enable put route");
+  }
+})
 router.put("/:id", async (req, res, next) => {
   const { id } = req.params;
   const { name, image, price, stock, brand, sizes, newSizes, newCategories, categories } = req.body;
@@ -279,7 +298,7 @@ router.post("/", async (req, res) => {
 
     //Creo el producto y hago las relaciones
 
-    try {
+    try {             
       const newProduct = await Product.create({ name, image, price });
       let findBrand = await Brand.findOne({ where: { name: brand } });
       newProduct.BrandId = findBrand.id;

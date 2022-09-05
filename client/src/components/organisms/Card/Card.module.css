@@ -7,6 +7,20 @@
   padding: 0.26vw;
   margin: 0px 0.52vw;
 }
+.disabledContainer {
+  display: none;
+}
+.disabled {
+  width: 240px;
+  height:390px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.26vw;
+  margin: 0px 0.52vw;
+  opacity: .7;
+  filter: grayscale(100%);
+}
 .card {   
   background-color: #fff;
   height: 360px;

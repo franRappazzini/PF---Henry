@@ -14,12 +14,14 @@ import {
 import {
   addFavorites,
   addToCart,
+  disableProduct,
+  enableProduct,
   removeFavorites,
   removeFromCart,
 } from "../../../redux/actions/productActions.js";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineCheckCircle } from "react-icons/ai";
 import { BiError } from "react-icons/bi";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -53,8 +55,10 @@ export default function Card({
   let onCart = cartProducts.filter((prod) => prod.id === product.id).length;
   let [confirmationPopUpOpen, setConfirmationPopUpOpen] = useState(false);
   let [cart, setCart] = useState(onCart ? true : false);
+  let [message, setMessage] = useState('')
   let ls = JSON.parse(localStorage.getItem("lsFavorites")) || [];
   let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
+  let off = product.isDisabled
   const navigate = useNavigate();
 
   let checkFaved = () => {
@@ -146,20 +150,31 @@ export default function Card({
     return handlePopUpClose();
   };
 
-  let handleClickOpenConfirmationPopUp = () => {
+  let handleClickOpenConfirmationPopUp = (status) => {
+    if(status==='Disable') {
+      setMessage(status)
+      setConfirmationPopUpOpen(true);
+    }
+    setMessage(status)
     setConfirmationPopUpOpen(true);
   };
   let handleClickCloseConfirmationPopUp = () => {
     setConfirmationPopUpOpen(false);
   };
 
-  let handleRemove = async () => {
-    dispatch(deleteProduct(product.id));
+  let handleDisableProduct = () => {
+    dispatch(disableProduct(product.id));
     dispatch(getAllProducts());
     handleClickCloseConfirmationPopUp();
   };
 
   let handleEdit = (id) => navigate(`/update/${id}`);
+
+  let handleEnableProduct = () => {
+    dispatch(enableProduct(product.id))
+    dispatch(getAllProducts());
+    handleClickCloseConfirmationPopUp();
+  }
 
   let selectAmount = () => {
     let numbers = [];
@@ -170,15 +185,17 @@ export default function Card({
   };
 
   return (
-    <div className={style.container}>
+    <div className={off&&!dashboard?style.disabledContainer:off&&dashboard?style.disabled:style.container}>
       <ConfirmationPopUp
         confirmationOpen={confirmationPopUpOpen}
         handleClose={handleClickCloseConfirmationPopUp}
         handleOpen={handleClickOpenConfirmationPopUp}
         setConfirmationOpen={setConfirmationPopUpOpen}
-        handleRemove={handleRemove}
-        message="Remove Product"
-        description="Are you sure you want to remove this product?"
+        action={message}
+        handleDisable={handleDisableProduct}
+        handleEnable={handleEnableProduct}
+        message={`${message} Product`}
+        description={`Are you sure you want to ${message.toLocaleLowerCase()} this product?`}                                                                                                                                                 
       />
       <Dialog open={popUpOpen} onClose={handlePopUpClose}>
         <DialogTitle>Select Size</DialogTitle>
@@ -262,10 +279,15 @@ export default function Card({
           ) : (
             <BiError className={style.brand} />
           )}
-          {dashboard ? (
+          {dashboard&&!off? (
             <RiCloseCircleLine
               className={style.iconoutline}
-              onClick={() => handleClickOpenConfirmationPopUp()}
+              onClick={() => handleClickOpenConfirmationPopUp('Disable')}
+            />
+          ) : dashboard&&off ? (
+            <AiOutlineCheckCircle
+              className={style.iconoutline}
+              onClick={() => handleClickOpenConfirmationPopUp('Enable')}
             />
           ) : (
             <F

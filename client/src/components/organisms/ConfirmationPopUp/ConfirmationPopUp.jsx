@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function ConfirmationPopUp({message, description, confirmationOpen, setConfirmationOpen, handleOpen, handleClose, handleRemove}) {
+export default function ConfirmationPopUp({message, description, confirmationOpen, setConfirmationOpen, handleOpen, handleClose, handleDisable, handleEnable, action}) {
 
   return (
     <div>
@@ -26,7 +26,7 @@ export default function ConfirmationPopUp({message, description, confirmationOpe
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Disagree</Button>  
-          <Button onClick={handleRemove} autoFocus>
+          <Button onClick={action==='Disable'?handleDisable:handleEnable} autoFocus>
             Agree
           </Button>
         </DialogActions>
