@@ -28,8 +28,10 @@ const sequelize =
       })
     : new Sequelize(
         // "postgres://ppahdjqtzybfaj:5ce7f5f093976f97cdf0853ca284237ded3ef0b6fd9d7919b01a2aefc55dc72a@ec2-54-159-175-38.compute-1.amazonaws.com:5432/d1h8d8a1rn576h", // heroku
-        // "postgres://iwukxuix:xou9rxFqT6Web2ZTlntBSzdoP2Rixd7O@suleiman.db.elephantsql.com/iwukxuix", // elephant
-        `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+        "postgres://iwukxuix:xou9rxFqT6Web2ZTlntBSzdoP2Rixd7O@suleiman.db.elephantsql.com/iwukxuix", // elephant
+        
+        // "postgres://wggkthmx:6oR1VaKqYyAfUy5Ih-OYzPe4iA5N1qHS@kesavan.db.elephantsql.com/wggkthmx", //felipe
+        // `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
 
         {
           logging: false,
@@ -54,7 +56,7 @@ fs.readdirSync(path.join(__dirname, "/models"))
 modelDefiners.forEach((model) => model(sequelize));
 
 //Los importamos
-const { Product, Rating, Size, user, Bought, Product_Size, Brand, Category } =
+const { Product, Rating, Size, user, Bought, Product_Size, Brand, Category, Product_Bought } =
   sequelize.models;
 
 //Hacemos las relaciones
@@ -70,8 +72,8 @@ Size.belongsToMany(Product, { through: Product_Size });
 Bought.belongsTo(user);
 user.hasMany(Bought);
 
-Product_Size.belongsToMany(Bought, { through: "Product_bought" });
-Bought.belongsToMany(Product_Size, { through: "Product_bought" });
+Product_Size.belongsToMany(Bought, { through: Product_Bought });
+Bought.belongsToMany(Product_Size, { through: Product_Bought });
 
 Product.belongsTo(Brand);
 Brand.hasMany(Product);

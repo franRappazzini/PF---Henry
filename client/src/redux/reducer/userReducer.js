@@ -1,8 +1,9 @@
-import { GET_LOGED_USER, GET_ALL_USERS } from "../../utils/reduxVars";
+import { GET_LOGED_USER, GET_ALL_USERS,GET_BOUGHTS } from "../../utils/reduxVars";
 
 const initialState = {
   users: [],
   logedUser: {},
+  boughts:[]
 };
 
 export function userReducer(state = initialState, action) {
@@ -17,6 +18,11 @@ export function userReducer(state = initialState, action) {
         ...state,
         users: action.payload,
       };
+    case GET_BOUGHTS:
+      return{
+        ...state,
+        boughts:action.payload
+      }
     default:
       return state;
   }

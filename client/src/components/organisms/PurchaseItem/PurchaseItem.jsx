@@ -1,58 +1,48 @@
-import React from 'react'
-import style from './PurchaseItem.module.css'
+import React from 'react';
+import style from './PurchaseItem.module.css';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
+export default function PurchaseItem({ product }) {
 
-
-
-export default function PurchaseItem(items) {
-    // name,image,price,choosedAmount,brand,choosedSize
     let date = new Date().toDateString()
+    console.log(product)
+    const itemInfo = product.Product_Sizes[0]
+    product.status='In Progress'  
 
-    console.log("item")
-    console.log(items.items[0].choosedSize)
-  
   return (
     
         <div >
-            {items?
+            {product?
             <div className={style.itemContainer}>
 
             <div className={style.imageContainer}>
-                <img src={items.items[0].image} alt="not found" className={style.image}/>
+                <img src={itemInfo.productData.image} alt='not found' className={style.image}/>
             </div>
     
             <div className={style.infoContainer}>
-                {/* <div className={style.status}>
-                    {order.status}               
-                </div> */}
+                <div className={product.status==='Delivered'?style.status:style.status2}> {/*Provisory status*/}
+                    {product.status}              
+                </div>
                 <div className={style.shipInfo}>
                     Delivered {date}
                 </div>
                 <div className={style.name}>
-                   {items.items[0].name}
+                   {itemInfo.productData.name} (Size: {itemInfo.SizeId.size})
+                </div>
+                <div className={style.name}>
+                   {itemInfo.productData.price}$
                 </div>
                 <div className={style.units}>
-                    {items.items[0].choosedAmount}
+                    Amount: {itemInfo.Product_Bought.amount}
                 </div>
-                  <div className={style.name}>
-                   {items.items[0].Brand.name}
-                </div> 
-                <div className={style.name}>
-                   {items.items[0].price}
-                </div>
-                <div className={style.name}>
-                   {items.items[0].choosedSize.size}
-                </div>  
             </div>
     
             <div className={style.buttonContainer}>
-                <Link to='/product/a3b27646-5e6d-471b-812e-b6fb0c74cc8e' style={{ textDecoration: 'none' }}>
-                    <Button variant="contained">Purchase Again</Button>
+                <Link to={`/product/${itemInfo.productData.id}`} style={{ textDecoration: 'none' }}>
+                    <Button variant='contained'>Purchase Again</Button>
                 </Link>
-            </div>
-    
+            </div>    
         </div>
             :<h1>Loading</h1>
         }

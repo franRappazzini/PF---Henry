@@ -9,17 +9,17 @@ mercadopago.configure({
     access_token:ACCESS_TOKEN
 })
 
-async function createPayment(productosCart) {
+async function createPayment(productosCart,logedUser) {
     const url = "https://api.mercadopago.com/checkout/preferences";
 
     const preferences = {
       payer_email: "test_user_45077573@testuser.com",
       items: productosCart,
       back_urls: {
-        failure: "http://localhost:3000/purchases",
+        failure: "http://localhost:3000/cart",
         pending: "http://localhost:3000/purchases",
         success: "http://localhost:3000/purchases"
-      }
+      },
     };
 
     const payment = await axios.post(url, preferences, {
@@ -33,8 +33,9 @@ async function createPayment(productosCart) {
   }
 
 server.post("/payment", async (req,res,next)=>{
-    const {lsCartProducts} =req.body
+    const {lsCartProducts,logedUser} =req.body
     let productosCart =[]
+    console.log(logedUser)
 
     for (let index = 0; index < lsCartProducts.length; index++) {
       // {
@@ -55,6 +56,20 @@ server.post("/payment", async (req,res,next)=>{
       //     area_code: "",
       //     number: "949 128 866"
       //   },
+
+
+      // ,
+      // payer:{
+      //       name: logedUser.given_name,
+      //        surname: logedUser.family_name,
+      //        email:logedUser.email
+      // //   email: "charles@hotmail.com",
+      // //   date_created: "2015-06-02T12:58:41.425-04:00",
+      // //   phone: {
+      // //     area_code: "",
+      // //     number: "949 128 866"
+
+      // }
          
       //   identification: {
       //     type: "DNI",
@@ -80,7 +95,7 @@ server.post("/payment", async (req,res,next)=>{
     
  
      try {
-      const payment = await createPayment(productosCart);
+      const payment = await createPayment(productosCart,logedUser);
       return res.json(payment.init_point);
     } catch (error) {
       console.log(error);

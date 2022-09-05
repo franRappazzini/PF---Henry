@@ -21,7 +21,9 @@ export default function UsersOption({ users }) {
   let [searchedUser, setSearchedUser] = useState("");
   const dispatch = useDispatch();
 
-  useEffect(() => dispatch(getAllUsers()), [dispatch]);
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch]);
 
   function filteredUsers() {
     if (users.length) {

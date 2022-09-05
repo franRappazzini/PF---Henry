@@ -28,6 +28,11 @@
     color: #17ae60;
     font-weight: 700;
 }
+.status2 {
+    display: flex;
+    color: #c49451;
+    font-weight: 700;
+}
 .shipInfo {
     margin-top: .1vw;
     display: flex;

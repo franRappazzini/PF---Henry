@@ -134,6 +134,9 @@ export default function Card({
         choosedSize: product.Sizes.find((s) => s.size === size),
         choosedAmount: amount,
         Sizes: product.Sizes,
+        idRemove: `${product.name}-${
+          product.Sizes.find((s) => s.size === size).size
+        }-${amount}`,
       };
       dispatch(addToCart(prodToCart));
       lsCart.push(prodToCart);
@@ -205,7 +208,11 @@ export default function Card({
                 <MenuItem value="none">None</MenuItem>
                 {product.Sizes.map((s) => {
                   if (s.Product_Size.stock > 0) {
-                    return <MenuItem value={s.size}>{s.size}</MenuItem>;
+                    return (
+                      <MenuItem key={s.size} value={s.size}>
+                        {s.size}
+                      </MenuItem>
+                    );
                   }
                 })}
               </Select>

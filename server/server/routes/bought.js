@@ -7,8 +7,10 @@ const {
     Product_Size,
     Bought,
     Category,
-    Op
+    Product_Bought,
+    Size
 } = require("../../db/db")
+const User=user
 
 //NODEMAILER
 
@@ -23,41 +25,85 @@ const transporter = nodemailer.createTransport({
 
 
 bought.post("", async (req, res) => {
-    const {state, userId, products, finalPrice} = req.body
+  // const {state, userId, products, finalPrice} = req.body
 
-    try {
-        const newBought = await Bought.create({state, userId, finalPrice})
+  const { lsCartProducts, order, user } = req.body;
+  console.log("en el bought");
+  //  console.log(req.body)
+  // const products = bought[0]
+  // const order =bought[1]
+  // const User =bought[2]
+  let state = "";
+  if (order.status === "approved") {
+    state = "In progress";
+  } else if (order.status === "pending") {
+    state = "Pending to pay";
+  } else {
+    console.log("Status failed");
+    return;
+  }
 
-        products.map(async p => {
-            let findProduct_Size = await Product_Size.findOne({where: {ProductId: p.id, SizeId:p.choosedSize.id}})
+  let finalPrice = 0;
+  lsCartProducts.forEach((e) => (finalPrice += e.price * e.choosedAmount));
 
-            await newBought.addProduct_Size(findProduct_Size)
+  // nike {amount 3, price 10000}
+  //adidas{amount 3, price 5000}
 
-            findProduct_Size.stock = findProduct_Size.stock - p.choosedAmount
+  let findPaymentId = await Bought.findOne({
+    where: { payment_id: order.payment_id },
+  });
+  
 
-            findProduct_Size.save()
+  if (findPaymentId) {
+    console.log("tamo aca ")
+    return res.status(400).send("La compra ya existia");
+  }
 
-        })
-        const userData = await user.findOne({where: {id: userId}})
-        await transporter.sendMail({
-            from: '"Kemba" hiram.gutkowski@ethereal.email', // sender address
-            to: userData, // list of receivers
-            subject: "Compra realizada", // Subject line
-            text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
-            html: "<b>HOLANDAAAAAAAAA</b>", // html body
-          })
-        res.status(200).json(newBought)
-        
+  try {
+    const findByEmail = await User.findOne({ where: { email: user.email } });
+    const userId = findByEmail.dataValues.id;
+    const payment_id = order.payment_id;
+    // console.log("------------------");
+    // // console.log(findByEmail)
+    // // console.log(userId)
+    // console.log("Payment id:")
+    // console.log(findPaymentId)
+    const newBought = await Bought.create({
+      state,
+      userId,
+      finalPrice,
+      payment_id,
+    });
 
-    } catch (e) {
-        console.log(e)
-        res.status(400).send(e.message)
-    }
+    lsCartProducts.map(async (p) => {
+      const amount = p.choosedAmount
+      console.log(p)
+      let findProduct_Size = await Product_Size.findOne({
+        where: { ProductId: p.dataValues.id, SizeId: p.dataValues.choosedSize.id },
+      });
+      await newBought.addProduct_Size(findProduct_Size, {through: {amount}});
 
-})
+      findProduct_Size.stock = findProduct_Size.stock - amount;
+
+      findProduct_Size.save();
+    });
+
+    await transporter.sendMail({
+      from: '"Kemba" hiram.gutkowski@ethereal.email', // sender address
+      to: user.email, // list of receivers
+      subject: "Compra realizada", // Subject line
+      text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
+      html: "<b>HOLANDAAAAAAAAA</b>", // html body
+    });
+    res.status(200).json(newBought);
+  } catch (e) {
+    console.log(e);
+    res.status(400).send(e.message);
+  }
+});
 
 bought.get("", async (req, res) => {
-    const {categoryId, brandId, user} = req.body
+    const {categoryId, brandId} = req.body
 
     try {
         const orders = await Bought.findAll({include: {model: Product_Size}})
@@ -94,6 +140,34 @@ bought.get("", async (req, res) => {
     
 })
 
+bought.get("/:email", async (req,res)=>{
+        const {email} = req.params
+        let user = await User.findOne({where:{email:email}})
+        // console.log("user:")
+        // console.log(user)
+        let orders = await Bought.findAll({include:{model: Product_Size, Product_Bought},
+            where:{userId:user.id}})
+        console.log(orders)
+        // const orders = await Bought.findAll({include: {model: Product_Size}})
+
+        for(let i = 0; i < orders.length; i++) {
+            for(let j = 0; j < orders[i].Product_Sizes.length; j++){
+                const size = await Size.findByPk(orders[i].Product_Sizes[j].SizeId)
+                const prod = await Product.findOne({include: {model:Category},where: {id: orders[i].Product_Sizes[j].ProductId}})
+
+                orders[i].Product_Sizes[j].dataValues.SizeId = size
+                orders[i].Product_Sizes[j].dataValues.productData = prod
+            }
+        }
+
+        if(orders){
+            console.log("ORDERS:")
+            console.log(orders)
+            res.status(200).json(orders)
+        }else{
+            res.status(404).send("No boughts found :(")
+        }
+})
 
 
 
