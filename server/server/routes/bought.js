@@ -7,7 +7,8 @@ const {
     Product_Size,
     Bought,
     Category,
-    Op
+    Product_Bought,
+    Size
 } = require("../../db/db")
 const User=user
 
@@ -53,10 +54,10 @@ bought.post("", async (req, res) => {
   });
   
 
-//   if (findPaymentId) {
-//     console.log("tamo aca ")
-//     return res.status(400).send("La compra ya existia");
-//   }
+  if (findPaymentId) {
+    console.log("tamo aca ")
+    return res.status(400).send("La compra ya existia");
+  }
 
   try {
     const findByEmail = await User.findOne({ where: { email: user.email } });
@@ -75,13 +76,14 @@ bought.post("", async (req, res) => {
     });
 
     lsCartProducts.map(async (p) => {
+      const amount = p.choosedAmount
+      console.log(p)
       let findProduct_Size = await Product_Size.findOne({
-        where: { ProductId: p.id, SizeId: p.choosedSize.id },
+        where: { ProductId: p.dataValues.id, SizeId: p.dataValues.choosedSize.id },
       });
+      await newBought.addProduct_Size(findProduct_Size, {through: {amount}});
 
-      await newBought.addProduct_Size(findProduct_Size);
-
-      findProduct_Size.stock = findProduct_Size.stock - p.choosedAmount;
+      findProduct_Size.stock = findProduct_Size.stock - amount;
 
       findProduct_Size.save();
     });
@@ -93,7 +95,6 @@ bought.post("", async (req, res) => {
       text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
       html: "<b>HOLANDAAAAAAAAA</b>", // html body
     });
-    console.log(newBought);
     res.status(200).json(newBought);
   } catch (e) {
     console.log(e);
@@ -102,7 +103,7 @@ bought.post("", async (req, res) => {
 });
 
 bought.get("", async (req, res) => {
-    const {categoryId, brandId, user} = req.body
+    const {categoryId, brandId} = req.body
 
     try {
         const orders = await Bought.findAll({include: {model: Product_Size}})
@@ -144,15 +145,17 @@ bought.get("/:email", async (req,res)=>{
         let user = await User.findOne({where:{email:email}})
         // console.log("user:")
         // console.log(user)
-        let orders = await Bought.findAll({include:{model: Product_Size},
+        let orders = await Bought.findAll({include:{model: Product_Size, Product_Bought},
             where:{userId:user.id}})
-
+        console.log(orders)
         // const orders = await Bought.findAll({include: {model: Product_Size}})
 
         for(let i = 0; i < orders.length; i++) {
             for(let j = 0; j < orders[i].Product_Sizes.length; j++){
+                const size = await Size.findByPk(orders[i].Product_Sizes[j].SizeId)
                 const prod = await Product.findOne({include: {model:Category},where: {id: orders[i].Product_Sizes[j].ProductId}})
-                
+
+                orders[i].Product_Sizes[j].dataValues.SizeId = size
                 orders[i].Product_Sizes[j].dataValues.productData = prod
             }
         }
