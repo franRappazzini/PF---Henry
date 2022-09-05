@@ -14,12 +14,14 @@ import {
 import {
   addFavorites,
   addToCart,
+  disableProduct,
+  enableProduct,
   removeFavorites,
   removeFromCart,
 } from "../../../redux/actions/productActions.js";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineCheckCircle } from "react-icons/ai";
 import { BiError } from "react-icons/bi";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -55,6 +57,7 @@ export default function Card({
   let [cart, setCart] = useState(onCart ? true : false);
   let ls = JSON.parse(localStorage.getItem("lsFavorites")) || [];
   let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
+  let off = product.isDisabled
   const navigate = useNavigate();
 
   let checkFaved = () => {
@@ -151,12 +154,17 @@ export default function Card({
   };
 
   let handleRemove = async () => {
-    dispatch(deleteProduct(product.id));
+    dispatch(disableProduct(product.id));
     dispatch(getAllProducts());
     handleClickCloseConfirmationPopUp();
   };
 
   let handleEdit = (id) => navigate(`/update/${id}`);
+
+  let handleEnableProduct = () => {
+    dispatch(enableProduct(product.id))
+    dispatch(getAllProducts());
+  }
 
   let selectAmount = () => {
     let numbers = [];
@@ -167,15 +175,15 @@ export default function Card({
   };
 
   return (
-    <div className={style.container}>
+    <div className={off&&!dashboard?style.disabledContainer:off&&dashboard?style.disabled:style.container}>
       <ConfirmationPopUp
         confirmationOpen={confirmationPopUpOpen}
         handleClose={handleClickCloseConfirmationPopUp}
         handleOpen={handleClickOpenConfirmationPopUp}
         setConfirmationOpen={setConfirmationPopUpOpen}
         handleRemove={handleRemove}
-        message="Remove Product"
-        description="Are you sure you want to remove this product?"
+        message="Disable Product"
+        description="Are you sure you want to disable this product?"
       />
       <Dialog open={popUpOpen} onClose={handlePopUpClose}>
         <DialogTitle>Select Size</DialogTitle>
@@ -259,10 +267,15 @@ export default function Card({
           ) : (
             <BiError className={style.brand} />
           )}
-          {dashboard ? (
+          {dashboard&&!off? (
             <RiCloseCircleLine
               className={style.iconoutline}
               onClick={() => handleClickOpenConfirmationPopUp()}
+            />
+          ) : dashboard&&off ? (
+            <AiOutlineCheckCircle
+              className={style.iconoutline}
+              onClick={() => handleEnableProduct()}
             />
           ) : (
             <F
