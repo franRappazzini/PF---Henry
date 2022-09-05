@@ -8,7 +8,9 @@ import {
   GET_PRODUCT_NAME,
   REMOVE_FAVORITES,
   REMOVE_FROM_CART,
-  PUT_PRODUCT
+  PUT_PRODUCT,
+  DISABLE_PRODUCT,
+  ENABLE_PRODUCT
 } from "../../utils/reduxVars";
 
 import axios from "axios";
@@ -29,6 +31,26 @@ export function getProduct(id) {
     try {
       const res = await axios.get(`/product/${id}`);
       dispatch({ type: GET_PRODUCT, payload: res.data });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+export function disableProduct(id) {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(`/product/disable/${id}`);
+      dispatch({ type: DISABLE_PRODUCT, payload: res.data });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+export function enableProduct(id) {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(`/product/enable/${id}`);
+      dispatch({ type: ENABLE_PRODUCT, payload: res.data });
     } catch (err) {
       console.log(err);
     }
