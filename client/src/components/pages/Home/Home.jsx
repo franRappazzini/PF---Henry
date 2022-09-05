@@ -9,6 +9,7 @@ import Order from "../../organisms/Order/Order";
 import { Pagination } from "@mui/material";
 import SearchBar2 from "../../organisms/SearchBar2/SearchBar2.jsx";
 import Slider from "../../organisms/Carousel/Carousel.jsx";
+import axios from "axios";
 import { filter } from "../../../redux/actions/productActions.js";
 import { getAllProducts } from "../../../redux/actions/productActions.js";
 import style from "./Home.module.css";
@@ -52,6 +53,9 @@ let Home = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
+
+    // para tener disponibles todas las marcas
+    axios.get("/brand/upload");
   }, [dispatch]);
 
   function filterProds() {
