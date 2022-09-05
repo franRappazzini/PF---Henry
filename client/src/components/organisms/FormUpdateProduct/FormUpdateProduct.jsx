@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-
 import {
   Box,
   Dialog,
@@ -228,28 +226,24 @@ export default function ProductContainer({ productDetail }) {
 
     updateProduct = { ...product };
 
-    if (product.newImage !== "") {
-      const formData = new FormData();
-      formData.append("file", product.newImage);
-      formData.append("upload_preset", "mo6d6qav");
-      const imgRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/ddtxgnllz/upload",
-        formData
-      );
-      if (imgRes.response?.data.error) {
-        setLoading(false);
-        return swal.fire("Error..", imgRes.message, "error");
+    try {
+      if (product.newImage !== "") {
+        const formData = new FormData();
+        formData.append("file", product.newImage);
+        formData.append("upload_preset", "mo6d6qav");
+        const imgRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/ddtxgnllz/upload",
+          formData
+        );
+
+        updateProduct.image = imgRes.data.url;
       }
 
-      updateProduct.image = imgRes.data.url;
+      await axios.put("/product/" + productDetail.id, updateProduct);
+    } catch (err) {
+      swal.fire("Error..", err.message, "error");
     }
 
-    const res = await axios.put("/product/" + productDetail.id, updateProduct);
-
-    if (res.response?.status === 400) {
-      setLoading(false);
-      return swal.fire("Error..", res.message, "error");
-    }
     setLoading(false);
   };
 
