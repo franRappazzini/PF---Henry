@@ -55,6 +55,7 @@ export default function Card({
   let onCart = cartProducts.filter((prod) => prod.id === product.id).length;
   let [confirmationPopUpOpen, setConfirmationPopUpOpen] = useState(false);
   let [cart, setCart] = useState(onCart ? true : false);
+  let [message, setMessage] = useState('')
   let ls = JSON.parse(localStorage.getItem("lsFavorites")) || [];
   let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
   let off = product.isDisabled
@@ -146,14 +147,19 @@ export default function Card({
     return handlePopUpClose();
   };
 
-  let handleClickOpenConfirmationPopUp = () => {
+  let handleClickOpenConfirmationPopUp = (status) => {
+    if(status==='Disable') {
+      setMessage(status)
+      setConfirmationPopUpOpen(true);
+    }
+    setMessage(status)
     setConfirmationPopUpOpen(true);
   };
   let handleClickCloseConfirmationPopUp = () => {
     setConfirmationPopUpOpen(false);
   };
 
-  let handleRemove = async () => {
+  let handleDisableProduct = () => {
     dispatch(disableProduct(product.id));
     dispatch(getAllProducts());
     handleClickCloseConfirmationPopUp();
@@ -164,6 +170,7 @@ export default function Card({
   let handleEnableProduct = () => {
     dispatch(enableProduct(product.id))
     dispatch(getAllProducts());
+    handleClickCloseConfirmationPopUp();
   }
 
   let selectAmount = () => {
@@ -181,9 +188,11 @@ export default function Card({
         handleClose={handleClickCloseConfirmationPopUp}
         handleOpen={handleClickOpenConfirmationPopUp}
         setConfirmationOpen={setConfirmationPopUpOpen}
-        handleRemove={handleRemove}
-        message="Disable Product"
-        description="Are you sure you want to disable this product?"
+        action={message}
+        handleDisable={handleDisableProduct}
+        handleEnable={handleEnableProduct}
+        message={`${message} Product`}
+        description={`Are you sure you want to ${message.toLocaleLowerCase()} this product?`}                                                                                                                                                 
       />
       <Dialog open={popUpOpen} onClose={handlePopUpClose}>
         <DialogTitle>Select Size</DialogTitle>
@@ -270,12 +279,12 @@ export default function Card({
           {dashboard&&!off? (
             <RiCloseCircleLine
               className={style.iconoutline}
-              onClick={() => handleClickOpenConfirmationPopUp()}
+              onClick={() => handleClickOpenConfirmationPopUp('Disable')}
             />
           ) : dashboard&&off ? (
             <AiOutlineCheckCircle
               className={style.iconoutline}
-              onClick={() => handleEnableProduct()}
+              onClick={() => handleClickOpenConfirmationPopUp('Enable')}
             />
           ) : (
             <F
