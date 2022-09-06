@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 export default function PurchaseItem({ product }) {
 
-    console.log(product)
+    console.log('product from purchaseItem: ', product)
     const itemInfo = product.Product_Sizes[0]
 
   return (
