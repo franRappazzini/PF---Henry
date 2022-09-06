@@ -4,9 +4,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
 export default function PurchaseItem({ product }) {
-
-    console.log(product)
-    const itemInfo = product.Product_Sizes[0]
+    let itemInfo = product.Product_Sizes[0]
 
   return (
     
@@ -45,14 +43,5 @@ export default function PurchaseItem({ product }) {
             :<h1>Loading</h1>
         }
         </div>
-       
-
-    
-        
-        
- 
-    
-    
-    
   )
 }

@@ -7,10 +7,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Chip } from '@mui/material';
-
-
+import { useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { getAllBoughts } from '../../../redux/actions/productActions';
 
 export default function OrdersTable({ setSelected, setOrder, setStatus, rows}) {
+  let dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(getAllBoughts())
+  },[dispatch])
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -31,10 +38,10 @@ export default function OrdersTable({ setSelected, setOrder, setStatus, rows}) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.date}
+                {row.date.slice(0,15)}
               </TableCell>
-              <TableCell align="right">NONE</TableCell>
-              <TableCell align="right">NONE</TableCell>
+              <TableCell align="right"> -</TableCell>
+              <TableCell align="right">{row.userData.email}</TableCell>
               <TableCell align="right">Mercado Pago</TableCell>
               <TableCell align="right">{row.finalPrice}$</TableCell>
               <TableCell align='center'>
