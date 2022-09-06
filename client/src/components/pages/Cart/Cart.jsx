@@ -17,14 +17,24 @@ export default function Cart() {
     setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
   }, []);
 
-  useEffect(() => {
+  const onClickBuy = () => {
+    console.log(lsCartProducts)
     axios
-      .post("/mercadopago/payment", { lsCartProducts })
+      .post("/mercadopago/payment", { lsCartProducts: JSON.parse(localStorage.getItem("lsCartProducts")) })
       .then((data) => {
-        setDatos(data.data);
+        window.location.replace(data.data);
       })
       .catch((err) => console.error(err));
-  }, []);
+  };
+
+  // handleBuy = async () => {
+  //   try {
+  //     const res = await axios.post("/mercadopago/payment", { lsCartProducts })
+  //     setDatos(res.data)
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
 
   return (
     <div className={style.cart_container}>
@@ -51,8 +61,8 @@ export default function Cart() {
         )}
       </div>
 
-      <button className={style.buy_button}>
-        <a href={datos}>BUY</a>{" "}
+      <button className={style.buy_button} onClick={() => onClickBuy()}>
+          BUY
       </button>
     </div>
   );

@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 export default function PurchaseItem({ product }) {
 
-    let date = new Date().toDateString()
     console.log(product)
     const itemInfo = product.Product_Sizes[0]
     product.status='In Progress'  
@@ -25,7 +24,7 @@ export default function PurchaseItem({ product }) {
                     {product.status}              
                 </div>
                 <div className={style.shipInfo}>
-                    Delivered {date}
+                    Delivered 
                 </div>
                 <div className={style.name}>
                    {itemInfo.productData.name} (Size: {itemInfo.SizeId.size})

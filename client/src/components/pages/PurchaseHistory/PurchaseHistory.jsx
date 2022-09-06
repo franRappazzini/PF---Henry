@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PurchaseItem from '../../organisms/PurchaseItem/PurchaseItem'
 import SearchBar2 from '../../organisms/SearchBar2/SearchBar2'
 import style from './PurchaseHistory.module.css'
@@ -31,21 +31,17 @@ export default function PurchaseHistory() {
     }
 
     const { isAuthenticated, user } = useAuth0();
-  const { logedUser } = useSelector((state) => state.user);
- 
-  useEffect(() => {
-    if(isAuthenticated){
-         dispatch(getBoughts(user.email))
-    }
- 
-    isAuthenticated && dispatch(getLogedUser(user));
-    // console.log(user);
-    // console.log(logedUser);
-  }, [dispatch, isAuthenticated, user]);
-
-  const {boughts}=useSelector((state)=>state.user)
-  console.log("BOUGHTS")
-  console.log(boughts)
+    useEffect(() => {
+        if(isAuthenticated){
+            dispatch(getBoughts(user.email))
+        }
+        // console.log(user);
+        // console.log(logedUser);
+    }, [dispatch, isAuthenticated, user]) 
+    const {boughts} = useSelector((state)=>state.user)
+    const boughtList = boughts
+    console.log("BOUGHTS")
+    console.log(boughtList)
 
     let lsCartProducts = JSON.parse(localStorage.getItem('lsCartProducts')) || []
     // const {savePurchase} = useSelector(state=>state.other)
@@ -80,14 +76,11 @@ export default function PurchaseHistory() {
                     <SearchBar2 label='Search'/>
                 </div>
                 <div className={style.number}>
-                   {boughts.length} Purchases
+                   {boughtList.length} Purchases
                 </div>
             </div>
             <div className={style.purchasesContainer}>
-                {boughts.length && boughts.map(product=><PurchaseItem product={product}/>)}
-            </div>
-            <div className={style.orderContainer}>
-                <span>{order.payment_type}</span>
+                {boughtList.length && boughtList.map(product=><PurchaseItem product={product}/>)}
             </div>
         </div>
     </div>
