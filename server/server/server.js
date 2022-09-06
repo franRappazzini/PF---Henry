@@ -12,8 +12,6 @@ const mercadopago1 = require("./routes/mercadopago");
 
 dotenv.config();
 
-const mercadopago1 = require("./routes/mercadopago");
-
 const bought = require("./routes/bought");
 
 server.use(cors());
