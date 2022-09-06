@@ -44,6 +44,7 @@ bought.post("", async (req, res) => {
     console.log("Status failed");
     return;
   }
+  let date = Date()
 
   let finalPrice = 0;
   lsCartProducts.forEach((e) => (finalPrice += e.price * e.choosedAmount));
@@ -71,6 +72,7 @@ bought.post("", async (req, res) => {
     // console.log("Payment id:")
     // console.log(findPaymentId)
     const newBought = await Bought.create({
+      date,
       state,
       userId,
       finalPrice,
@@ -124,6 +126,9 @@ bought.get("", async (req, res) => {
         const orders = await Bought.findAll({include: {model: Product_Size}})
 
             for(let i = 0; i < orders.length; i++) {
+              const userData = await User.findByPk(orders[i].userId)
+
+              orders[i].dataValues.userData = userData.dataValues
                 for(let j = 0; j < orders[i].Product_Sizes.length; j++){
                     const prod = await Product.findOne({include: {model:Category},where: {id: orders[i].Product_Sizes[j].ProductId}})
                     

@@ -5,8 +5,7 @@ module.exports = (sequelize) => {
     //Definimos el modelo
     sequelize.define("Bought", {
         date: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
+            type: DataTypes.STRING
         },
         state: {
             type: DataTypes.STRING

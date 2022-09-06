@@ -62,6 +62,7 @@ export default function PurchaseHistory() {
             console.log(bought)
             saveOrderHistory(bought)
             dispatch(getBoughts(user.email))
+            localStorage.setItem("lsCartProducts", "[]")
         }
     },[isAuthenticated, dispatch])
 
