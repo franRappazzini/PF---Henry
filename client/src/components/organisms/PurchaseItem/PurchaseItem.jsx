@@ -7,7 +7,6 @@ export default function PurchaseItem({ product }) {
 
     console.log(product)
     const itemInfo = product.Product_Sizes[0]
-    product.status='In Progress'  
 
   return (
     
