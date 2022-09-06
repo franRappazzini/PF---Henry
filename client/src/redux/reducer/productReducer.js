@@ -9,6 +9,7 @@ import {
   REMOVE_FROM_CART,
   DELETE_PRODUCT,
   PUT_PRODUCT,
+  GET_ALL_BOUGHTS,
 } from "../../utils/reduxVars.js";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   productDetail: {},
   favorites: [],
   cartProducts: [],
+  boughts:[],
 };
 
 export function productReducer(state = initialState, action) {
@@ -41,6 +43,11 @@ export function productReducer(state = initialState, action) {
       return {
         ...state,
         favorites: state.favorites.concat(action.payload),
+      };
+      case GET_ALL_BOUGHTS:
+      return {
+        ...state,
+        boughts: action.payload,
       };
       case ADD_TO_CART:
         return {

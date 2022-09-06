@@ -1,13 +1,21 @@
 import React, {useEffect, useState} from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import OrdersTable from '../OrdersTable/OrdersTable'
 import ProgressBar from '../ProgressBar/ProgressBar'
 import style from './OrdersOption.module.css'
 import { BiArrowBack } from 'react-icons/bi'
+import { getAllBoughts } from '../../../redux/actions/productActions';
 
 export default function OrdersOption() {
-    let [selected,setSelected] = useState('orders')
+    let dispatch = useDispatch()
+    let { boughts } = useSelector((state) => state.product);
+    let [selected,setSelected] = useState('orders')    
     let [order, setOrder] = useState()
     let [status, setStatus] = useState()
+
+    useEffect(()=>{
+        dispatch(getAllBoughts())
+      },[dispatch])
 
       let rows = [
         {
@@ -69,7 +77,7 @@ export default function OrdersOption() {
                 selected==='orders'
                 ? (
                     <div className={style.ordersTable}>
-                        <OrdersTable selected={selected} setSelected={setSelected} setOrder={setOrder} setStatus={setStatus} rows={rows}/>
+                        <OrdersTable selected={selected} setSelected={setSelected} setOrder={setOrder} setStatus={setStatus} rows={boughts}/>
                     </div>
                   )
                 : (           
@@ -81,7 +89,7 @@ export default function OrdersOption() {
                                { `Order N° ${order}` }
                             </div>
                         </div>                        
-                        <ProgressBar status={status} rows={rows} order={order}/>/   
+                        <ProgressBar status={status} rows={rows} order={order}/>  
                     </div>
                   )
             }

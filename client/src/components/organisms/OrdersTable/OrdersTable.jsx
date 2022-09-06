@@ -33,19 +33,19 @@ export default function OrdersTable({ setSelected, setOrder, setStatus, rows}) {
               <TableCell component="th" scope="row">
                 {row.date}
               </TableCell>
-              <TableCell align="right">{row.adress}</TableCell>
-              <TableCell align="right">{row.email}</TableCell>
-              <TableCell align="right">{row.method}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+              <TableCell align="right">NONE</TableCell>
+              <TableCell align="right">NONE</TableCell>
+              <TableCell align="right">Mercado Pago</TableCell>
+              <TableCell align="right">{row.finalPrice}$</TableCell>
               <TableCell align='center'>
                 <Chip
                     onClick={()=>{
                       setSelected('progress')
-                      setOrder(row.order)
-                      setStatus(row.status)
+                      setOrder(row.id)
+                      setStatus(row.state)
                     }}     
-                    label={row.status} 
-                    style={{color:row.status==='Completed'?'#37ae83':row.status==='Pending'?'#c9b65f':'#5265c7', background:row.status==='Completed'?'#def7ec':row.status==='Completed'?'#def7ec':row.status==='Pending'?'#f7edc1':'#9fadf5', border:row.status==='Completed'?'1px solid#37ae83':row.status==='Pending'?'1px solid #c9b65f':'1px solid #5265c7'}} 
+                    label={row.state} 
+                    style={{color:row.state==='Completed'?'#37ae83':row.state==='Pending'?'#c9b65f':'#5265c7', background:row.state==='Completed'?'#def7ec':row.state==='Completed'?'#def7ec':row.state==='Pending'?'#f7edc1':'#9fadf5', border:row.state==='Completed'?'1px solid#37ae83':row.state==='Pending'?'1px solid #c9b65f':'1px solid #5265c7'}} 
                 />
               </TableCell>
             </TableRow>
