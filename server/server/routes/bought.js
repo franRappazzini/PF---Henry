@@ -208,6 +208,25 @@ bought.get("/:email", async (req,res)=>{
         }
 })
 
+bought.put("", async (req, res) => {
+  const {boughtId, state} = req.body
+  try {
+    console.log("HOLA")
+    await Bought.update({
+      state: state
+    }, {
+      where: {
+        id: boughtId
+      }
+    })
+    res.status(200).send("State changed successfully")
+  } catch (e) {
+    console.log(e)
+  }
+  
+})
+
+
 
 
 module.exports = bought
