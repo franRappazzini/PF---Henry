@@ -7,6 +7,7 @@ const category = require("./routes/category");
 const server = express();
 const product = require("./routes/product");
 const user = require("./routes/user");
+const rating = require("./routes/rating")
 
 const mercadopago1 = require("./routes/mercadopago");
 
@@ -19,6 +20,7 @@ server.use("/category", category);
 server.use("/brand", brand);
 server.use("/size", size);
 server.use("/user", user);
+server.use("/rating", rating)
 
 server.use("/mercadopago", mercadopago1);
 

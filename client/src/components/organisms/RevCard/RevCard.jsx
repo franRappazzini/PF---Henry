@@ -3,9 +3,34 @@ import { Rating } from "@mui/material"
 import { FaTrashAlt } from "react-icons/fa"
 import { useDispatch } from 'react-redux';
 import { deleteReview } from '../../../redux/actions/ratingActions';
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { getProduct } from '../../../redux/actions/productActions';
 
-export default function RevCard({userName, text, profPic,revStars, isAdmin, id}){
+export default function RevCard({userName, text, profPic,revStars, isAdmin, id, prodId}){
    const dispatch = useDispatch()
+   const MySwal = withReactContent(Swal);
+
+   const handleDelete = async (e)=>{
+    console.log("en el delete")
+    
+    await MySwal.fire({
+        title: <p>Are you sure you want to delete this review?</p>,
+        
+        showCancelButton: true,
+        cancelButtonColor: "#c70000",
+        backdrop: `
+      rgba(12,12,12,0.4)
+    `,
+        icon: false,
+      }).then( async response=> 
+        {if(response.isConfirmed){
+             await deleteReview(id)
+             dispatch(getProduct(prodId))
+        }
+    })
+     
+   }
     return(
         <div className={style.rev_container}>
             <div className={style.top_container}>
@@ -16,7 +41,7 @@ export default function RevCard({userName, text, profPic,revStars, isAdmin, id})
                 <div className={style.rating_and_trash}>
                 {
                 isAdmin ? 
-                <button onClick={()=> dispatch(deleteReview(id))}  className={style.trash_button}><FaTrashAlt className={style.trash_icon}/></button> :
+                <button onClick={(e)=> handleDelete(e)}  className={style.trash_button}><FaTrashAlt className={style.trash_icon}/></button> :
                 ""
                 }
                 <Rating className={style.stars} name="read-only" value={revStars} readOnly />

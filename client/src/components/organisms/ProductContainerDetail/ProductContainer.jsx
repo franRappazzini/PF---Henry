@@ -71,18 +71,14 @@ export default function ProductContainer({ productDetail }) {
     ? (mySize = productDetail.Sizes.filter((e) => e.size === selectedSize))
     : (mySize = "");
   let stock = 0;
-  mySize[0] ? (stock = mySize[0].Product_Size.stock) : (stock = 0);
+  mySize[0] ? (stock = mySize[0].Product_Size.stock) : (stock = "");
   /* console.log(productDetail.Sizes.filter(e=>e.size===39))
    console.log("my stock: ",stock) */
 
   const sizes = productDetail.Sizes.map((e) => e.size);
 
   // PRUEBA DE RAITING
-  let rating = [
-    { id: 1, text: "good", star: 3.5, UserId: 6, ProductId: 1 },
-    { id: 1, text: "good", star: 3, UserId: 6, ProductId: 1 },
-    { id: 1, text: "good", star: 1, UserId: 6, ProductId: 1 },
-  ];
+
   // PRUEBA DE RATING
 
   const MySwal = withReactContent(Swal);
@@ -98,8 +94,10 @@ export default function ProductContainer({ productDetail }) {
   filteredSizes = filteredSizes.sort(function (a, b) {
     return a - b;
   });
-  let arrAverage = rating.map((e) => e.star);
-  let ratingAverage = arrAverage.reduce((a, b) => a + b) / rating.length;
+  let arrAverage = []
+  let ratingAverage = 0
+  productDetail.Ratings.length>0 ? arrAverage = productDetail.Ratings.map((e) => e.stars) : arrAverage = []
+  arrAverage.length!==0? ratingAverage = arrAverage.reduce((a, b) => a + b) / productDetail.Ratings.length : ratingAverage = 0
 
   const handleFav = (e) => {
     /*  console.log("EN EL HANDLE FAV") */
@@ -265,9 +263,11 @@ export default function ProductContainer({ productDetail }) {
                   selectedSize === e
                     ? () => {
                         setSelectedSize(0);
+                        setAmount(1)
                       }
                     : () => {
                         setSelectedSize(e);
+                        setAmount(1)
                       }
                 }
                 className={
@@ -306,9 +306,13 @@ export default function ProductContainer({ productDetail }) {
                     </button>
                   </div>
                 </div>
-              ) : (
+              ) : stock===0||filteredSizes.length<1?(
+                <span className={style.amount_span}>No stock</span>
+              ) : 
+              (
                 ""
-              )}
+              )
+            }
             </div>
           </div>
           <div className={style.br3}></div>

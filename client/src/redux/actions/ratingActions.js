@@ -5,17 +5,16 @@ export async function createReview(review) {
     try {
       await axios.post("/rating", review);
     } catch (err) {
+      console.log("hubo error en post")
       return err;
     }
   }
 
-  export function deleteReview(id) {
-    return async (dispatch) => {
+  export async function deleteReview(id) {
+    
       try {
-        const res = await axios.delete(`/rating/${id}`);
-        dispatch({ type: DELETE_REVIEW, payload: res.data });
+        await axios.delete(`/rating/${id}`);
       } catch (err) {
         console.log(err);
       }
-    };
   }
