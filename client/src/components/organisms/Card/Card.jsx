@@ -309,7 +309,7 @@ export default function Card({
           <div className={style.price}>${product.price}</div>
         </div>
         <div className={style.details}>
-          <Link to={`/product/${product.id}`} className={style.linkMore}>
+          <Link to={`/product/${product.id}`} className={style.linkMore} style={{pointerEvents: off&&dashboard ? 'none' : 'auto'}}>
             <button className={style.detailsButton}>View More</button>
           </Link>
           <button className={style.cartButton}>
@@ -323,6 +323,7 @@ export default function Card({
               <AiOutlineEdit
                 className={style.shoppingCart}
                 onClick={() => handleEdit(product.id)}
+                style={{pointerEvents: off&&dashboard ? 'none' : 'auto'}}
               />
             )}
           </button>
