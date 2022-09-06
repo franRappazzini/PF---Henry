@@ -24,6 +24,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/create_product" element={<CreateProduct />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/purchases" element={<PurchaseHistory />} />
         </Route>
 
         <Route path="/" element={<Home />} />
@@ -37,7 +38,6 @@ function App() {
         <Route path="/cart" element={<Cart />} />
 
         
-        <Route path="/purchases" element={<PurchaseHistory />} />  
 
 
         <Route path="*" element={<NotFound />} />
