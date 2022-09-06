@@ -8,7 +8,8 @@ const {
     Bought,
     Category,
     Product_Bought,
-    Size
+    Size,
+    Brand
 } = require("../../db/db")
 const User=user
 
@@ -105,7 +106,19 @@ bought.post("", async (req, res) => {
 });
 
 bought.get("", async (req, res) => {
-    const {categoryId, brandId} = req.body
+    const {category, brand} = req.body
+    var categoryId = ""
+    var brandId = ""
+
+    if(category && category !== "All") {
+      const cat = await Category.findOne({where: {name: category}})
+      categoryId = cat.id
+    }
+
+    if(brand && brand !== "All") {
+      const br = await Brand.findOne({where: {name: brand}})
+      brandId = br.id
+    }
 
     try {
         const orders = await Bought.findAll({include: {model: Product_Size}})
@@ -119,22 +132,44 @@ bought.get("", async (req, res) => {
             }
         const finalOrders = orders
         const finalOrdersCat = []
+        const finalOrdersBrand = []
 
-        if(categoryId) {
+        if(category && category !== "All") {
             finalOrders.forEach((ord) => {
                 //Recorremos los productos de la compra
                 ord.Product_Sizes.forEach((prod) => {
                     //Recorremos las categorias de cada producto
                     prod.dataValues.productData.Categories.forEach((cat) => {
-                        if(cat.id === categoryId) {
+                        if(cat.id == categoryId) {
                             finalOrdersCat.push(ord)
                         }
                     })
                 })
             })
         }
+        
+        if(brand && brand !== "All") {
+          let actual
+          if(category && category !== "All") actual = finalOrdersCat
+          else actual = finalOrders
+          actual.forEach((ord) => {
+            //Recorremos los productos de la compra
+            ord.Product_Sizes.forEach((prod) => {
+                //Recorremos las marcas de cada producto y si coincide agregamos todo la compra
+                if(prod.dataValues.productData.BrandId == brandId) {
+                  finalOrdersBrand.push(ord)
+                }
+            })
+        })
 
-        res.status(200).send(finalOrdersCat)
+        }
+        
+        if(brand && brand !== "All"){
+          res.status(200).send(finalOrdersBrand)
+        }else if(category && category !== "All") {
+          res.status(200).send(finalOrdersCat)
+        }else res.status(200).send(finalOrders)
+        
     } catch (e) {
         console.log(e)
         res.status(400).send("ERROR")
