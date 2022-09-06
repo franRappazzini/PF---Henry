@@ -8,17 +8,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Chip } from '@mui/material';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAllBoughts } from '../../../redux/actions/productActions';
 
-
-
 export default function OrdersTable({ setSelected, setOrder, setStatus, rows}) {
-  let { boughts } = useSelector((state) => state.product);
   let dispatch = useDispatch()
+
   useEffect(()=>{
     dispatch(getAllBoughts())
   },[dispatch])
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

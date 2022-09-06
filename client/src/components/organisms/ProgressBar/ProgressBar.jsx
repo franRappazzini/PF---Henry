@@ -13,30 +13,22 @@ const steps = ['Pending', 'In Progress', 'Completed'];
 
 export default function ProgressBar({status, order, rows}) {
   let dispatch = useDispatch()
-  let { boughts } = useSelector((state) => state.product);
   const [activeStep, setActiveStep] = useState(status==='Pending'?1:status==='In Progress'?2:3);
   let newStatus=''
   
   useEffect(()=>{
   },[dispatch])
 
-  console.log('STATUS FROM PROGRESSBAR: ', status);
-  console.log('order: ', order);
-  console.log('ACTIVESTEP FROM PB: ', activeStep);
-  console.log('Boughts from PB: ' ,boughts);
-
   const handleNext = () => {
     activeStep===1?newStatus='In Progress':newStatus='Completed'
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     dispatch(setState(order,newStatus))
-    console.log('newStatus next : ',newStatus);
   };
 
   const handleBack = () => {
     activeStep===3?newStatus='In Progress':newStatus='Pending'
     setActiveStep((prevActiveStep) => prevActiveStep - 1);    
     dispatch(setState(order,newStatus))
-    console.log('newStatus back: ',newStatus);
   };
 
   const handleReset = () => {
