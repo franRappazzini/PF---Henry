@@ -9,6 +9,7 @@ const path = require("path");
 //   { logging: false }
 // );
 
+
 // para poder deployear
 const sequelize =
   process.env.NODE_ENV === "production"
