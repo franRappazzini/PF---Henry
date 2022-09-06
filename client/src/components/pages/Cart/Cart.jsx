@@ -5,6 +5,8 @@ import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound.jsx
 import axios from "axios";
 import style from "./Cart.module.css";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import { useLocation } from "react-router-dom";
 
 //Preguntar si x query llega un status failed y mostrar un toast
 
@@ -12,9 +14,34 @@ export default function Cart() {
   const [lsCartProducts, setLsCartProducts] = useState([]);
   const [datos, setDatos] = useState("");
   let { cartProducts } = useSelector((state) => state.product);
+  const search = useLocation().search;
+  const status = new URLSearchParams(search).get('status');
 
   useEffect(() => {
     setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
+
+    if(status){
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom",
+        showConfirmButton: false,
+        timer: 4000,
+        timerProgressBar: true,
+        ProgressBarColor: "white",
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "error",
+        title: "There was an error with the purchase, please try again",
+        background: "#c70000",
+        color: "white",
+        textAlign: "center",
+      });
+    }
   }, []);
 
   const onClickBuy = () => {
