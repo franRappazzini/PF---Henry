@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -6,25 +6,38 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import style from './ProgressBar.module.css'
+import { useDispatch } from 'react-redux';
 
 const steps = ['Pending', 'In Progress', 'Completed'];
 
 export default function ProgressBar({status, order, rows}) {
-  const [activeStep, setActiveStep] = React.useState(status==='Pending'?0:status==='In Progress'?1:2);
+  let dispatch = useDispatch()
+  const [activeStep, setActiveStep] = useState(status==='Pending'?1:status==='In progress'?2:3);
+  let newStatus=''
+  
+  useEffect(()=>{
+  },[dispatch])
+
+  console.log('STATUS FROM PROGRESSBAR: ', status);
+  console.log('order', order);
+  console.log('ACTIVESTEP FROM PB: ', activeStep);
 
   const handleNext = () => {
-    activeStep===1?status='In Progress':status='Completed'
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);    
+    activeStep===1?newStatus='In Progress':newStatus='Completed'
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    /*dispatch(setState(order,newStatus))*/  
   };
 
   const handleBack = () => {
-    activeStep===2?status='In Progress':status='Pending'
+    activeStep===3?newStatus='In Progress':newStatus='Pending'
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    /*dispatch(setState(order,newStatus))*/
   };
 
   const handleReset = () => {
-    status='Pending'
-    setActiveStep(0);
+    newStatus='Pending'
+    setActiveStep(1);
+    /*dispatch(setState(order,newStatus))*/
   };
 
   return (
