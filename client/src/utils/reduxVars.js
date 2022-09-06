@@ -19,4 +19,4 @@ export const ENABLE_PRODUCT = 'ENABLE_PRODUCT'
 
 
 export const GET_BOUGHTS='GET_BOUGTHS'
-
+export const GET_ALL_BOUGHTS='GET_ALL_BOUGHTS'
