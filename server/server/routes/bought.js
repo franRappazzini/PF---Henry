@@ -28,6 +28,7 @@ bought.post("", async (req, res) => {
   // const {state, userId, products, finalPrice} = req.body
 
   const { lsCartProducts, order, user } = req.body;
+  console.log(lsCartProducts)
   console.log("en el bought");
   //  console.log(req.body)
   // const products = bought[0]
@@ -76,16 +77,17 @@ bought.post("", async (req, res) => {
     });
 
     lsCartProducts.map(async (p) => {
-      const amount = p.choosedAmount
-      console.log(p)
-      let findProduct_Size = await Product_Size.findOne({
-        where: { ProductId: p.dataValues.id, SizeId: p.dataValues.choosedSize.id },
-      });
-      await newBought.addProduct_Size(findProduct_Size, {through: {amount}});
 
-      findProduct_Size.stock = findProduct_Size.stock - amount;
+      let findProduct_Size = await Product_Size.findOne({
+        where: { ProductId: p.id, SizeId: p.choosedSize.id },
+      });
+
+      await newBought.addProduct_Size(findProduct_Size, {through: {amount: p.choosedAmount}});
+
+      findProduct_Size.stock = findProduct_Size.stock - p.choosedAmount;
 
       findProduct_Size.save();
+
     });
 
     await transporter.sendMail({
@@ -147,9 +149,8 @@ bought.get("/:email", async (req,res)=>{
         // console.log(user)
         let orders = await Bought.findAll({include:{model: Product_Size, Product_Bought},
             where:{userId:user.id}})
-        console.log(orders)
         // const orders = await Bought.findAll({include: {model: Product_Size}})
-
+        console.log(orders)
         for(let i = 0; i < orders.length; i++) {
             for(let j = 0; j < orders[i].Product_Sizes.length; j++){
                 const size = await Size.findByPk(orders[i].Product_Sizes[j].SizeId)
@@ -161,8 +162,6 @@ bought.get("/:email", async (req,res)=>{
         }
 
         if(orders){
-            console.log("ORDERS:")
-            console.log(orders)
             res.status(200).json(orders)
         }else{
             res.status(404).send("No boughts found :(")
