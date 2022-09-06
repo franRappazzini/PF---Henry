@@ -5,12 +5,22 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import DonutChart from "../DonutChart/DonutChart";
 import { FiBox } from "react-icons/fi";
 import { HiTrendingUp } from "react-icons/hi";
-import React from "react";
+import React, { useEffect } from "react";
 import style from "./DashboardOption.module.css";
+import { getAllBoughts, getAllProducts } from "../../../redux/actions/productActions";
+import { getBoughts } from "../../../redux/actions/userActions";
 
 export default function DashboardOption() {
-  let { products } = useSelector((state) => state.product);
+  let { products, boughts } = useSelector((state) => state.product);
   let { users } = useSelector((state) => state.user);
+  let dispatch = useDispatch()
+
+  console.log('Boughts from DashboardOption: ', boughts);
+
+  useEffect(()=>{
+    dispatch(getAllProducts())
+    dispatch(getAllBoughts())
+  },[dispatch])
   return (
     <div className={style.globalContainer}>
       <div className={style.statisticsContainer}>
@@ -25,7 +35,7 @@ export default function DashboardOption() {
               style={{ backgroundColor: "#33375c", color: "#6c61e0" }}
             />
             <div className={style.statisticTitleNumberContainer}>
-              <div className={style.statisticNumber}>37</div>
+              <div className={style.statisticNumber}>{boughts.length}</div>
               <div className={style.itemTitle}>Sales</div>
             </div>
           </div>
