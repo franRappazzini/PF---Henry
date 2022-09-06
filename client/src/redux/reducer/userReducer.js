@@ -1,4 +1,4 @@
-import { GET_LOGED_USER, GET_ALL_USERS,GET_BOUGHTS } from "../../utils/reduxVars";
+import { GET_LOGED_USER, GET_ALL_USERS,GET_BOUGHTS, PUT_STATE } from "../../utils/reduxVars";
 
 const initialState = {
   users: [],
@@ -22,6 +22,11 @@ export function userReducer(state = initialState, action) {
       return{
         ...state,
         boughts:action.payload
+      }
+    case PUT_STATE:
+      console.log(action.payload)
+      return{
+        ...state
       }
     default:
       return state;
