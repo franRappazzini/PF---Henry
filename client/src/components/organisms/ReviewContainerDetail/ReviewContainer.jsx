@@ -26,10 +26,11 @@ export default function ReviewContainer({productDetail}){
     const { isAuthenticated, user } = useAuth0();
     const { logedUser } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-  
+    const [revSend, setRevSend] = useState(false)
     useEffect(() => {
       isAuthenticated && dispatch(getLogedUser(user));
-    }, [dispatch, isAuthenticated, user]);
+      
+    }, [dispatch, isAuthenticated, user, logedUser,productDetail]);
     let userId = logedUser.id
     
     const [stars, setStars] = useState(0)
@@ -42,7 +43,7 @@ export default function ReviewContainer({productDetail}){
       username:`${logedUser.given_name} ${logedUser.family_name}`
     })
    
-    /* console.log("my product:", productDetail) */
+    console.log("my product:", productDetail)
     // console.log("my user:", logedUser)
     /* 
     console.log("my user id:", logedUser.id)
@@ -60,7 +61,7 @@ export default function ReviewContainer({productDetail}){
       })
     }
 
-    const handleSubmit = (e)=>{
+    const handleSubmit = async (e)=>{
       e.preventDefault()
       let spanValid = document.getElementById("validation")
       if(!stars){
@@ -99,9 +100,11 @@ export default function ReviewContainer({productDetail}){
         ...review,
         userId:logedUser.id
       }
-      createReview(newRev)
+      console.log("se dispacha createReview, ", newRev)
+      await createReview(newRev)
       console.log(productDetail.id)
       dispatch(getProduct(productDetail.id))
+      setRevSend(true)
     }
 
     return(
@@ -111,7 +114,7 @@ export default function ReviewContainer({productDetail}){
 
           {
           productDetail.Ratings ?
-          productDetail.Ratings.map((e,i)=><RevCard key={e.id} id={e.id} userName={e.username} isAdmin={logedUser.isAdmin}  text={e.text} profPic={logedUser.picture} revStars={e.stars}/>) :
+          productDetail.Ratings.map((e,i)=><RevCard prodId={productDetail.id} key={e.id} id={e.id} userName={e.username} isAdmin={logedUser.isAdmin}  text={e.text} profPic={logedUser.picture} revStars={e.stars}/>) :
           ""
           }
             
