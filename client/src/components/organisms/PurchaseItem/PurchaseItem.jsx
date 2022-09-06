@@ -19,11 +19,11 @@ export default function PurchaseItem({ product }) {
             </div>
     
             <div className={style.infoContainer}>
-                <div className={product.status==='Delivered'?style.status:style.status2}> {/*Provisory status*/}
-                    {product.status}              
+                <div className={product.state==='Completed'?style.status:style.status2}>
+                    {product.state}              
                 </div>
                 <div className={style.shipInfo}>
-                    Delivered 
+                    {product.state==='Completed'?'Delivered':'Processing'} 
                 </div>
                 <div className={style.name}>
                    {itemInfo.productData.name} (Size: {itemInfo.SizeId.size})
