@@ -55,7 +55,7 @@ let Home = () => {
     dispatch(getAllProducts());
 
     // para tener disponibles todas las marcas
-    axios.get("/brand/upload");
+    // axios.get("/brand/upload");
   }, [dispatch]);
 
   function filterProds() {
@@ -101,10 +101,7 @@ let Home = () => {
           <div className={style.cardsContainer}>
             {width > 600
               ? filterProds()
-                  .slice(
-                    (page - 1) * prodPerPage,
-                    (page - 1) * prodPerPage + prodPerPage
-                  )
+                  .slice((page - 1) * prodPerPage, (page - 1) * prodPerPage + prodPerPage)
                   .map((product) => <Card key={product.id} product={product} />)
               : filterProds().map((product) => (
                   <Card key={product.id} product={product} dashboard={false} />
@@ -116,11 +113,7 @@ let Home = () => {
       </section>
       {window.innerWidth > 600 ? (
         <section className={style.pagination_container}>
-          <Pagination
-            count={totalPage}
-            shape="rounded"
-            onChange={(e, value) => setPage(value)}
-          />
+          <Pagination count={totalPage} shape="rounded" onChange={(e, value) => setPage(value)} />
         </section>
       ) : null}
     </div>

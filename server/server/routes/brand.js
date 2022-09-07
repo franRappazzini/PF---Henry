@@ -14,22 +14,22 @@ brand.get("", async (req, res) => {
   }
 });
 
-brand.get("/upload", (req, res) => {
-  const allBrands = ["Adidas", "New Balance", "Nike", "Puma", "Reebok"];
+// brand.get("/upload", (req, res) => {
+//   const allBrands = ["Adidas", "New Balance", "Nike", "Puma", "Reebok"];
 
-  try {
-    allBrands.forEach(
-      async (brand) =>
-        await Brand.findOrCreate({
-          where: { name: brand },
-          default: { name: brand },
-        })
-    );
+//   try {
+//     allBrands.forEach(
+//       async (brand) =>
+//         await Brand.findOrCreate({
+//           where: { name: brand },
+//           default: { name: brand },
+//         })
+//     );
 
-    res.json({ success: "Uploaded Brands!" });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+//     res.json({ success: "Uploaded Brands!" });
+//   } catch (err) {
+//     res.status(400).json({ error: err.message });
+//   }
+// });
 
 module.exports = brand;

@@ -25,6 +25,7 @@ import { SiPuma } from "react-icons/si";
 import { SiReebok } from "react-icons/si";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { brands } from "../../../utils/data";
 import style from "./FormUpdateProduct.module.css";
 import { useNavigate } from "react-router-dom";
 import withReactContent from "sweetalert2-react-content";
@@ -53,11 +54,11 @@ export default function ProductContainer({ productDetail }) {
   const [category, setCategory] = useState("");
   const [newCategories, setNewCategories] = useState([]);
 
-  const { brands } = useSelector((state) => state.other);
+  // const { brands } = useSelector((state) => state.other);
   const { categories } = useSelector((state) => state.other);
 
   useEffect(() => {
-    dispatch(getBrands());
+    // dispatch(getBrands());
     dispatch(getCategories());
   }, [dispatch]);
 
@@ -86,10 +87,7 @@ export default function ProductContainer({ productDetail }) {
     } else {
       setProduct({
         ...product,
-        newCategories: [
-          ...product.newCategories,
-          e.target.value.name || e.target.value,
-        ],
+        newCategories: [...product.newCategories, e.target.value.name || e.target.value],
       });
     }
   };
@@ -330,10 +328,7 @@ export default function ProductContainer({ productDetail }) {
                 required
               />
               {product.newImage ? (
-                <IconButton
-                  onClick={handleDeleteImage}
-                  className={style.delete_button}
-                >
+                <IconButton onClick={handleDeleteImage} className={style.delete_button}>
                   <DeleteIcon fontSize="inherit" />
                 </IconButton>
               ) : null}
@@ -441,10 +436,7 @@ export default function ProductContainer({ productDetail }) {
                   }}
                 >
                   <FormControl sx={{ m: 1, minWidth: 120 }}>
-                    <InputLabel
-                      id="demo-dialog-select-label"
-                      variant="standard"
-                    >
+                    <InputLabel id="demo-dialog-select-label" variant="standard">
                       Size
                     </InputLabel>
                     <TextField
@@ -523,9 +515,7 @@ export default function ProductContainer({ productDetail }) {
               >
                 Save
               </LoadingButton>
-              <Button onClick={() => navigate(`/product/${productDetail.id}`)}>
-                View product
-              </Button>
+              <Button onClick={() => navigate(`/product/${productDetail.id}`)}>View product</Button>
             </Box>
           </form>
         </div>
