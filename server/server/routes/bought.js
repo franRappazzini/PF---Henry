@@ -16,11 +16,12 @@ const User=user
 //NODEMAILER
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-        user: 'hiram.gutkowski@ethereal.email',
-        pass: 'R3ykWRrUWGUdPQ5QMS'
+        user: 'cryptorig2021@gmail.com',
+        pass: 'yxakhnkeafnlnaue'
     }
 })
 
@@ -29,8 +30,6 @@ bought.post("", async (req, res) => {
   // const {state, userId, products, finalPrice} = req.body
 
   const { lsCartProducts, order, user } = req.body;
-  console.log(lsCartProducts)
-  console.log("en el bought");
   //  console.log(req.body)
   // const products = bought[0]
   // const order =bought[1]
@@ -94,7 +93,7 @@ bought.post("", async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: '"Kemba" hiram.gutkowski@ethereal.email', // sender address
+      from: '"Kemba"', // sender address
       to: user.email, // list of receivers
       subject: "Compra realizada", // Subject line
       text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
@@ -108,7 +107,7 @@ bought.post("", async (req, res) => {
 });
 
 bought.get("", async (req, res) => {
-    const {category, brand} = req.body
+    const {category, brand, state} = req.body
     var categoryId = ""
     var brandId = ""
 
@@ -123,7 +122,11 @@ bought.get("", async (req, res) => {
     }
 
     try {
-        const orders = await Bought.findAll({include: {model: Product_Size}})
+      let model
+      if(state){
+        model = {include: {model: Product_Size}, where: {state}}
+      } else model = {include: {model: Product_Size}}
+      const orders = await Bought.findAll(model)
 
             for(let i = 0; i < orders.length; i++) {
               const userData = await User.findByPk(orders[i].userId)
@@ -211,6 +214,19 @@ bought.get("/:email", async (req,res)=>{
 bought.put("", async (req, res) => {
   const {boughtId, state} = req.body
   try {
+    const bought = await Bought.findByPk(boughtId)
+
+    const user = await User.findByPk(bought.userId)
+
+    await transporter.sendMail({
+      from: '"Kemba"', // sender address
+      to: user.email, // list of receivers
+      subject: `Tu compra se encuentra ${state}`, // Subject line
+      text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
+      html: "<b>HOLANDAAAAAAAAA</b>", // html body
+    });
+
+
     console.log("HOLA")
     await Bought.update({
       state: state
