@@ -14,9 +14,7 @@ export default function CarouselContainer({ productDetail, products }) {
     dispatch(getAllProducts());
   }, [dispatch]);
   /* const [carouselProducts, setCarouselProducts] = useState({}) */
-  let filteredProducts = products.filter(
-    (e) => e.Brand.name === productDetail.Brand.name
-  );
+  let filteredProducts = products.filter((e) => e.Brand?.name === productDetail.Brand?.name);
 
   return (
     <div className={style.carousel_container}>

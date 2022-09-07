@@ -274,12 +274,8 @@ router.post("", async (req, res) => {
 //     const brand = req.body[index].brand;
 //     const category = req.body[index].category;
 //     const size = req.body[index].size;
-//     category.map(
-//       async (e) => await Category.findOrCreate({ where: { name: e } })
-//     );
-//     size.forEach(
-//       async (e) => await Size.findOrCreate({ where: { size: e.size } })
-//     );
+//     category.map(async (e) => await Category.findOrCreate({ where: { name: e } }));
+//     size.forEach(async (e) => await Size.findOrCreate({ where: { size: e.size } }));
 //     await Brand.findOrCreate({ where: { name: brand } });
 
 //     //Creo el producto y hago las relaciones
