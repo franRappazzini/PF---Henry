@@ -1,13 +1,12 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import style from "./ReviewContainer.module.css"
 import {useSelector} from "react-redux"
-import {useEffect} from "react"
 // import {useParams/* , useState */} from "react-router-dom"
 // import { getProductDetail } from "../../Redux/actions";
 import { useDispatch } from "react-redux"
-import { getLogedUser } from "../../../redux/actions/userActions";
+import { getBoughts, getLogedUser } from "../../../redux/actions/userActions";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createReview } from "../../../redux/actions/ratingActions"
 import { useParams } from "react-router-dom"
@@ -24,14 +23,15 @@ export default function ReviewContainer({productDetail}){
     const params = useParams()
    
     const { isAuthenticated, user } = useAuth0();
-    const { logedUser } = useSelector((state) => state.user);
+    const { logedUser, boughts } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [revSend, setRevSend] = useState(false)
     useEffect(() => {
-      isAuthenticated && dispatch(getLogedUser(user));
-      
+      isAuthenticated && dispatch(getLogedUser(user));      
     }, [dispatch, isAuthenticated, user, logedUser,productDetail]);
     let userId = logedUser.id
+
+    console.log('MyUserId', logedUser );
     
     const [stars, setStars] = useState(0)
 
@@ -43,16 +43,6 @@ export default function ReviewContainer({productDetail}){
       username:`${logedUser.given_name} ${logedUser.family_name}`
     })
    
-    console.log("my product:", productDetail)
-    // console.log("my user:", logedUser)
-    /* 
-    console.log("my user id:", logedUser.id)
-    
-    
-    // console.log("my stars:", stars)
-
-    */
-    console.log("my review:",review)
     const handleChange = (e)=>{
       e.preventDefault()
       setReview({
@@ -73,13 +63,16 @@ export default function ReviewContainer({productDetail}){
       }else if(!review.userId){
         spanValid.textContent = "You have to be registered to post a review!"
         return
-      }else{
+      }else if (logedUser.id){
+        // dispatch(getBoughts(logedUser.email))   
+        // console.log('Boughts From asdadsasdasd:', boughts.filter(bought=>bought.Product_Sizes.filter(bought=>bought.ProductId===productDetail.id)));
+        
         spanValid.textContent = ""
         const Toast = Swal.mixin({
           toast: true,
           position: 'bottom',
           showConfirmButton: false,
-          timer: 2000,
+          timer: 2000,  
           timerProgressBar: true,
           ProgressBarColor: "white",
           didOpen: (toast) => {
@@ -134,7 +127,7 @@ export default function ReviewContainer({productDetail}){
           <form onSubmit={(e)=>handleSubmit(e)} className={style.review_form}>
           
             <textarea onChange={(e)=>handleChange(e)} placeholder="Write your own review..." className={style.textarea} name="text" id="review" cols="30" rows="10"></textarea>
-            <button className={style.review_submit_button} type="submit"><FaPaperPlane className={style.plane_icon}/></button>
+            <button className={style.review_submit_button} type="submit"><FaPaperPlane className={style.plane_icon} style={boughts.length?{pointerEvents:'none'}:{}}/></button>
           </form>
         </div>
     )
