@@ -238,7 +238,7 @@ export default function Card({
             <FormControl sx={{ mt: 2, minWidth: 240 }}>
               <InputLabel>Amount</InputLabel>
               <Select
-                autoFocus
+                
                 value={amount}
                 onChange={handleAmount}
                 label="amount"
@@ -247,7 +247,6 @@ export default function Card({
                   id: "amount",
                 }}
               >
-                <MenuItem value="0">0</MenuItem>
                 {selectAmount()}
               </Select>
             </FormControl>
