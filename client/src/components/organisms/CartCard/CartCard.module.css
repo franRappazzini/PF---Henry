@@ -3,15 +3,14 @@
   display: flex;
   flex-direction: row;
   height: 250px;
-  width: 400px;
-  border-radius: 20px;
-  box-shadow: 0 0 15px 0 rgb(136, 136, 136);
-  margin-top: 50px;
-  margin-bottom: 50px;
+  width: 100%;
+  /* border-radius: 20px; */
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 .left_container{
   width: fit-content;
-  height: 100%;
+  height: 65%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,22 +46,35 @@
 }
 .right_container{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   height: 100%;
-  width: 49%;
+  width: 40%;
+}
+.price_product{
+  display: flex;
+  justify-content:end;  
+  align-items: center; 
+  height: 80%;
+  width: 50%;
+  margin: 20px;
+
+  font-size: 20px;
+  font-family: Roboto;
+  font-weight: 900;
 }
 .top_right{
   display: flex;
   justify-content: flex-end;
-  width: 100%;
-  height: 10%;
+  width: 0%;
+  height: 90%;
+  margin: 20px;
 }
 .close_button{
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex;
   background-color: rgb(218, 47, 47);
   outline: none;
   border: none;
@@ -82,12 +94,14 @@
   align-items: center;
   justify-content: center;
   height: 70%;
+  width: 100%;
 }
 .title{
   font-size: 18px;
   text-align: center;
   font-family: Roboto;
   letter-spacing: 2px;
+  width: 80%;
 }
 .categories{
   width: 100%;
@@ -111,24 +125,28 @@
 .amount_and_size{
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 10%;
+  height: 50%;
 }
 .close_button:hover{
   cursor: pointer;
   transform: scale(1.1);
 }
 .amount_span{
-  font-size: 12px;
+  font-size: 3vh;
   font-family: Roboto;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   background-color: #5f27cd;
   color: white;
   text-align: center;
-  height: 25px;
-  width: 25px;
-  line-height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  /* line-height: 25px; */
   border-radius: 30px;
   font-weight: 600;
 }
@@ -143,12 +161,12 @@ font-weight: 600;
   align-items: center;
   justify-content: center;
   line-height: 15px;
-  height: 15px;
-  width: 15px;
+  height: 24px;
+  width: 24px;
   background-color: #cacaca;
   color: #777777;
   border: none;
-  border-radius: 10px;
+  border-radius: 50%;
   font-family: Roboto;
   font-size: 13px;
   font-weight: 900;
@@ -156,7 +174,7 @@ font-weight: 600;
 }
 .plus_min_container{
   display: flex;
-  width: 20%;
+  width: 60%;
   align-items: center;
   height: 100%;
   justify-content: space-between;

@@ -11,15 +11,18 @@ import { useSelector } from "react-redux";
 
 //Preguntar si x query llega un status failed y mostrar un toast
 
-export default function Cart() {
+export default function Cart(product) {
   const [lsCartProducts, setLsCartProducts] = useState([]);
   const [datos, setDatos] = useState("");
   const [input, setInput] = useState(false);
   const [adress, setAdress] = useState("");
   let { cartProducts } = useSelector((state) => state.product);
+  const [amount, setAmount] = useState(product.choosedAmount);
+  const [totalAmount, setTotalAmount]=useState(totalPrice())
+
   const search = useLocation().search;
   const status = new URLSearchParams(search).get("status");
-
+ 
   useEffect(() => {
     setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
 
@@ -45,7 +48,26 @@ export default function Cart() {
         textAlign: "center",
       });
     }
-  }, []);
+
+    
+  }, [cartProducts]);
+
+//   useEffect(()=>{
+//     console.log("ACAAA")
+//     console.log(totalAmount)
+//     for (let index = 0; index < lsCartProducts.length; index++) {
+//       setTotalAmount(totalAmount+ lsCartProducts[index].price)
+//     }
+//   },[CartCard,lsCartProducts,localStorage])
+// console.log(totalAmount)
+
+ function totalPrice(){
+  let suma=0
+ JSON.parse(localStorage.getItem("lsCartProducts")).forEach(e => {
+  suma+=(e.choosedAmount*e.price)
+ });
+ return suma
+}
 
   const handleAdressChange = (e) => {
     setAdress(e.target.value);
@@ -60,7 +82,7 @@ export default function Cart() {
   };
 
   const onClickBuy = () => {
-    console.log(lsCartProducts);
+    // console.log(lsCartProducts);
     localStorage.setItem("adress", JSON.stringify(adress));
     axios
       .post("/mercadopago/payment", {
@@ -81,10 +103,22 @@ export default function Cart() {
   //   }
   // }
 
+  // const price_products_total= amount * product.price;
+
+ const handleAmount= async ()=> {
+  let total =0
+  const ls=await JSON.parse(localStorage.getItem("lsCartProducts"))
+ for (let index = 0; index < ls.length; index++) {
+    total= total + ls[index].price*ls[index].choosedAmount
+  }
+  console.log(total)
+  setTotalAmount(total)
+  }
+
   return (
     <div className={style.cart_container}>
       {/* <script src="https://sdk.mercadopago.com/js/v2"></script> */}
-      <h1 className={style.h1_cart}>MY CART</h1>
+      {/* <h1 className={style.h1_cart}>MY CART</h1> */}
       <div className={cartProducts.length ? style.card_container : style.empty_container}>
         {lsCartProducts.length ? (
           lsCartProducts.map((e, i) => (
@@ -93,14 +127,30 @@ export default function Cart() {
                 product={e}
                 lsCartProducts={lsCartProducts}
                 setLsCartProducts={setLsCartProducts}
+                totalPrice={totalPrice}
+                handleAmount={handleAmount}
               />
               {/* <span>{e.choosedAmount}</span><span>{e.choosedSize}</span> */}
+          {/* <div className={style.price_product}>
+          Price: {price_products_total}
+          </div> */}
             </div>
           ))
         ) : (
           <NoProductsFound message="You haven't added products to the cart... yet ;)" />
         )}
+        
+<div className={style.buy}> 
+<p>Total Price: {totalPrice()}
+</p>
+<button className={style.buy_button} onClick={() => handleOpenAdress()}>
+        BUY
+      </button>
+</div>
+
+
       </div>
+      
       <FormAdress
         adress={adress}
         input={input}
@@ -108,9 +158,7 @@ export default function Cart() {
         handleAdressChange={handleAdressChange}
         onClickBuy={onClickBuy}
       />
-      <button className={style.buy_button} onClick={() => handleOpenAdress()}>
-        BUY
-      </button>
+      
     </div>
   );
 }

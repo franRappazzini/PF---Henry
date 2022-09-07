@@ -8,8 +8,10 @@ const server = express();
 const product = require("./routes/product");
 const user = require("./routes/user");
 const rating = require("./routes/rating")
-
+const dotenv = require('dotenv')
 const mercadopago1 = require("./routes/mercadopago");
+
+dotenv.config();
 
 const bought = require("./routes/bought");
 
