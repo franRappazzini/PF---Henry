@@ -34,10 +34,7 @@ function FormCreateProduct() {
       const formData = new FormData();
       formData.append("file", image);
       formData.append("upload_preset", "gsx0rfx1");
-      const imgRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dnwamkq58/upload",
-        formData
-      );
+      const imgRes = await axios.post("https://api.cloudinary.com/v1_1/dnwamkq58/upload", formData);
 
       const newProduct = {
         ...product,
@@ -46,9 +43,10 @@ function FormCreateProduct() {
         size: selectedSizes,
       };
 
+      console.log(newProduct);
       // creo el producto
       const res = await axios.post("/product", newProduct);
-
+      console.log(res);
       swal
         .fire({
           icon: "success",
@@ -79,8 +77,7 @@ function FormCreateProduct() {
     if (product.brand === "") return "You must choose a brand";
     if (product.price <= 0) return "Price must be greater than $0";
     // if (!image.match(imageRegex)) return "Wrong image format";
-    if (!selectedCategories.length)
-      return "You must choose at least one category";
+    if (!selectedCategories.length) return "You must choose at least one category";
     if (!selectedSizes.length) return "You must choose at least one size";
   }
 
@@ -101,10 +98,7 @@ function FormCreateProduct() {
           setNewCategories={setNewCategories}
         />
 
-        <DialogSizesCreate
-          setSelectedSizes={setSelectedSizes}
-          selectedSizes={selectedSizes}
-        />
+        <DialogSizesCreate setSelectedSizes={setSelectedSizes} selectedSizes={selectedSizes} />
       </section>
 
       <LoadingButton loading={loading} type="submit" variant="outlined">
