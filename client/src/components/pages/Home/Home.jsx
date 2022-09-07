@@ -78,8 +78,7 @@ let Home = () => {
         <div className={style.none}></div>
 
         <SearchBar2
-          filters={filters}
-          setFilters={setFilters}
+          filterProds={filterProds}
           prodSearched={prodSearched}
           setProdSearched={setProdSearched}
           label="Search model"
