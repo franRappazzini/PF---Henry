@@ -5,12 +5,14 @@ import style from "./CartCard.module.css";
 import { useEffect } from "react";
 import { removeFromCart } from "../../../redux/actions/productActions";
 
-export default function CartCard({ product, lsCartProducts, setLsCartProducts }) {
+
+export default function CartCard({ product, lsCartProducts, setLsCartProducts,totalPrice,handleAmount }) {
   const dispatch = useDispatch()
   const [amount, setAmount] = useState(product.choosedAmount);
   let mySize = product.Sizes.filter((e) => e.size === product.choosedSize.size);
-  console.log("my size", mySize)
+  // console.log("my size", mySize)
   const stock = mySize[0].Product_Size.stock;
+  // const [totalPrice,setTotalPrice]= useState(product.pr)
 
   useEffect(() => {
     // para actualizar el choisedAmount
@@ -38,15 +40,19 @@ export default function CartCard({ product, lsCartProducts, setLsCartProducts })
     setLsCartProducts(newCart);
   };
 
-  const handlePlus = () => {
+  const handlePlus =async ()  => {
     if (amount === stock) return;
     setAmount(amount + 1);
+    handleAmount()
   };
 
-  const handleMin = () => {
+  const handleMin = async() => {
     if (amount === 1) return;
-    setAmount(amount - 1);
+   setAmount(amount - 1);
+    handleAmount()
   };
+
+  const price_products_total=product.price * amount;
 
   return (
     <div className={style.box}>
@@ -59,15 +65,15 @@ export default function CartCard({ product, lsCartProducts, setLsCartProducts })
           />
           <div className={style.image_background}></div>
         </div>
-        <h2 className={style.price}>{product.price} $</h2>
+        {/* <h2 className={style.price}>{product.price} $</h2> */}
       </div>
       <div className={style.br}></div>
-      <div className={style.right_container}>
-        <div className={style.top_right}>
+      
+        {/* <div className={style.top_right}>
           <button onClick={handleClose} className={style.close_button}>
             <IoMdClose className={style.close_icon} />
           </button>
-        </div>
+        </div> */}
         <div className={style.info_container}>
           <h1 className={style.title}>{product.name}</h1>
           <span className={style.categories}>
@@ -84,15 +90,26 @@ export default function CartCard({ product, lsCartProducts, setLsCartProducts })
             <button onClick={handleMin} className={style.plus_min}>
               -
             </button>
+            <span id="amount" className={style.amount_span}>
+            {amount}
+          </span>
             <button onClick={handlePlus} className={style.plus_min}>
               +
             </button>
           </div>
-          <span id="amount" className={style.amount_span}>
-            {amount}
-          </span>
+          
         </div>
-      </div>
+      
+      
+      <div className={style.price_product}>
+         ${price_products_total}
+        </div>
+
+        <div className={style.top_right}>
+          <button onClick={handleClose} className={style.close_button}>
+            <IoMdClose className={style.close_icon} />
+          </button>
+        </div>
     </div>
   );
 }
