@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-
+import { useDispatch } from "react-redux";
 import { IoMdClose } from "react-icons/io";
 import style from "./CartCard.module.css";
 import { useEffect } from "react";
+import { removeFromCart } from "../../../redux/actions/productActions";
 
-export default function Card({ product, lsCartProducts, setLsCartProducts }) {
+export default function CartCard({ product, lsCartProducts, setLsCartProducts }) {
+  const dispatch = useDispatch()
   const [amount, setAmount] = useState(product.choosedAmount);
   let mySize = product.Sizes.filter((e) => e.size === product.choosedSize.size);
+  console.log("my size", mySize)
   const stock = mySize[0].Product_Size.stock;
 
   useEffect(() => {
@@ -27,6 +30,9 @@ export default function Card({ product, lsCartProducts, setLsCartProducts }) {
   const handleClose = () => {
     const newCart = lsCartProducts.filter(
       (prod) => prod.idRemove !== product.idRemove
+    );
+    dispatch(
+      removeFromCart(product.cartId)
     );
     localStorage.setItem("lsCartProducts", JSON.stringify(newCart));
     setLsCartProducts(newCart);
