@@ -240,7 +240,6 @@ export default function Card({
             <FormControl sx={{ mt: 2, minWidth: 240 }}>
               <InputLabel>Amount</InputLabel>
               <Select
-                
                 value={amount}
                 onChange={handleAmount}
                 label="amount"
