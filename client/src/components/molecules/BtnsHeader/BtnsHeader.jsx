@@ -49,10 +49,7 @@ function BtnsHeader() {
                 Profile
               </Link>
             </MenuItem>,
-            <MenuItem
-              key={1}
-              onClick={() => logout({ returnTo: window.location.origin })}
-            >
+            <MenuItem key={1} onClick={() => logout({ returnTo: window.location.origin })}>
               Log Out
             </MenuItem>,
           ].map((item) => item)
@@ -61,25 +58,23 @@ function BtnsHeader() {
         )}
       </Menu>
 
-      <IconButton
-        aria-label="Favoritos"
-        color="secondary"
-        className={style.btn_icon}
-      >
+      <IconButton aria-label="Favoritos" color="secondary" className={style.btn_icon}>
         <Link to={"/favorites"}>
-          <Badge badgeContent={JSON.parse(localStorage.getItem('lsFavorites'))?.length} color="error">
+          <Badge
+            badgeContent={JSON.parse(localStorage.getItem("lsFavorites"))?.length}
+            color="error"
+          >
             <FavoriteBorder />
           </Badge>
         </Link>
       </IconButton>
 
-      <IconButton
-        aria-label="Carrito"
-        color="secondary"
-        className={style.btn_icon}
-      >
+      <IconButton aria-label="Carrito" color="secondary" className={style.btn_icon}>
         <Link to={"/cart"}>
-          <Badge color="error" variant="dot" invisible={true}>
+          <Badge
+            badgeContent={JSON.parse(localStorage.getItem("lsCartProducts"))?.length}
+            color="error"
+          >
             <ShoppingCart />
           </Badge>
         </Link>

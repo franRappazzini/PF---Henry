@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Dispatch } from "react";
 import PurchaseItem from "../../organisms/PurchaseItem/PurchaseItem";
+import PurchaseItems from "../../organisms/PurchaseItems/PurchaseItems";
 import SearchBar2 from "../../organisms/SearchBar2/SearchBar2";
 import style from "./PurchaseHistory.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -77,7 +78,13 @@ export default function PurchaseHistory() {
           <div className={style.number}>{boughtList.length} Purchases</div>
         </div>
         <div className={style.purchasesContainer}>
-          {boughtList.length > 0 && boughtList.map((product) => <PurchaseItem product={product} />)}
+          {boughtList.map((bought) => {
+            if (bought.Product_Sizes?.length === 1) {
+              return <PurchaseItem product={bought.Product_Sizes[0]} />;
+            } else if (bought.Product_Sizes?.length > 1) {
+              return <PurchaseItems products={bought.Product_Sizes} />;
+            }
+          })}
         </div>
       </div>
     </div>
