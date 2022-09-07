@@ -60,8 +60,11 @@ export default function PurchaseHistory() {
             let bought = {lsCartProducts,order,user}
             console.log("en el if del use")
             console.log(bought)
-            saveOrderHistory(bought)}
-    },[isAuthenticated])
+            saveOrderHistory(bought)
+            dispatch(getBoughts(user.email))
+            localStorage.setItem("lsCartProducts", "[]")
+        }
+    },[isAuthenticated, dispatch])
 
     // console.log(status)
 

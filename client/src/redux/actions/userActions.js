@@ -1,4 +1,4 @@
-import { GET_ALL_USERS, GET_LOGED_USER, SAVE_ORDER_HISTORY,GET_BOUGHTS } from "../../utils/reduxVars";
+import { GET_ALL_USERS, GET_LOGED_USER, SAVE_ORDER_HISTORY,GET_BOUGHTS, PUT_STATE, GET_ALL_BOUGHTS } from "../../utils/reduxVars";
 
 import axios from "axios";
 
@@ -73,5 +73,30 @@ export  function getBoughts(email){
         console.log(e)
       }
     }
+}
 
+export function getAllBoughts(category, brand, state) {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get("bought/", {category, brand, state})
+
+      dispatch({
+        type :GET_ALL_BOUGHTS,
+        payload: res.data
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export function setState(boughtId, state) {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put("/bought", {boughtId, state})
+      dispatch({type: PUT_STATE, payload: res.data})
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }

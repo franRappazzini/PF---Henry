@@ -10,7 +10,8 @@ import {
   REMOVE_FROM_CART,
   PUT_PRODUCT,
   DISABLE_PRODUCT,
-  ENABLE_PRODUCT
+  ENABLE_PRODUCT,
+  GET_ALL_BOUGHTS
 } from "../../utils/reduxVars";
 
 import axios from "axios";
@@ -75,6 +76,20 @@ export function addFavorites(product) {
       console.log(err);
     }
   };
+}
+export  function getAllBoughts(){
+  return async (dispatch)=>{
+    try{
+        const res = await axios.get('/bought')
+        dispatch({
+          type:GET_ALL_BOUGHTS,
+          payload:res.data
+        })
+    }catch(e){
+      console.log(e)
+    }
+  }
+
 }
 export function addToCart(prod) {
   return (dispatch) => {

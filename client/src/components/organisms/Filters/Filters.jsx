@@ -1,23 +1,20 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useEffect } from "react";
-import {
-  getBrands,
-  getCategories,
-  getSizes,
-} from "../../../redux/actions/otherActions";
+import { brands, sizes } from "../../../utils/data";
+import { getBrands, getCategories, getSizes } from "../../../redux/actions/otherActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import style from "./Filters.module.css";
 
 function Filters({ filters, setFilters }) {
   const { brand, category, size } = filters;
-  const { sizes, brands, categories } = useSelector((state) => state.other);
+  const { categories } = useSelector((state) => state.other);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getBrands());
-    dispatch(getSizes());
+    // dispatch(getBrands());
+    // dispatch(getSizes());
   }, [dispatch]);
 
   function handleFilter(e) {
@@ -26,20 +23,9 @@ function Filters({ filters, setFilters }) {
 
   return (
     <div className={style.filter_container}>
-      <FormControl
-        fullWidth
-        size="small"
-        className={style.filter}
-        sx={{ marginBottom: "1rem" }}
-      >
+      <FormControl fullWidth size="small" className={style.filter} sx={{ marginBottom: "1rem" }}>
         <InputLabel id="brand">Brand</InputLabel>
-        <Select
-          labelId="brand"
-          label="BRAND"
-          name="brand"
-          onChange={handleFilter}
-          value={brand}
-        >
+        <Select labelId="brand" label="BRAND" name="brand" onChange={handleFilter} value={brand}>
           <MenuItem value="">All</MenuItem>
           {brands.length > 0 &&
             brands.map((brand, i) => (
@@ -50,12 +36,7 @@ function Filters({ filters, setFilters }) {
         </Select>
       </FormControl>
 
-      <FormControl
-        fullWidth
-        size="small"
-        className={style.filter}
-        sx={{ marginBottom: "1rem" }}
-      >
+      <FormControl fullWidth size="small" className={style.filter} sx={{ marginBottom: "1rem" }}>
         <InputLabel id="category">Category</InputLabel>
         <Select
           labelId="category"
@@ -76,13 +57,7 @@ function Filters({ filters, setFilters }) {
 
       <FormControl fullWidth size="small" className={style.filter}>
         <InputLabel id="size">Size</InputLabel>
-        <Select
-          labelId="size"
-          label="SIZE"
-          name="size"
-          onChange={handleFilter}
-          value={size}
-        >
+        <Select labelId="size" label="SIZE" name="size" onChange={handleFilter} value={size}>
           <MenuItem value="">All</MenuItem>
           {sizes.length > 0 &&
             sizes.map((size, i) => (

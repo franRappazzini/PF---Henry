@@ -8,18 +8,20 @@ const {
     Bought,
     Category,
     Product_Bought,
-    Size
+    Size,
+    Brand
 } = require("../../db/db")
 const User=user
 
 //NODEMAILER
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-        user: 'hiram.gutkowski@ethereal.email',
-        pass: 'R3ykWRrUWGUdPQ5QMS'
+        user: 'cryptorig2021@gmail.com',
+        pass: 'yxakhnkeafnlnaue'
     }
 })
 
@@ -28,8 +30,6 @@ bought.post("", async (req, res) => {
   // const {state, userId, products, finalPrice} = req.body
 
   const { lsCartProducts, order, user } = req.body;
-  console.log(lsCartProducts)
-  console.log("en el bought");
   //  console.log(req.body)
   // const products = bought[0]
   // const order =bought[1]
@@ -43,6 +43,7 @@ bought.post("", async (req, res) => {
     console.log("Status failed");
     return;
   }
+  let date = Date()
 
   let finalPrice = 0;
   lsCartProducts.forEach((e) => (finalPrice += e.price * e.choosedAmount));
@@ -70,6 +71,7 @@ bought.post("", async (req, res) => {
     // console.log("Payment id:")
     // console.log(findPaymentId)
     const newBought = await Bought.create({
+      date,
       state,
       userId,
       finalPrice,
@@ -91,7 +93,7 @@ bought.post("", async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: '"Kemba" hiram.gutkowski@ethereal.email', // sender address
+      from: '"Kemba"', // sender address
       to: user.email, // list of receivers
       subject: "Compra realizada", // Subject line
       text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
@@ -105,12 +107,31 @@ bought.post("", async (req, res) => {
 });
 
 bought.get("", async (req, res) => {
-    const {categoryId, brandId} = req.body
+    const {category, brand, state} = req.body
+    var categoryId = ""
+    var brandId = ""
+
+    if(category && category !== "All") {
+      const cat = await Category.findOne({where: {name: category}})
+      categoryId = cat.id
+    }
+
+    if(brand && brand !== "All") {
+      const br = await Brand.findOne({where: {name: brand}})
+      brandId = br.id
+    }
 
     try {
-        const orders = await Bought.findAll({include: {model: Product_Size}})
+      let model
+      if(state){
+        model = {include: {model: Product_Size}, where: {state}}
+      } else model = {include: {model: Product_Size}}
+      const orders = await Bought.findAll(model)
 
             for(let i = 0; i < orders.length; i++) {
+              const userData = await User.findByPk(orders[i].userId)
+
+              orders[i].dataValues.userData = userData.dataValues
                 for(let j = 0; j < orders[i].Product_Sizes.length; j++){
                     const prod = await Product.findOne({include: {model:Category},where: {id: orders[i].Product_Sizes[j].ProductId}})
                     
@@ -119,22 +140,44 @@ bought.get("", async (req, res) => {
             }
         const finalOrders = orders
         const finalOrdersCat = []
+        const finalOrdersBrand = []
 
-        if(categoryId) {
+        if(category && category !== "All") {
             finalOrders.forEach((ord) => {
                 //Recorremos los productos de la compra
                 ord.Product_Sizes.forEach((prod) => {
                     //Recorremos las categorias de cada producto
                     prod.dataValues.productData.Categories.forEach((cat) => {
-                        if(cat.id === categoryId) {
+                        if(cat.id == categoryId) {
                             finalOrdersCat.push(ord)
                         }
                     })
                 })
             })
         }
+        
+        if(brand && brand !== "All") {
+          let actual
+          if(category && category !== "All") actual = finalOrdersCat
+          else actual = finalOrders
+          actual.forEach((ord) => {
+            //Recorremos los productos de la compra
+            ord.Product_Sizes.forEach((prod) => {
+                //Recorremos las marcas de cada producto y si coincide agregamos todo la compra
+                if(prod.dataValues.productData.BrandId == brandId) {
+                  finalOrdersBrand.push(ord)
+                }
+            })
+        })
 
-        res.status(200).send(finalOrdersCat)
+        }
+        
+        if(brand && brand !== "All"){
+          res.status(200).send(finalOrdersBrand)
+        }else if(category && category !== "All") {
+          res.status(200).send(finalOrdersCat)
+        }else res.status(200).send(finalOrders)
+        
     } catch (e) {
         console.log(e)
         res.status(400).send("ERROR")
@@ -167,6 +210,38 @@ bought.get("/:email", async (req,res)=>{
             res.status(404).send("No boughts found :(")
         }
 })
+
+bought.put("", async (req, res) => {
+  const {boughtId, state} = req.body
+  try {
+    const bought = await Bought.findByPk(boughtId)
+
+    const user = await User.findByPk(bought.userId)
+
+    await transporter.sendMail({
+      from: '"Kemba"', // sender address
+      to: user.email, // list of receivers
+      subject: `Tu compra se encuentra ${state}`, // Subject line
+      text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
+      html: "<b>HOLANDAAAAAAAAA</b>", // html body
+    });
+
+
+    console.log("HOLA")
+    await Bought.update({
+      state: state
+    }, {
+      where: {
+        id: boughtId
+      }
+    })
+    res.status(200).send("State changed successfully")
+  } catch (e) {
+    console.log(e)
+  }
+  
+})
+
 
 
 
