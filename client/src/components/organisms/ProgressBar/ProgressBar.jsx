@@ -13,8 +13,11 @@ const steps = ['Pending', 'In Progress', 'Completed'];
 
 export default function ProgressBar({status, order, rows}) {
   let dispatch = useDispatch()
-  const [activeStep, setActiveStep] = useState(status==='Pending'?1:status==='In Progress'?2:3);
+  const [activeStep, setActiveStep] = useState(status==='Pending'?1:status==='In progress'?2:3);
   let newStatus=''
+  console.log('rows', rows);
+  console.log('status', status);
+  console.log('activeStep', activeStep);
   
   useEffect(()=>{
   },[dispatch])
