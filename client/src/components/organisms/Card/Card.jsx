@@ -115,9 +115,10 @@ export default function Card({
 
   let handleClickCart = () => {
     if (cart) {
-      lsCart = lsCart.filter((prod) => prod.id !== product.id);
+      lsCart = lsCart.filter((prod) => prod.cartId !== `${product.name}-${product.Sizes.find((s) => s.size === size)}`);
       localStorage.setItem(`lsCartProducts`, JSON.stringify(lsCart));
-      dispatch(removeFromCart(product.id));
+      console.log(size)
+      dispatch(removeFromCart(`${product.name}-${product.Sizes.find((s) => s.size === size)}`));
       setCart((current) => !current);
     } else {
       handleClickOpen();
@@ -128,7 +129,7 @@ export default function Card({
   let handleAddToCart = () => {
     if (amount > 0 && size) {
       let prodToCart = {
-        cartId: `${product.name}-${size}-${amount}`,
+        cartId: `${product.name}-${size}`,
         id: product.id,
         Brand: product.Brand,
         Categories: product.Categories,
@@ -140,8 +141,9 @@ export default function Card({
         Sizes: product.Sizes,
         idRemove: `${product.name}-${
           product.Sizes.find((s) => s.size === size).size
-        }-${amount}`,
+        }`,
       };
+      console.log(prodToCart)
       dispatch(addToCart(prodToCart));
       lsCart.push(prodToCart);
       localStorage.setItem(`lsCartProducts`, JSON.stringify(lsCart));
@@ -238,7 +240,6 @@ export default function Card({
             <FormControl sx={{ mt: 2, minWidth: 240 }}>
               <InputLabel>Amount</InputLabel>
               <Select
-                autoFocus
                 value={amount}
                 onChange={handleAmount}
                 label="amount"
@@ -247,7 +248,6 @@ export default function Card({
                   id: "amount",
                 }}
               >
-                <MenuItem value="0">0</MenuItem>
                 {selectAmount()}
               </Select>
             </FormControl>

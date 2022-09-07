@@ -44,6 +44,7 @@ export default function PurchaseHistory() {
     console.log(boughtList)
 
     let lsCartProducts = JSON.parse(localStorage.getItem('lsCartProducts')) || []
+    let adress = JSON.parse(localStorage.getItem('adress')) || []
     // const {savePurchase} = useSelector(state=>state.other)
 
     //Y aca me faltaria validar, si nos llega un status o cosas por la URL entonces ahi si deberia guardar
@@ -57,14 +58,17 @@ export default function PurchaseHistory() {
 
      useEffect(()=>{
         if(isAuthenticated && status){
-            let bought = {lsCartProducts,order,user}
+            let bought = {lsCartProducts,order,user, adress}
             console.log("en el if del use")
             console.log(bought)
-            saveOrderHistory(bought)
-            dispatch(getBoughts(user.email))
+            async function exe () {
+                await saveOrderHistory(bought)
+                dispatch(getBoughts(user.email))
+            }
+            exe()
             localStorage.setItem("lsCartProducts", "[]")
         }
-    },[isAuthenticated, dispatch])
+    },[isAuthenticated, dispatch, status])
 
     // console.log(status)
 
@@ -83,7 +87,7 @@ export default function PurchaseHistory() {
                 </div>
             </div>
             <div className={style.purchasesContainer}>
-                {boughtList.length && boughtList.map(product=><PurchaseItem product={product}/>)}
+                {boughtList.length > 0 && boughtList.map(product=><PurchaseItem product={product}/>)}
             </div>
         </div>
     </div>
