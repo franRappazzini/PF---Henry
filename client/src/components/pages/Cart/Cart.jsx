@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from "react";
 
 import CartCard from "../../organisms/CartCard/CartCard.jsx";
+import FormAdress from "../../organisms/FormAdress/FormAdress.jsx";
 import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound.jsx";
+import Swal from "sweetalert2";
 import axios from "axios";
 import style from "./Cart.module.css";
-import { useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
-import FormAdress from "../../organisms/FormAdress/FormAdress.jsx";
+import { useSelector } from "react-redux";
 
 //Preguntar si x query llega un status failed y mostrar un toast
 
 export default function Cart() {
   const [lsCartProducts, setLsCartProducts] = useState([]);
   const [datos, setDatos] = useState("");
-  const [input, setInput] = useState(false)
-  const [adress, setAdress] = useState("")
+  const [input, setInput] = useState(false);
+  const [adress, setAdress] = useState("");
   let { cartProducts } = useSelector((state) => state.product);
   const search = useLocation().search;
-  const status = new URLSearchParams(search).get('status');
+  const status = new URLSearchParams(search).get("status");
 
   useEffect(() => {
     setLsCartProducts(JSON.parse(localStorage.getItem("lsCartProducts")) || []);
 
-    if(status){
+    if (status) {
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom",
@@ -48,23 +48,24 @@ export default function Cart() {
   }, []);
 
   const handleAdressChange = (e) => {
-    setAdress(e.target.value)
-  }
+    setAdress(e.target.value);
+  };
 
   const handleOpenAdress = () => {
-    setInput(true)
-  }
+    setInput(true);
+  };
 
   const handleCloseAdress = () => {
-    setInput(false)
-  }
-
+    setInput(false);
+  };
 
   const onClickBuy = () => {
-    console.log(lsCartProducts)
-    localStorage.setItem("adress", JSON.stringify(adress))
+    console.log(lsCartProducts);
+    localStorage.setItem("adress", JSON.stringify(adress));
     axios
-      .post("/mercadopago/payment", { lsCartProducts: JSON.parse(localStorage.getItem("lsCartProducts")) })
+      .post("/mercadopago/payment", {
+        lsCartProducts: JSON.parse(localStorage.getItem("lsCartProducts")),
+      })
       .then((data) => {
         window.location.replace(data.data);
       })
@@ -84,11 +85,7 @@ export default function Cart() {
     <div className={style.cart_container}>
       {/* <script src="https://sdk.mercadopago.com/js/v2"></script> */}
       <h1 className={style.h1_cart}>MY CART</h1>
-      <div
-        className={
-          cartProducts.length ? style.card_container : style.empty_container
-        }
-      >
+      <div className={cartProducts.length ? style.card_container : style.empty_container}>
         {lsCartProducts.length ? (
           lsCartProducts.map((e, i) => (
             <div key={i}>
@@ -112,7 +109,7 @@ export default function Cart() {
         onClickBuy={onClickBuy}
       />
       <button className={style.buy_button} onClick={() => handleOpenAdress()}>
-          BUY
+        BUY
       </button>
     </div>
   );

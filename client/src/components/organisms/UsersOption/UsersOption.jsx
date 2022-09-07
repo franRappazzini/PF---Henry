@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
 import React, { useState } from "react";
 
@@ -30,28 +31,29 @@ export default function UsersOption({ users }) {
       if (searchedUser.length) {
         return users.filter(
           (user) =>
-            user.given_name
-              ?.toLowerCase()
-              .includes(searchedUser.toLowerCase()) ||
-            user.family_name
-              ?.toLowerCase()
-              .includes(searchedUser.toLowerCase()) ||
+            user.given_name?.toLowerCase().includes(searchedUser.toLowerCase()) ||
+            user.family_name?.toLowerCase().includes(searchedUser.toLowerCase()) ||
             user.email?.toLowerCase().includes(searchedUser.toLowerCase())
         );
       } else return users;
     } else return [];
   }
 
+  function handleFilter(e) {
+    setSearchedUser(e.target.value);
+  }
   return (
     <div className={style.usersOptionContainer}>
       <div className={style.usersHeader}>Users</div>
       <div className={style.globalContainer}>
         <div className={style.searchBarContainer}>
-          <SearchBar2
-            className={style.searchBar}
+          <TextField
             label="Search user"
-            prodSearched={searchedUser}
-            setProdSearched={setSearchedUser}
+            variant="outlined"
+            onChange={handleFilter}
+            value={searchedUser}
+            autoComplete="off"
+            size="small"
           />
         </div>
         <div className={style.gridContainer}>
@@ -70,10 +72,7 @@ export default function UsersOption({ users }) {
               </TableHead>
               <TableBody>
                 {filteredUsers().map((user, i) => (
-                  <TableRow
-                    key={i}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
+                  <TableRow key={i} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell component="th" scope="row">
                       {user.id}
                     </TableCell>

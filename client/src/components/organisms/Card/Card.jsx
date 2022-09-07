@@ -1,16 +1,8 @@
-import {
-  MdOutlineFavoriteBorder as F,
-  MdOutlineAddShoppingCart as SC,
-} from "react-icons/md";
+import { AiOutlineCheckCircle, AiOutlineEdit } from "react-icons/ai";
+import { MdOutlineFavoriteBorder as F, MdOutlineAddShoppingCart as SC } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import {
-  SiAdidas,
-  SiNewbalance,
-  SiNike,
-  SiPuma,
-  SiReebok,
-} from "react-icons/si";
+import { SiAdidas, SiNewbalance, SiNike, SiPuma, SiReebok } from "react-icons/si";
 import {
   addFavorites,
   addToCart,
@@ -21,7 +13,6 @@ import {
 } from "../../../redux/actions/productActions.js";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AiOutlineEdit, AiOutlineCheckCircle } from "react-icons/ai";
 import { BiError } from "react-icons/bi";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -39,11 +30,7 @@ import SuccessSnackbar from "../SnackBar/SnackBar.jsx";
 import { getAllProducts } from "../../../redux/actions/productActions";
 import style from "./Card.module.css";
 
-export default function Card({
-  product,
-  dashboard,
-  handleConfirmationPopUpOpen,
-}) {
+export default function Card({ product, dashboard, handleConfirmationPopUpOpen }) {
   let dispatch = useDispatch();
   let { cartProducts } = useSelector((state) => state.product);
   let [open, setOpen] = useState(false);
@@ -54,10 +41,10 @@ export default function Card({
   let onCart = cartProducts.filter((prod) => prod.id === product.id).length;  
   let [confirmationPopUpOpen, setConfirmationPopUpOpen] = useState(false);
   let [cart, setCart] = useState(onCart ? true : false);
-  let [message, setMessage] = useState('')
+  let [message, setMessage] = useState("");
   let ls = JSON.parse(localStorage.getItem("lsFavorites")) || [];
   let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
-  let off = product.isDisabled
+  let off = product.isDisabled;
   const navigate = useNavigate();
   let isOnCart = lsCart.filter(prod=>prod.id===product.id).length?true:false
 
@@ -105,8 +92,7 @@ export default function Card({
   let handleSize = (event) => {
     setSize(event.target.value);
     setStock(
-      product.Sizes.filter((prod) => prod.size === event.target.value)[0]
-        .Product_Size.stock
+      product.Sizes.filter((prod) => prod.size === event.target.value)[0].Product_Size.stock
     );
   };
   let handleAmount = (event) => {
@@ -139,11 +125,9 @@ export default function Card({
         choosedSize: product.Sizes.find((s) => s.size === size),
         choosedAmount: amount,
         Sizes: product.Sizes,
-        idRemove: `${product.name}-${
-          product.Sizes.find((s) => s.size === size).size
-        }`,
+        idRemove: `${product.name}-${product.Sizes.find((s) => s.size === size).size}`,
       };
-      console.log(prodToCart)
+      console.log(prodToCart);
       dispatch(addToCart(prodToCart));
       lsCart.push(prodToCart);
       localStorage.setItem(`lsCartProducts`, JSON.stringify(lsCart));
@@ -153,11 +137,11 @@ export default function Card({
   };
 
   let handleClickOpenConfirmationPopUp = (status) => {
-    if(status==='Disable') {
-      setMessage(status)
+    if (status === "Disable") {
+      setMessage(status);
       setConfirmationPopUpOpen(true);
     }
-    setMessage(status)
+    setMessage(status);
     setConfirmationPopUpOpen(true);
   };
   let handleClickCloseConfirmationPopUp = () => {
@@ -173,10 +157,10 @@ export default function Card({
   let handleEdit = (id) => navigate(`/update/${id}`);
 
   let handleEnableProduct = () => {
-    dispatch(enableProduct(product.id))
+    dispatch(enableProduct(product.id));
     dispatch(getAllProducts());
     handleClickCloseConfirmationPopUp();
-  }
+  };
 
   // const handleUnCart = () => {
   //   const newCart = lsCartProducts.filter(
@@ -198,7 +182,15 @@ export default function Card({
   };
 
   return (
-    <div className={off&&!dashboard?style.disabledContainer:off&&dashboard?style.disabled:style.container}>
+    <div
+      className={
+        off && !dashboard
+          ? style.disabledContainer
+          : off && dashboard
+          ? style.disabled
+          : style.container
+      }
+    >
       <ConfirmationPopUp
         confirmationOpen={confirmationPopUpOpen}
         handleClose={handleClickCloseConfirmationPopUp}
@@ -208,7 +200,7 @@ export default function Card({
         handleDisable={handleDisableProduct}
         handleEnable={handleEnableProduct}
         message={`${message} Product`}
-        description={`Are you sure you want to ${message.toLocaleLowerCase()} this product?`}                                                                                                                                                 
+        description={`Are you sure you want to ${message.toLocaleLowerCase()} this product?`}
       />
       <Dialog open={popUpOpen} onClose={handlePopUpClose}>
         <DialogTitle>Select Size</DialogTitle>
@@ -277,28 +269,28 @@ export default function Card({
       />
       <div className={style.card}>
         <div className={style.header}>
-          {product.Brand.name === "Nike" ? (
+          {product.Brand?.name === "Nike" ? (
             <SiNike className={style.brand} />
-          ) : product.Brand.name === "Adidas" ? (
+          ) : product.Brand?.name === "Adidas" ? (
             <SiAdidas className={style.brand} />
-          ) : product.Brand.name === "Puma" ? (
+          ) : product.Brand?.name === "Puma" ? (
             <SiPuma className={style.brand} />
-          ) : product.Brand.name === "Reebok" ? (
+          ) : product.Brand?.name === "Reebok" ? (
             <SiReebok className={style.brand} />
-          ) : product.Brand.name === "New Balance" ? (
+          ) : product.Brand?.name === "New Balance" ? (
             <SiNewbalance className={style.brand} />
           ) : (
             <BiError className={style.brand} />
           )}
-          {dashboard&&!off? (
+          {dashboard && !off ? (
             <RiCloseCircleLine
               className={style.iconoutline}
-              onClick={() => handleClickOpenConfirmationPopUp('Disable')}
+              onClick={() => handleClickOpenConfirmationPopUp("Disable")}
             />
-          ) : dashboard&&off ? (
+          ) : dashboard && off ? (
             <AiOutlineCheckCircle
               className={style.iconoutline}
-              onClick={() => handleClickOpenConfirmationPopUp('Enable')}
+              onClick={() => handleClickOpenConfirmationPopUp("Enable")}
             />
           ) : (
             <F
@@ -320,7 +312,11 @@ export default function Card({
           <div className={style.price}>${product.price}</div>
         </div>
         <div className={style.details}>
-          <Link to={`/product/${product.id}`} className={style.linkMore} style={{pointerEvents: off&&dashboard ? 'none' : 'auto'}}>
+          <Link
+            to={`/product/${product.id}`}
+            className={style.linkMore}
+            style={{ pointerEvents: off && dashboard ? "none" : "auto" }}
+          >
             <button className={style.detailsButton}>View More</button>
           </Link>
           <button className={style.cartButton}>
@@ -336,7 +332,7 @@ export default function Card({
               <AiOutlineEdit
                 className={style.shoppingCart}
                 onClick={() => handleEdit(product.id)}
-                style={{pointerEvents: off&&dashboard ? 'none' : 'auto'}}
+                style={{ pointerEvents: off && dashboard ? "none" : "auto" }}
               />
             )}
           </button>
