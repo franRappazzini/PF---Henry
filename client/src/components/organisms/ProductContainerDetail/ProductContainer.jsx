@@ -51,7 +51,7 @@ export default function ProductContainer({ productDetail }) {
   };
   const [fav, setFav] = useState(false);
   const isCart = cartProducts.filter(
-    (e) => `${productDetail.name}-${selectedSize}-${amount}` === e.cartId
+    (e) => `${productDetail.name}-${selectedSize}` === e.cartId
   ).length;
   const [cart, setCart] = useState(false);
   let ls = JSON.parse(localStorage.getItem("lsFavorites")) || [];
@@ -76,10 +76,6 @@ export default function ProductContainer({ productDetail }) {
    console.log("my stock: ",stock) */
 
   const sizes = productDetail.Sizes.map((e) => e.size);
-
-  // PRUEBA DE RAITING
-
-  // PRUEBA DE RATING
 
   const MySwal = withReactContent(Swal);
   let filteredSizes = [];
@@ -116,7 +112,7 @@ export default function ProductContainer({ productDetail }) {
   };
   const handleCart = (e) => {
     let prodToCart = {
-      cartId: `${productDetail.name}-${selectedSize}-${amount}`,
+      cartId: `${productDetail.name}-${selectedSize}`,
       id: productDetail.id,
       Brand: productDetail.Brand,
       Categories: productDetail.Categories,
@@ -126,15 +122,15 @@ export default function ProductContainer({ productDetail }) {
       choosedSize: productDetail.Sizes.find((s) => s.size === selectedSize),
       choosedAmount: amount,
       Sizes: productDetail.Sizes,
-      idRemove: `${productDetail.name}-${selectedSize}-${amount}`,
+      idRemove: `${productDetail.name}-${selectedSize}`,
     };
     e.preventDefault();
     if (cart) {
       setCart(false);
       dispatch(
-        removeFromCart(`${productDetail.name}-${selectedSize}-${amount}`)
+        removeFromCart(`${productDetail.name}-${selectedSize}`)
       );
-      lsCart = lsCart.filter((prod) => prod.id !== productDetail.id);
+      lsCart = lsCart.filter((prod) => prod.cartId !== `${productDetail.name}-${selectedSize}`);
       localStorage.setItem("lsCartProducts", JSON.stringify(lsCart));
       setSelectedSize(0);
 

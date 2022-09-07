@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
-import {
-  getBrands,
-  getCategories,
-  getSizes,
-} from "../../../redux/actions/otherActions";
+import { brands, sizes } from "../../../utils/data";
+import { getBrands, getCategories, getSizes } from "../../../redux/actions/otherActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import FormControl from "@mui/material/FormControl";
@@ -13,13 +10,13 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
 export default function MultipleFilters({ filters, setFilters }) {
-  let { brands, categories, sizes } = useSelector((state) => state.other);
+  let { categories } = useSelector((state) => state.other);
   let dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getBrands());
-    dispatch(getSizes());
+    // dispatch(getBrands());
+    // dispatch(getSizes());
   }, [dispatch]);
 
   function handleFilters(key, value) {
@@ -35,10 +32,7 @@ export default function MultipleFilters({ filters, setFilters }) {
           <MenuItem onClick={() => handleFilters("brand", "")}>All</MenuItem>
           {brands.length > 0 &&
             brands.map((brand, i) => (
-              <MenuItem
-                key={i}
-                onClick={() => handleFilters("brand", brand.name)}
-              >
+              <MenuItem key={i} onClick={() => handleFilters("brand", brand.name)}>
                 {brand.name}
               </MenuItem>
             ))}
@@ -47,10 +41,7 @@ export default function MultipleFilters({ filters, setFilters }) {
           <MenuItem onClick={() => handleFilters("category", "")}>All</MenuItem>
           {categories.length > 0 &&
             categories.map((category, i) => (
-              <MenuItem
-                key={i}
-                onClick={() => handleFilters("category", category.name)}
-              >
+              <MenuItem key={i} onClick={() => handleFilters("category", category.name)}>
                 {category.name}
               </MenuItem>
             ))}
@@ -59,10 +50,7 @@ export default function MultipleFilters({ filters, setFilters }) {
           <MenuItem onClick={() => handleFilters("size", "")}>All</MenuItem>
           {sizes.length > 0 &&
             sizes.map((size, i) => (
-              <MenuItem
-                key={i}
-                onClick={() => handleFilters("size", size.size)}
-              >
+              <MenuItem key={i} onClick={() => handleFilters("size", size.size)}>
                 {size.size}
               </MenuItem>
             ))}

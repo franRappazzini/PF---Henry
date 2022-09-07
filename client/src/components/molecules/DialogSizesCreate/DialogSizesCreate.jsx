@@ -17,17 +17,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box } from "@mui/system";
 import { Clear } from "@mui/icons-material";
 import { getSizes } from "../../../redux/actions/otherActions";
+import { sizes } from "../../../utils/data";
 import style from "./DialogSizesCreate.module.css";
 
 function DialogSizesCreate({ setSelectedSizes, selectedSizes }) {
   const [dialog, setDialog] = useState(false);
   const [options, setOptions] = useState({ size: "", stock: "" });
-  const { sizes } = useSelector((state) => state.other);
+  // const { sizes } = useSelector((state) => state.other);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getSizes());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getSizes());
+  // }, [dispatch]);
 
   function handleOk() {
     console.log(options);

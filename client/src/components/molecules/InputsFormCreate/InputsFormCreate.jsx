@@ -2,16 +2,17 @@ import { MenuItem, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { brands } from "../../../utils/data";
 import { getBrands } from "../../../redux/actions/otherActions";
 import style from "./InputsFormCreate.module.css";
 
 function InputsFormCreate({ product, setProduct, image, setImage }) {
-  const { brands } = useSelector((state) => state.other);
+  // const { brands } = useSelector((state) => state.other);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getBrands());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   // dispatch(getBrands());
+  // }, [dispatch]);
 
   function handleChange(e) {
     setProduct({ ...product, [e.target.name]: e.target.value });

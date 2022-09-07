@@ -8,27 +8,24 @@ import {
   SwipeableDrawer,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import {
-  getBrands,
-  getCategories,
-  getSizes,
-} from "../../../redux/actions/otherActions";
+import { getBrands, getCategories, getSizes } from "../../../redux/actions/otherActions";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FilterList } from "@mui/icons-material";
 import Order from "../../organisms/Order/Order";
+import { brands, sizes } from "../../../utils/data";
 import style from "./DrawerFilter.module.css";
 
 function DrawerFilter({ filters, setFilters }) {
   const [open, setOpen] = useState(false);
   const { brand, category, size } = filters;
-  const { sizes, brands, categories } = useSelector((state) => state.other);
+  const { categories } = useSelector((state) => state.other);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getBrands());
-    dispatch(getSizes());
+    // dispatch(getBrands());
+    // dispatch(getSizes());
   }, [dispatch]);
 
   function handleFilter(e) {
@@ -44,12 +41,7 @@ function DrawerFilter({ filters, setFilters }) {
       <IconButton onClick={handleToggle}>
         <FilterList />
       </IconButton>
-      <SwipeableDrawer
-        anchor={"right"}
-        open={open}
-        onClose={handleClose}
-        onOpen={handleOpen}
-      >
+      <SwipeableDrawer anchor={"right"} open={open} onClose={handleClose} onOpen={handleOpen}>
         <Box className={style.drawer}>
           <Order filters={filters} setFilters={setFilters} />
 
@@ -103,13 +95,7 @@ function DrawerFilter({ filters, setFilters }) {
 
           <FormControl fullWidth size="small" className={style.filter}>
             <InputLabel id="size">Size</InputLabel>
-            <Select
-              labelId="size"
-              label="SIZE"
-              name="size"
-              onChange={handleFilter}
-              value={size}
-            >
+            <Select labelId="size" label="SIZE" name="size" onChange={handleFilter} value={size}>
               <MenuItem value="">All</MenuItem>
               {sizes.length > 0 &&
                 sizes.map((size, i) => (
