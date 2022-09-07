@@ -7,12 +7,15 @@ import style from "./Cart.module.css";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
+import FormAdress from "../../organisms/FormAdress/FormAdress.jsx";
 
 //Preguntar si x query llega un status failed y mostrar un toast
 
 export default function Cart() {
   const [lsCartProducts, setLsCartProducts] = useState([]);
   const [datos, setDatos] = useState("");
+  const [input, setInput] = useState(false)
+  const [adress, setAdress] = useState("")
   let { cartProducts } = useSelector((state) => state.product);
   const search = useLocation().search;
   const status = new URLSearchParams(search).get('status');
@@ -44,8 +47,22 @@ export default function Cart() {
     }
   }, []);
 
+  const handleAdressChange = (e) => {
+    setAdress(e.target.value)
+  }
+
+  const handleOpenAdress = () => {
+    setInput(true)
+  }
+
+  const handleCloseAdress = () => {
+    setInput(false)
+  }
+
+
   const onClickBuy = () => {
     console.log(lsCartProducts)
+    localStorage.setItem("adress", JSON.stringify(adress))
     axios
       .post("/mercadopago/payment", { lsCartProducts: JSON.parse(localStorage.getItem("lsCartProducts")) })
       .then((data) => {
@@ -87,8 +104,14 @@ export default function Cart() {
           <NoProductsFound message="You haven't added products to the cart... yet ;)" />
         )}
       </div>
-
-      <button className={style.buy_button} onClick={() => onClickBuy()}>
+      <FormAdress
+        adress={adress}
+        input={input}
+        handleCloseAdress={handleCloseAdress}
+        handleAdressChange={handleAdressChange}
+        onClickBuy={onClickBuy}
+      />
+      <button className={style.buy_button} onClick={() => handleOpenAdress()}>
           BUY
       </button>
     </div>

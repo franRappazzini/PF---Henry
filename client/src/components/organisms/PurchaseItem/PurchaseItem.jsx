@@ -9,7 +9,7 @@ export default function PurchaseItem({ product }) {
   return (
     
         <div >
-            {product?
+            {product.Product_Sizes.length > 0 ?
             <div className={style.itemContainer}>
 
             <div className={style.imageContainer}>
@@ -40,7 +40,7 @@ export default function PurchaseItem({ product }) {
                 </Link>
             </div>    
         </div>
-            :<h1>Loading</h1>
+            :<h1>Loading Items</h1>
         }
         </div>
   )

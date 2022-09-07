@@ -29,7 +29,7 @@ const transporter = nodemailer.createTransport({
 bought.post("", async (req, res) => {
   // const {state, userId, products, finalPrice} = req.body
 
-  const { lsCartProducts, order, user } = req.body;
+  const { lsCartProducts, order, user, adress } = req.body;
   //  console.log(req.body)
   // const products = bought[0]
   // const order =bought[1]
@@ -72,6 +72,7 @@ bought.post("", async (req, res) => {
     // console.log(findPaymentId)
     const newBought = await Bought.create({
       date,
+      adress,
       state,
       userId,
       finalPrice,
@@ -187,28 +188,35 @@ bought.get("", async (req, res) => {
 
 bought.get("/:email", async (req,res)=>{
         const {email} = req.params
-        let user = await User.findOne({where:{email:email}})
+        try {
+          let user = await User.findOne({where:{email:email}})
         // console.log("user:")
         // console.log(user)
-        let orders = await Bought.findAll({include:{model: Product_Size, Product_Bought},
-            where:{userId:user.id}})
-        // const orders = await Bought.findAll({include: {model: Product_Size}})
-        console.log(orders)
-        for(let i = 0; i < orders.length; i++) {
-            for(let j = 0; j < orders[i].Product_Sizes.length; j++){
-                const size = await Size.findByPk(orders[i].Product_Sizes[j].SizeId)
-                const prod = await Product.findOne({include: {model:Category},where: {id: orders[i].Product_Sizes[j].ProductId}})
+          console.log("------------")
+          let orders = await Bought.findAll({include:{model: Product_Size}, where:{userId:user.id}})
+          // const orders = await Bought.findAll({include: {model: Product_Size}})
+          console.log("------------")
+          console.log(orders)
+          console.log("------------")
+          for(let i = 0; i < orders.length; i++) {
+              for(let j = 0; j < orders[i].Product_Sizes.length; j++){
+                  const size = await Size.findByPk(orders[i].Product_Sizes[j].SizeId)
+                  const prod = await Product.findOne({include: {model:Category},where: {id: orders[i].Product_Sizes[j].ProductId}})
 
-                orders[i].Product_Sizes[j].dataValues.SizeId = size
-                orders[i].Product_Sizes[j].dataValues.productData = prod
-            }
-        }
-
-        if(orders){
+                  orders[i].Product_Sizes[j].dataValues.SizeId = size
+                  orders[i].Product_Sizes[j].dataValues.productData = prod
+              }
+          }
+          if(orders){
             res.status(200).json(orders)
-        }else{
-            res.status(404).send("No boughts found :(")
+          }else{
+              res.status(404).send("No boughts found :(")
+          }
+        }catch (e) {
+          console.log(e)
         }
+
+        
 })
 
 bought.put("", async (req, res) => {
