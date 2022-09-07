@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import React from "react";
 import style from "./BtnsHeader.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 
 function BtnsHeader() {
   const { loginWithPopup, logout, isAuthenticated } = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  let { favorites } = useSelector((state) => state.product);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
