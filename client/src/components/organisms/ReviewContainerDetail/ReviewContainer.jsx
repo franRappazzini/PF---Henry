@@ -30,9 +30,6 @@ export default function ReviewContainer({productDetail}){
       isAuthenticated && dispatch(getLogedUser(user));      
     }, [dispatch, isAuthenticated, user, logedUser,productDetail]);
     let userId = logedUser.id
-
-    console.log('MyUserId', logedUser );
-    
     const [stars, setStars] = useState(0)
 
     const [review, setReview] = useState({

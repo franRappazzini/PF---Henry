@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  Input,
   InputLabel,
   MenuItem,
   TextField,
@@ -90,6 +91,7 @@ export default function ProductContainer({ productDetail }) {
         newCategories: [...product.newCategories, e.target.value.name || e.target.value],
       });
     }
+    console.log(product)
   };
 
   const handleDeleteCategories = (e) => {
@@ -104,6 +106,7 @@ export default function ProductContainer({ productDetail }) {
         categories: product.categories.filter((cat) => cat.name !== e),
       });
     }
+    console.log(product)
   };
 
   const handleCatOpen = () => {
@@ -168,25 +171,26 @@ export default function ProductContainer({ productDetail }) {
     const sizeAux = product.sizes;
 
     let index = sizeAux.findIndex((obj) => {
-      return obj.size === e.target.name;
+      return obj.size == e.target.name;
     });
 
-    sizeAux[index].Product_Size.stock = e.target.value;
+    sizeAux[index].Product_Size.stock = Number(e.target.value);
 
     setProduct({
       ...product,
       sizes: sizeAux,
     });
+    console.log(product)
   };
 
   const handleChangeNewSize = (e) => {
     const sizeAux = product.newSizes;
 
     let index = sizeAux.findIndex((obj) => {
-      return obj.size === e.target.name;
+      return obj.size == e.target.name;
     });
 
-    sizeAux[index].stock = e.target.value;
+    sizeAux[index].stock = Number(e.target.value);
 
     setProduct({
       ...product,
@@ -219,7 +223,7 @@ export default function ProductContainer({ productDetail }) {
     let updateProduct = {};
 
     if (validations()) return swal.fire("Error..", validations(), "error");
-
+    
     setLoading(true);
 
     updateProduct = { ...product };
@@ -236,7 +240,7 @@ export default function ProductContainer({ productDetail }) {
 
         updateProduct.image = imgRes.data.url;
       }
-
+      console.log(updateProduct)
       await axios.put("/product/" + productDetail.id, updateProduct);
     } catch (err) {
       swal.fire("Error..", err.message, "error");
@@ -471,7 +475,7 @@ export default function ProductContainer({ productDetail }) {
               {product.sizes.map((size) => (
                 <div className={style.sizesDiv} key={size.size}>
                   <p>Size: {size.size}</p>
-                  <TextField
+                  <Input
                     label="Stock"
                     variant="standard"
                     name={size.size}
@@ -489,7 +493,7 @@ export default function ProductContainer({ productDetail }) {
               {product.newSizes.map((size) => (
                 <div className={style.sizesDiv}>
                   <p>Size: {size.size}</p>
-                  <TextField
+                  <Input
                     label="Stock"
                     variant="standard"
                     name={size.size}
