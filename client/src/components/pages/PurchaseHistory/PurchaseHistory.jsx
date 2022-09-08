@@ -10,6 +10,7 @@ import style from "./PurchaseHistory.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound.jsx";
 
 export default function PurchaseHistory() {
   const search = useLocation().search;
@@ -79,13 +80,15 @@ export default function PurchaseHistory() {
           <div className={style.number}>{boughtList.length} Purchases</div>
         </div>
         <div className={style.purchasesContainer}>
-          {boughtList.map((bought) => {
+          {boughtList.length?(boughtList.map((bought) => {
             if (bought.Product_Sizes?.length === 1) {
               return <PurchaseItem product={bought.Product_Sizes[0]} statee={bought.state} />;
             } else if (bought.Product_Sizes?.length > 1) {
               return <PurchaseItems products={bought.Product_Sizes} statee={bought.state} />;
             }
-          })}
+          })):(
+            <NoProductsFound message="You haven't purchased products... yet ;)" />
+          )}
         </div>
       </div>
     </div>
