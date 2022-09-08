@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react"
 
 import style from "./ReviewContainer.module.css"
 import {useSelector} from "react-redux"
-// import {useParams/* , useState */} from "react-router-dom"
-// import { getProductDetail } from "../../Redux/actions";
 import { useDispatch } from "react-redux"
 import { getBoughts, getLogedUser } from "../../../redux/actions/userActions";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -20,21 +18,20 @@ import Swal from 'sweetalert2'
 
 export default function ReviewContainer({productDetail}){
 
-    const params = useParams()
-   
+    const params = useParams()   
     const { isAuthenticated, user } = useAuth0();
     const { logedUser, boughts } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [revSend, setRevSend] = useState(false)
+
     useEffect(() => {
+      dispatch(getBoughts(logedUser.email))
       isAuthenticated && dispatch(getLogedUser(user));      
-    }, [dispatch, isAuthenticated, user, logedUser,productDetail]);
+    }, [dispatch, isAuthenticated, user, logedUser?.email ]);
+
     let userId = logedUser.id
-
-    console.log('MyUserId', logedUser );
-    
+    let buyed = boughts.map(bought=>bought.Product_Sizes.filter(bought=>bought.ProductId===productDetail.id))[0]    
     const [stars, setStars] = useState(0)
-
     const [review, setReview] = useState({
       text:"",
       simplecontrolled:0,
@@ -53,20 +50,21 @@ export default function ReviewContainer({productDetail}){
 
     const handleSubmit = async (e)=>{
       e.preventDefault()
+     
       let spanValid = document.getElementById("validation")
-      if(!stars){
-        spanValid.textContent = "You have to give rating!"
-        return
-      }else if(!review.text.length){
-        spanValid.textContent = "You have to write something!"
-        return
-      }else if(!review.userId){
+        if(!logedUser.id){
         spanValid.textContent = "You have to be registered to post a review!"
         return
-      }else if (logedUser.id){
-        // dispatch(getBoughts(logedUser.email))   
-        // console.log('Boughts From asdadsasdasd:', boughts.filter(bought=>bought.Product_Sizes.filter(bought=>bought.ProductId===productDetail.id)));
-        
+      } else if (!buyed.length){
+        spanValid.textContent = "You cant post a review if you havent bought the product!"
+        return
+      } else if(!stars){
+        spanValid.textContent = "You have to give rating!"
+        return
+      } else if(!review.text.length){
+        spanValid.textContent = "You have to write something!"
+        return
+      } else {      
         spanValid.textContent = ""
         const Toast = Swal.mixin({
           toast: true,
@@ -93,9 +91,7 @@ export default function ReviewContainer({productDetail}){
         ...review,
         userId:logedUser.id
       }
-      console.log("se dispacha createReview, ", newRev)
       await createReview(newRev)
-      console.log(productDetail.id)
       dispatch(getProduct(productDetail.id))
       setRevSend(true)
     }
