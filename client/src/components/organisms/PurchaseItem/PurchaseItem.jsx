@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import React from "react";
 import style from "./PurchaseItem.module.css";
 
-export default function PurchaseItem({ product }) {
+export default function PurchaseItem({ product, statee }) {
+  console.log('Prod from purchase item',product);
   return (
     <div>
       {typeof product === "object" ? (
@@ -13,11 +14,11 @@ export default function PurchaseItem({ product }) {
           </div>
 
           <div className={style.infoContainer}>
-            <div className={product.state === "Completed" ? style.status : style.status2}>
-              {product.state}
+            <div className={statee === "Completed" ? style.status : style.status2}>
+              {statee}
             </div>
             <div className={style.shipInfo}>
-              {product.state === "Completed" ? "Delivered" : "Processing"}
+              {statee === "Completed" ? "Delivered" : "Processing"}
             </div>
             <div className={style.name}>
               {product.productData.name} (Size: {product.SizeId.size})
