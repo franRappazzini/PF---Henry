@@ -13,7 +13,7 @@ export default function DonutChart({chartData}) {
     dispatch(getAllBoughts())
   },[dispatch])
   console.log('Boughts from donutChart', boughts);
-  console.log('reduce', boughts.reduce((sum,b)=>sum+b.finalPrice,0));
+  
     const state = {
         labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
         datasets: [
