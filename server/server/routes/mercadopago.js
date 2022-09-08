@@ -15,9 +15,9 @@ async function createPayment(productosCart, logedUser) {
     payer_email: "test_user_45077573@testuser.com",
     items: productosCart,
     back_urls: {
-      failure: "http://localhost:3000/cart",
-      pending: "http://localhost:3000/purchases",
-      success: "http://localhost:3000/purchases",
+      failure: "/cart",
+      pending: "/purchases",
+      success: "/purchases",
     },
   };
 
