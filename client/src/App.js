@@ -25,6 +25,7 @@ function App() {
           <Route path="/create_product" element={<CreateProduct />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/update/:productId" element={<Update />} />
+
         </Route>
 
         <Route path="/" element={<Home />} />
