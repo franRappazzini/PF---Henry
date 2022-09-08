@@ -229,7 +229,7 @@ export default function ProductContainer({ productDetail }) {
       if (product.newImage !== "") {
         const formData = new FormData();
         formData.append("file", product.newImage);
-        formData.append("upload_preset", "mo6d6qav");
+        formData.append("upload_preset", "gsx0rfx1");
         const imgRes = await axios.post(
           "https://api.cloudinary.com/v1_1/ddtxgnllz/upload",
           formData
