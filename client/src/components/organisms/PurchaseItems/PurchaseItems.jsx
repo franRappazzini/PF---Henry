@@ -13,14 +13,19 @@ function PurchaseItems({ products }) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        backgroundColor:"#f6f7f9",
+        width:"99%",
+        marginLeft:"0.5vh",
+        boxShadow: "3px 3px 20px 0px rgba(0,0,0,0.1)",
       }}
     >
       <AccordionSummary
         expandIcon={<ExpandMore />}
         aria-controls="panel1a-content"
         id="panel1a-header"
+       
       >
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex"  }}>
           {products?.length > 1 &&
             products.map((prod) => (
               <img
