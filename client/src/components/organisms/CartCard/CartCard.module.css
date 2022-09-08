@@ -3,10 +3,13 @@
   display: flex;
   flex-direction: row;
   height: 250px;
-  width: 100%;
+  width: 150vh;
   /* border-radius: 20px; */
   margin-top: 2vh;
   margin-bottom: 2vh;
+  border-bottom: 1px solid ;
+ 
+  
 }
 .left_container{
   width: fit-content;
@@ -60,7 +63,7 @@
   width: 50%;
   margin: 20px;
 
-  font-size: 20px;
+  font-size: 2.5vh;
   font-family: Roboto;
   font-weight: 900;
 }
@@ -153,7 +156,7 @@
 .size_span{
 font-family: Roboto;
 letter-spacing: 1px;
-font-size: 15px;
+font-size: 2vh;
 font-weight: 600;
 }
 .plus_min{
@@ -177,7 +180,7 @@ font-weight: 600;
   width: 60%;
   align-items: center;
   height: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 .plus_min:hover{
   transform: scale(1.1);
