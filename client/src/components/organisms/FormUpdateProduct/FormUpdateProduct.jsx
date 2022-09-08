@@ -231,7 +231,7 @@ export default function ProductContainer({ productDetail }) {
         formData.append("file", product.newImage);
         formData.append("upload_preset", "gsx0rfx1");
         const imgRes = await axios.post(
-          "https://api.cloudinary.com/v1_1/ddtxgnllz/upload",
+          "https://api.cloudinary.com/v1_1/dnwamkq58/upload",
           formData
         );
 
