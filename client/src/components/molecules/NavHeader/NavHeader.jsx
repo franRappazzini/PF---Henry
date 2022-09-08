@@ -45,7 +45,8 @@ function NavHeader() {
               </li>
             </>
           )}
-              <li className={style.li_nav}>
+          {isAuthenticated &&  
+          <li className={style.li_nav}>
                 <NavLink
                   to={"/purchases"}
                   className={({ isActive }) =>
@@ -54,7 +55,8 @@ function NavHeader() {
                 >
                   Purchase History
                 </NavLink>
-              </li>
+              </li> }
+             
         </div>
       </ul>
     </nav>

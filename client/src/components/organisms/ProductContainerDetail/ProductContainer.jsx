@@ -24,6 +24,7 @@ import { SiNike } from "react-icons/si";
 import { SiPuma } from "react-icons/si";
 import { SiReebok } from "react-icons/si";
 import Swal from "sweetalert2";
+import { priceFormat } from "../../../utils/functions";
 import style from "./ProductContainer.module.css";
 import { useState } from "react";
 import withReactContent from "sweetalert2-react-content";
@@ -80,20 +81,21 @@ export default function ProductContainer({ productDetail }) {
   const MySwal = withReactContent(Swal);
   let filteredSizes = [];
   for (let i = 0; i < sizes.length; i++) {
-    if (
-      !filteredSizes.includes(sizes[i]) &&
-      productDetail.Sizes[i].Product_Size.stock > 0
-    ) {
+    if (!filteredSizes.includes(sizes[i]) && productDetail.Sizes[i].Product_Size.stock > 0) {
       filteredSizes.push(sizes[i]);
     }
   }
   filteredSizes = filteredSizes.sort(function (a, b) {
     return a - b;
   });
-  let arrAverage = []
-  let ratingAverage = 0
-  productDetail.Ratings.length>0 ? arrAverage = productDetail.Ratings.map((e) => e.stars) : arrAverage = []
-  arrAverage.length!==0? ratingAverage = arrAverage.reduce((a, b) => a + b) / productDetail.Ratings.length : ratingAverage = 0
+  let arrAverage = [];
+  let ratingAverage = 0;
+  productDetail.Ratings.length > 0
+    ? (arrAverage = productDetail.Ratings.map((e) => e.stars))
+    : (arrAverage = []);
+  arrAverage.length !== 0
+    ? (ratingAverage = arrAverage.reduce((a, b) => a + b) / productDetail.Ratings.length)
+    : (ratingAverage = 0);
 
   const handleFav = (e) => {
     /*  console.log("EN EL HANDLE FAV") */
@@ -127,9 +129,7 @@ export default function ProductContainer({ productDetail }) {
     e.preventDefault();
     if (cart) {
       setCart(false);
-      dispatch(
-        removeFromCart(`${productDetail.name}-${selectedSize}`)
-      );
+      dispatch(removeFromCart(`${productDetail.name}-${selectedSize}`));
       lsCart = lsCart.filter((prod) => prod.cartId !== `${productDetail.name}-${selectedSize}`);
       localStorage.setItem("lsCartProducts", JSON.stringify(lsCart));
       setSelectedSize(0);
@@ -221,9 +221,7 @@ export default function ProductContainer({ productDetail }) {
               }}
               className={style.heart_button}
             >
-              <FaHeart
-                className={!fav ? style.heart_icon1 : style.heart_icon2}
-              />
+              <FaHeart className={!fav ? style.heart_icon1 : style.heart_icon2} />
             </button>
             {logedUser.isAdmin ? (
               <Link to={`../../update/${productDetail.id}`}>
@@ -239,12 +237,7 @@ export default function ProductContainer({ productDetail }) {
           <h1 className={style.title}>{productDetail.name}</h1>
           <div className={style.br1}></div>
           <span>
-            <Rating
-              className={style.rating}
-              name="read-only"
-              value={ratingAverage}
-              readOnly
-            />
+            <Rating className={style.rating} name="read-only" value={ratingAverage} readOnly />
           </span>
           <div className={style.br2}></div>
           <div className={style.category_container}>
@@ -259,16 +252,14 @@ export default function ProductContainer({ productDetail }) {
                   selectedSize === e
                     ? () => {
                         setSelectedSize(0);
-                        setAmount(1)
+                        setAmount(1);
                       }
                     : () => {
                         setSelectedSize(e);
-                        setAmount(1)
+                        setAmount(1);
                       }
                 }
-                className={
-                  selectedSize !== e ? style.size_button : style.selected_button
-                }
+                className={selectedSize !== e ? style.size_button : style.selected_button}
                 key={e}
               >
                 {e}
@@ -292,9 +283,7 @@ export default function ProductContainer({ productDetail }) {
                     </span>
                     <button
                       onClick={() => {
-                        stock === amount
-                          ? setAmount(stock)
-                          : setAmount(amount + 1);
+                        stock === amount ? setAmount(stock) : setAmount(amount + 1);
                       }}
                       className={style.in_dec_button}
                     >
@@ -302,18 +291,16 @@ export default function ProductContainer({ productDetail }) {
                     </button>
                   </div>
                 </div>
-              ) : stock===0||filteredSizes.length<1?(
+              ) : stock === 0 || filteredSizes.length < 1 ? (
                 <span className={style.amount_span}>No stock</span>
-              ) : 
-              (
+              ) : (
                 ""
-              )
-            }
+              )}
             </div>
           </div>
           <div className={style.br3}></div>
           <div className={style.price_container}>
-            <span className={style.price}>{productDetail.price}$</span>{" "}
+            <span className={style.price}>${priceFormat(productDetail.price)}</span>{" "}
             <button
               onClick={
                 selectedSize === 0 || !amount

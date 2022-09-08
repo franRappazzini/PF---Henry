@@ -1,6 +1,7 @@
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import React from "react";
+import { priceFormat } from "../../../utils/functions";
 import style from "./PurchaseItem.module.css";
 
 export default function PurchaseItem({ product }) {
@@ -22,7 +23,7 @@ export default function PurchaseItem({ product }) {
             <div className={style.name}>
               {product.productData.name} (Size: {product.SizeId.size})
             </div>
-            <div className={style.name}>{product.productData.price}$</div>
+            <div className={style.name}>${priceFormat(product.productData.price)}</div>
             <div className={style.units}>Amount: {product.Product_Bought.amount}</div>
           </div>
 
