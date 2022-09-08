@@ -22,10 +22,15 @@ export default function ProductsOption() {
     dispatch(getAllProducts());
     const handleResizeWindow = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResizeWindow);
-    setPage(1);
+    // setPage(1);
   }, [dispatch, products]);
 
+  useEffect(() => {
+    search !== "" && setPage(1);
+  }, [search]);
+
   function filterProds() {
+    // setPage(1);
     if (products.length) {
       if (search !== "") {
         return products.filter((prod) => prod.name.toLowerCase().includes(search.toLowerCase()));
