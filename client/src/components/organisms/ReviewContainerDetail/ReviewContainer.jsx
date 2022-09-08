@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react"
 
 import style from "./ReviewContainer.module.css"
 import {useSelector} from "react-redux"
-// import {useParams/* , useState */} from "react-router-dom"
-// import { getProductDetail } from "../../Redux/actions";
 import { useDispatch } from "react-redux"
 import { getBoughts, getLogedUser } from "../../../redux/actions/userActions";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -20,25 +18,20 @@ import Swal from 'sweetalert2'
 
 export default function ReviewContainer({productDetail}){
 
-    const params = useParams()
-   
+    const params = useParams()   
     const { isAuthenticated, user } = useAuth0();
     const { logedUser, boughts } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const [revSend, setRevSend] = useState(false)
+
     useEffect(() => {
       dispatch(getBoughts(logedUser.email))
       isAuthenticated && dispatch(getLogedUser(user));      
     }, [dispatch, isAuthenticated, user, logedUser?.email ]);
+
     let userId = logedUser.id
-    let buyed = boughts.map(bought=>bought.Product_Sizes.filter(bought=>bought.ProductId===productDetail.id))[0]
-    console.log('productDetailID:', productDetail.id);
-    console.log('buyed', buyed); 
-
-    // console.log('MyUserId', logedUser );
-    
+    let buyed = boughts.map(bought=>bought.Product_Sizes.filter(bought=>bought.ProductId===productDetail.id))[0]    
     const [stars, setStars] = useState(0)
-
     const [review, setReview] = useState({
       text:"",
       simplecontrolled:0,
@@ -98,9 +91,7 @@ export default function ReviewContainer({productDetail}){
         ...review,
         userId:logedUser.id
       }
-      console.log("se dispacha createReview, ", newRev)
       await createReview(newRev)
-      console.log(productDetail.id)
       dispatch(getProduct(productDetail.id))
       setRevSend(true)
     }

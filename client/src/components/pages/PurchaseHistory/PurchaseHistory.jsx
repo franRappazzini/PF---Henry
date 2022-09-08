@@ -37,6 +37,7 @@ export default function PurchaseHistory() {
     // console.log(user);
     // console.log(logedUser);
   }, [dispatch, isAuthenticated, user]);
+  
   const { boughts } = useSelector((state) => state.user);
   const boughtList = boughts;
   console.log("BOUGHTS");
