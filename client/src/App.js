@@ -12,8 +12,8 @@ import Home from "./components/pages/Home/Home.jsx";
 import NotFound from "./components/pages/NotFound/NotFound";
 import Profile from "./components/pages/Profile/Profile";
 import ProtectedRoute from "./components/middleware/ProtectedRoute/ProtectedRoute";
-import Update from "./components/pages/Update/Update";
 import PurchaseHistory from "./components/pages/PurchaseHistory/PurchaseHistory";
+import Update from "./components/pages/Update/Update";
 
 function App() {
   return (
@@ -25,7 +25,10 @@ function App() {
           <Route path="/create_product" element={<CreateProduct />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/update/:productId" element={<Update />} />
+<<<<<<< HEAD
           
+=======
+>>>>>>> development
         </Route>
 
         <Route path="/" element={<Home />} />
@@ -35,13 +38,10 @@ function App() {
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/purchases" element={<PurchaseHistory />} />
-        
+
         <Route path="/favorites" element={<Favorites />} />
 
         <Route path="/cart" element={<Cart />} />
-
-        
-
 
         <Route path="*" element={<NotFound />} />
       </Routes>
