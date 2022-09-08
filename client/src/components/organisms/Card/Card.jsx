@@ -28,6 +28,7 @@ import { RiCloseCircleLine } from "react-icons/ri";
 import Select from "@mui/material/Select";
 import SuccessSnackbar from "../SnackBar/SnackBar.jsx";
 import { getAllProducts } from "../../../redux/actions/productActions";
+import { priceFormat } from "../../../utils/functions";
 import style from "./Card.module.css";
 
 export default function Card({ product, dashboard, handleConfirmationPopUpOpen }) {
@@ -38,7 +39,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen }
   let [size, setSize] = useState();
   let [amount, setAmount] = useState(null);
   let [stock, setStock] = useState(0);
-  let onCart = cartProducts.filter((prod) => prod.id === product.id).length;  
+  let onCart = cartProducts.filter((prod) => prod.id === product.id).length;
   let [confirmationPopUpOpen, setConfirmationPopUpOpen] = useState(false);
   let [cart, setCart] = useState(onCart ? true : false);
   let [message, setMessage] = useState("");
@@ -46,7 +47,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen }
   let lsCart = JSON.parse(localStorage.getItem("lsCartProducts")) || [];
   let off = product.isDisabled;
   const navigate = useNavigate();
-  let isOnCart = lsCart.filter(prod=>prod.id===product.id).length?true:false
+  let isOnCart = lsCart.filter((prod) => prod.id === product.id).length ? true : false;
 
   let checkFaved = () => {
     return ls.filter((fav) => fav.id === product.id).length;
@@ -309,7 +310,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen }
         </div>
         <div className={style.info}>
           <div className={style.title}>{product.name}</div>
-          <div className={style.price}>${product.price}</div>
+          <div className={style.price}>${priceFormat(product.price)}</div>
         </div>
         <div className={style.details}>
           <Link
@@ -321,7 +322,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen }
           </Link>
           <button className={style.cartButton}>
             {!dashboard ? (
-              <Link to={isOnCart?'/cart':'/'} style={{textDecoration: 'none'}}>
+              <Link to={isOnCart ? "/cart" : "/"} style={{ textDecoration: "none" }}>
                 <SC
                   className={style.shoppingCart}
                   onClick={handleClickCart}
