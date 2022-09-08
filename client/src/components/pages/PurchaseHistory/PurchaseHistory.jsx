@@ -66,10 +66,10 @@ export default function PurchaseHistory() {
       exe();
       localStorage.setItem("lsCartProducts", "[]");
     }
-  }, [isAuthenticated, dispatch, status]);
+  }, [isAuthenticated, dispatch, status, boughts]);
 
   // console.log(status)
-
+  console.log('BoughtList:', boughtList);
   return (
     <div className={style.globalContainer}>
       <div className={style.container}>
@@ -81,9 +81,9 @@ export default function PurchaseHistory() {
         <div className={style.purchasesContainer}>
           {boughtList.map((bought) => {
             if (bought.Product_Sizes?.length === 1) {
-              return <PurchaseItem product={bought.Product_Sizes[0]} />;
+              return <PurchaseItem product={bought.Product_Sizes[0]} statee={bought.state} />;
             } else if (bought.Product_Sizes?.length > 1) {
-              return <PurchaseItems products={bought.Product_Sizes} />;
+              return <PurchaseItems products={bought.Product_Sizes} statee={bought.state} />;
             }
           })}
         </div>
