@@ -13,6 +13,7 @@ export default function DashboardOption() {
   let { products, boughts } = useSelector((state) => state.product);
   let { users } = useSelector((state) => state.user);
   let dispatch = useDispatch()
+  let revenue = boughts.reduce((sum,b)=>sum+b.finalPrice,0).toString()
 
   useEffect(()=>{
     dispatch(getAllProducts())
@@ -66,7 +67,7 @@ export default function DashboardOption() {
               style={{ backgroundColor: "#2c434b", color: "#28c772" }}
             />
             <div className={style.statisticTitleNumberContainer}>
-              <div className={style.statisticNumber}>2.5m</div>
+              <div className={style.statisticNumber}>{revenue.length>=7? `${revenue[0]}.${revenue[1]}M`:revenue.length===6?`${revenue.slice(0,3)}K`:revenue}</div>
               <div className={style.itemTitle}>Revenue</div>
             </div>
           </div>
