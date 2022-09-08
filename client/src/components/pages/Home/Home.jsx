@@ -52,6 +52,10 @@ let Home = () => {
   }, [dispatch, filters]);
 
   useEffect(() => {
+    prodSearched !== "" && setPage(1);
+  }, [prodSearched]);
+
+  useEffect(() => {
     dispatch(getAllProducts());
 
     // para tener disponibles todas las marcas
