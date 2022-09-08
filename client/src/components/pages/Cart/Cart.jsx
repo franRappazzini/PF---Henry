@@ -92,8 +92,8 @@ export default function Cart(product) {
   function validations() {
     // const imageRegex = /^.+.(jpe?g|gif|png)$/i;
     if(user === undefined) return "Only loged user can buy in this page!"
-    if (logedUser.isAdmin) return "Admins can´t buy in this page";
-     if(!user.email_verified) return "You must verify your email!"
+    // if (logedUser.isAdmin) return "Admins can´t buy in this page";
+    //  if(!user.email_verified) return "You must verify your email!"
   }
 
   const onClickBuy = () => {

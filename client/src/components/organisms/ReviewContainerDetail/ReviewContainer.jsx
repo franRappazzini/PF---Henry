@@ -27,11 +27,15 @@ export default function ReviewContainer({productDetail}){
     const dispatch = useDispatch();
     const [revSend, setRevSend] = useState(false)
     useEffect(() => {
+      dispatch(getBoughts(logedUser.email))
       isAuthenticated && dispatch(getLogedUser(user));      
-    }, [dispatch, isAuthenticated, user, logedUser,productDetail]);
+    }, [dispatch, isAuthenticated, user, logedUser?.email ]);
     let userId = logedUser.id
+    let buyed = boughts.map(bought=>bought.Product_Sizes.filter(bought=>bought.ProductId===productDetail.id))[0]
+    console.log('productDetailID:', productDetail.id);
+    console.log('buyed', buyed); 
 
-    console.log('MyUserId', logedUser );
+    // console.log('MyUserId', logedUser );
     
     const [stars, setStars] = useState(0)
 
@@ -53,20 +57,21 @@ export default function ReviewContainer({productDetail}){
 
     const handleSubmit = async (e)=>{
       e.preventDefault()
+     
       let spanValid = document.getElementById("validation")
-      if(!stars){
-        spanValid.textContent = "You have to give rating!"
-        return
-      }else if(!review.text.length){
-        spanValid.textContent = "You have to write something!"
-        return
-      }else if(!review.userId){
+        if(!logedUser.id){
         spanValid.textContent = "You have to be registered to post a review!"
         return
-      }else if (logedUser.id){
-        // dispatch(getBoughts(logedUser.email))   
-        // console.log('Boughts From asdadsasdasd:', boughts.filter(bought=>bought.Product_Sizes.filter(bought=>bought.ProductId===productDetail.id)));
-        
+      } else if (!buyed.length){
+        spanValid.textContent = "You cant post a review if you havent bought the product!"
+        return
+      } else if(!stars){
+        spanValid.textContent = "You have to give rating!"
+        return
+      } else if(!review.text.length){
+        spanValid.textContent = "You have to write something!"
+        return
+      } else {      
         spanValid.textContent = ""
         const Toast = Swal.mixin({
           toast: true,
