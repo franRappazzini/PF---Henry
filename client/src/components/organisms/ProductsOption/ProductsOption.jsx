@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch} from "react-redux";
-import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound.jsx";
+import { useDispatch, useSelector } from "react-redux";
+
 import Card from "../Card/Card.jsx";
+import NoProductsFound from "../../molecules/NoProductsFound/NoProductsFound.jsx";
+import { Pagination } from "@mui/material";
 import SearchBar2 from "../SearchBar2/SearchBar2";
 import { filter } from "../../../redux/actions/productActions";
 import { getAllProducts } from "../../../redux/actions/productActions";
 import style from "./ProductsOption.module.css";
-import { Pagination } from "@mui/material";
 
 export default function ProductsOption() {
-  let dispatch = useDispatch()
+  let dispatch = useDispatch();
   const [search, setSearch] = useState("");
   let { products } = useSelector((state) => state.product);
   const [width, setWidth] = useState(window.innerWidth);
@@ -18,7 +19,7 @@ export default function ProductsOption() {
   const totalPage = Math.ceil(filterProds().length / prodPerPage);
 
   useEffect(() => {
-    dispatch(getAllProducts())
+    dispatch(getAllProducts());
     const handleResizeWindow = () => setWidth(window.innerWidth);
     window.addEventListener("resize", handleResizeWindow);
     setPage(1);
@@ -27,9 +28,7 @@ export default function ProductsOption() {
   function filterProds() {
     if (products.length) {
       if (search !== "") {
-        return products.filter((prod) =>
-          prod.name.toLowerCase().includes(search.toLowerCase())
-        );
+        return products.filter((prod) => prod.name.toLowerCase().includes(search.toLowerCase()));
       } else return products;
     } else return [];
   }
@@ -41,8 +40,7 @@ export default function ProductsOption() {
       <div className={style.cardsContainer}>
         <div className={style.searchBarContainer}>
           <SearchBar2
-            // filters={filters}
-            // setFilters={setFilters}
+            filterProds={filterProds}
             prodSearched={search}
             setProdSearched={setSearch}
             label="Search product"
@@ -51,15 +49,12 @@ export default function ProductsOption() {
         {/* {filterProds().map((product) => (
           <Card key={product.id} product={product} dashboard={true} />
         ))} */}
-                {filterProds().length ? (
+        {filterProds().length ? (
           <div className={style.paginationCardsContainer}>
             {width > 600
               ? filterProds()
-                  .slice(
-                    (page - 1) * prodPerPage,
-                    (page - 1) * prodPerPage + prodPerPage
-                  )
-                  .map((product) => <Card key={product.id} product={product} dashboard={true}/>)
+                  .slice((page - 1) * prodPerPage, (page - 1) * prodPerPage + prodPerPage)
+                  .map((product) => <Card key={product.id} product={product} dashboard={true} />)
               : filterProds().map((product) => (
                   <Card key={product.id} product={product} dashboard={true} />
                 ))}
@@ -70,11 +65,7 @@ export default function ProductsOption() {
       </div>
       {window.innerWidth > 600 ? (
         <section className={style.pagination_container}>
-          <Pagination
-            count={totalPage}
-            shape="rounded"
-            onChange={(e, value) => setPage(value)}
-          />
+          <Pagination count={totalPage} shape="rounded" onChange={(e, value) => setPage(value)} />
         </section>
       ) : null}
     </div>
