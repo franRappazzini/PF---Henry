@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  Input,
   InputLabel,
   MenuItem,
   TextField,
@@ -168,10 +169,10 @@ export default function ProductContainer({ productDetail }) {
     const sizeAux = product.sizes;
 
     let index = sizeAux.findIndex((obj) => {
-      return obj.size === e.target.name;
+      return obj.size == e.target.name;
     });
 
-    sizeAux[index].Product_Size.stock = e.target.value;
+    sizeAux[index].Product_Size.stock = Number(e.target.value);
 
     setProduct({
       ...product,
@@ -183,10 +184,10 @@ export default function ProductContainer({ productDetail }) {
     const sizeAux = product.newSizes;
 
     let index = sizeAux.findIndex((obj) => {
-      return obj.size === e.target.name;
+      return obj.size == e.target.name;
     });
 
-    sizeAux[index].stock = e.target.value;
+    sizeAux[index].stock = Number(e.target.value);
 
     setProduct({
       ...product,
@@ -471,7 +472,7 @@ export default function ProductContainer({ productDetail }) {
               {product.sizes.map((size) => (
                 <div className={style.sizesDiv} key={size.size}>
                   <p>Size: {size.size}</p>
-                  <TextField
+                  <Input
                     label="Stock"
                     variant="standard"
                     name={size.size}

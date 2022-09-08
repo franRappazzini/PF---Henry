@@ -98,6 +98,8 @@ router.put("/enable/:id", async (req, res) => {
     res.status(400).send("Error from /enable put route");
   }
 });
+
+
 router.put("/:id", async (req, res, next) => {
   const { id } = req.params;
   const { name, image, price, stock, brand, sizes, newSizes, newCategories, categories } = req.body;
@@ -114,23 +116,30 @@ router.put("/:id", async (req, res, next) => {
     if (price) {
       options.price = price;
     }
-    if (sizes) {
-      options.sizes = sizes;
-    }
     if (brand) {
       options.brand = brand;
     }
-    if (categories) {
-      options.categories = categories;
-    }
+   
+    await Product_Category.destroy({where:{ProductId: data.id}})
+    categories.forEach(async cat => {
+      const category = await Category.findOne({where: {name: cat}})
+      if(category) await data.addCategories(category.id)
+    })
 
     if (newCategories) {
-      newCategories.map(async (c) => {
+      newCategories.forEach(async (c) => {
         let aux = await Category.findOrCreate({ where: { name: c } });
         if (aux) {
           await data.addCategories(aux[0].dataValues.id);
         }
       });
+    }
+
+    if(sizes) {
+      sizes.forEach(async size => {
+        const psize = await Product_Size.findByPk(size.Product_Size.id)
+        await psize.update({stock: size.Product_Size.stock})
+      })
     }
 
     if (newSizes) {
