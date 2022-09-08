@@ -92,10 +92,11 @@ bought.post("", async (req, res) => {
     await transporter.sendMail({
       from: '"Kemba"', // sender address
       to: user.email, // list of receivers
-      subject: "Compra realizada", // Subject line
-      text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
-      html: "<b>HOLANDAAAAAAAAA</b>", // html body
+      subject: "Tu compra en KEMBA se encuentra " + state, // Subject line
+      text: "", // plain text body
+      html: "<style type='text/css'>* {font-family: 'Helvetica';} div {justify-content: center;}h1 {text-align: center;}h2 {text-align: center; margin-top: 50px;}</style> <div> <h1>Thanks for buy in KEMBA</h1> <h2>Go to the page to see the status of the order, however we will send you an email when we update it </h2> </div>",
     });
+
     res.status(200).json(newBought);
   } catch (e) {
     console.log(e);
@@ -229,9 +230,9 @@ bought.put("", async (req, res) => {
     await transporter.sendMail({
       from: '"Kemba"', // sender address
       to: user.email, // list of receivers
-      subject: `Tu compra se encuentra ${state}`, // Subject line
-      text: "HOLAAAAAAAAAAAAAAAAAAAAA", // plain text body
-      html: "<b>HOLANDAAAAAAAAA</b>", // html body
+      subject: `News for you!! Your bought with id ${boughtId} now is ${state}`, // Subject line
+      text: "", // plain text body
+      html: `<style type='text/css'>* {font-family: 'Helvetica';} div {justify-content: center;}h1 {text-align: center;}h2 {text-align: center; margin-top: 50px;}</style> <div><h1>Your bought now is ${state}</h1><h2>Thanks you for trust in KEMBA, remember you can check the status of your order in our page</h2></div>`, // html body
     });
 
     console.log("HOLA");
