@@ -183,7 +183,9 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen }
   };
 
   return (
+
     <div className={off&&!dashboard?style.disabled:off&&dashboard?style.disabled:style.container}>
+
       <ConfirmationPopUp
         confirmationOpen={confirmationPopUpOpen}
         handleClose={handleClickCloseConfirmationPopUp}
@@ -289,7 +291,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen }
             <F
               className={style.iconoutline}
               onClick={handleFav}
-              style={{ color: fav ? "#5f27cd" : "#000" }}
+              style={{ color: fav ? "#5f27cd" : "#000", pointerEvents: off&&!dashboard? 'none' : 'auto'}}
             />
           )}
         </div>
@@ -318,7 +320,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen }
                 <SC
                   className={style.shoppingCart}
                   onClick={handleClickCart}
-                  style={{ color: isOnCart ? "#5f27cd" : "#000" }}
+                  style={{ color: isOnCart ? "#5f27cd" : "#000",pointerEvents: off&&!dashboard? 'none' : 'auto' }}
                 />
               </Link>
             ) : (

@@ -7,31 +7,38 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import style from './ProgressBar.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { setState } from '../../../redux/actions/userActions'
+import { getBoughts, setState } from '../../../redux/actions/userActions'
 
 const steps = ['Pending', 'In Progress', 'Completed'];
 
 export default function ProgressBar({status, order, rows}) {
   let dispatch = useDispatch()
+  const { boughts } = useSelector((state) => state.user);
   const [activeStep, setActiveStep] = useState(status==='Pending'?1:status==='In progress'?2:3);
   let newStatus=''
   console.log('rows', rows);
   console.log('status', status);
+ 
   console.log('activeStep', activeStep);
+  let thisOrder = rows.filter(e=>e.id===order)
+  console.log('thisOrder', thisOrder);
+  
   
   useEffect(()=>{
-  },[dispatch])
+  },[dispatch, boughts])
 
   const handleNext = () => {
     activeStep===1?newStatus='In Progress':newStatus='Completed'
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     dispatch(setState(order,newStatus))
+    dispatch(getBoughts(thisOrder[0].userData.email))
   };
 
   const handleBack = () => {
     activeStep===3?newStatus='In Progress':newStatus='Pending'
     setActiveStep((prevActiveStep) => prevActiveStep - 1);    
     dispatch(setState(order,newStatus))
+    dispatch(getBoughts(thisOrder[0].userData.email))
   };
 
   const handleReset = () => {
@@ -39,6 +46,7 @@ export default function ProgressBar({status, order, rows}) {
     setActiveStep(1);    
     dispatch(setState)
     dispatch(setState(order,newStatus))
+    dispatch(getBoughts(thisOrder[0].userData.email))
   };
 
   return (
