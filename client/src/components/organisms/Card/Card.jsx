@@ -182,15 +182,7 @@ export default function Card({ product, dashboard, handleConfirmationPopUpOpen }
   };
 
   return (
-    <div
-      className={
-        off && !dashboard
-          ? style.disabledContainer
-          : off && dashboard
-          ? style.disabled
-          : style.container
-      }
-    >
+    <div className={off&&!dashboard?style.disabled:off&&dashboard?style.disabled:style.container}>
       <ConfirmationPopUp
         confirmationOpen={confirmationPopUpOpen}
         handleClose={handleClickCloseConfirmationPopUp}
