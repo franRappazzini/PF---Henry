@@ -55,10 +55,10 @@ export default function ReviewContainer({productDetail}){
         if(!logedUser.id){
         spanValid.textContent = "You have to be registered to post a review!"
         return
-      } else if (!buyed.length){
-        spanValid.textContent = "You cant post a review if you havent bought the product!"
-        return
-      } else if(!stars){
+       } // else if (!buyed.length){
+      //   spanValid.textContent = "You cant post a review if you havent bought the product!"
+      //   return}
+        else if(!stars){
         spanValid.textContent = "You have to give rating!"
         return
       } else if(!review.text.length){
