@@ -69,9 +69,11 @@ export default function Cart(product) {
 
   function totalPrice() {
     let suma = 0;
-    JSON.parse(localStorage.getItem("lsCartProducts")).forEach((e) => {
-      suma += e.choosedAmount * e.price;
-    });
+    const lsProds = JSON.parse(localStorage.getItem("lsCartProducts"));
+    lsProds?.length > 0 &&
+      lsProds.forEach((e) => {
+        suma += e.choosedAmount * e.price;
+      });
     console.log("suma total price");
     console.log(suma);
     return suma;
