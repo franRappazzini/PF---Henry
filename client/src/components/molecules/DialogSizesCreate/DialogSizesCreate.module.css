@@ -1,0 +1,14 @@
+.ul_size {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.li_size {
+  margin: 0 0.5rem;
+  border: 1px solid black;
+  padding-left: 0.5rem;
+  border-radius: 0.5rem;
+}

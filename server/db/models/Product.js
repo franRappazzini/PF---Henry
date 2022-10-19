@@ -1,9 +1,9 @@
-import { DataTypes } from '@sequelize/core';
+const {DataTypes} = require("sequelize")
 
 //Exportamos una funcion que define el modelo y le ijectamos sequelize
 module.exports = (sequelize) => {
     //Definimos el modelo
-    sequelize.define("product", {
+    sequelize.define("Product", {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
         },
 
         image: {
-            type: DataTypes.ARRAY,
+            type: DataTypes.STRING,
             allowNull: false
         },
 
@@ -20,14 +20,13 @@ module.exports = (sequelize) => {
             allowNull: false
         },
 
-        brand: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-
         price: {
             type: DataTypes.FLOAT,
             allowNull: false
-        }
+        },
+        isDisabled: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
     })
 }

@@ -1,3 +1,8 @@
 .icons_container {
   justify-self: self-end;
 }
+
+.link {
+  text-decoration: none;
+  color: black;
+}

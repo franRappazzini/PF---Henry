@@ -1,0 +1,29 @@
+.globalContainer {
+    width: auto;
+    display: flex;
+    padding: 1vw;
+    background-color: #f6f7f9;
+}
+.menu {
+    margin-top: 15vw;
+    border-radius: .4vw;
+    margin-left: 4vw;
+    display: flex;
+    width: 18vw;
+    flex-direction: column;
+    align-items: center;
+}
+.user {
+    display: flex;
+    border-radius: .4vw;
+    margin: 2px;
+    height: 5%;
+    width: 60%;
+}
+.info {
+    margin-top: 5vw;
+    border-radius: .4vw;
+    margin-left: 1vw;
+    width: 70vw;
+    display: flex;
+}

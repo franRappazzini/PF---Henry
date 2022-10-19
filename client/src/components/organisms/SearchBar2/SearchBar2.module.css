@@ -1,0 +1,11 @@
+.search_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .search_container {
+    justify-content: center;
+  }
+}

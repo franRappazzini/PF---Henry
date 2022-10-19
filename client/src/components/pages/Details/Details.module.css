@@ -1,0 +1,11 @@
+.box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+@media (max-width: 600px) {
+    .box{width: 100vw;
+    }
+}
+
